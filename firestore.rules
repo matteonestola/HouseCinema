@@ -6,7 +6,7 @@ service cloud.firestore {
     // ATTENZIONE: sostituisci questa stringa con il TUO UID admin
     // (Console Firebase -> Authentication -> Users -> colonna "User UID")
     function isAdmin() {
-      return request.auth != null && request.auth.uid == "INCOLLA_QUI_IL_TUO_ADMIN_UID";
+      return request.auth != null && request.auth.uid == "JhJhhIiniHcyitXoSHIflgkSnSt2";
     }
 
     match /events/{eventId} {
