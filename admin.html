@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Area organizzatore — Cinema di Casa</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Area organizzatore</h1>
+      <p class="tagline">Solo per chi organizza le serate.</p>
+    </div>
+    <nav class="top-links"><a href="index.html">Tutti gli eventi</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="login-section">
+    <h2>Accedi</h2>
+    <label for="email">Email</label>
+    <input type="email" id="email" />
+    <label for="password">Password</label>
+    <input type="password" id="password" />
+    <button id="login-btn">Accedi</button>
+    <div id="login-error"></div>
+  </section>
+
+  <section id="admin-panel" style="display:none;">
+    <p><span class="pill" id="who"></span> <button class="secondary" id="logout-btn" style="margin-left:0.5rem;">Esci</button></p>
+
+    <h2>Crea un nuovo evento</h2>
+    <label for="title">Titolo</label>
+    <input type="text" id="title" placeholder="Es. Serata horror" maxlength="80" />
+    <label for="description">Descrizione (facoltativa)</label>
+    <textarea id="description" rows="3" placeholder="Qualche riga per invogliare i partecipanti"></textarea>
+    <label for="startAt">Data e ora</label>
+    <input type="datetime-local" id="startAt" />
+    <button id="create-btn">Crea evento</button>
+    <div id="create-status"></div>
+
+    <h2>Eventi esistenti</h2>
+    <ul class="plain" id="admin-events-list"><li>Carico…</li></ul>
+  </section>
+
+</main>
+
+<footer class="bottom">Cinema di Casa — organizzato tra amici</footer>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

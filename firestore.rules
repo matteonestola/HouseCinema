@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ATTENZIONE: sostituisci questa stringa con il TUO UID admin
+    // (Console Firebase -> Authentication -> Users -> colonna "User UID")
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "INCOLLA_QUI_IL_TUO_ADMIN_UID";
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+
+      match /participants/{uid} {
+        // I nomi dei partecipanti sono sempre visibili a tutti.
+        allow read: if true;
+        // Ognuno può creare/aggiornare solo il proprio documento (il proprio nickname).
+        allow create, update: if request.auth != null && request.auth.uid == uid;
+        allow delete: if isAdmin();
+      }
+
+      match /proposals/{uid} {
+        // Puoi sempre leggere/modificare i TUOI film proposti.
+        // Puoi leggere i film di TUTTI solo quando l'evento è già iniziato.
+        allow read: if (request.auth != null && request.auth.uid == uid) || (
+          request.time >= get(/databases/$(database)/documents/events/$(eventId)).data.startAt
+        );
+        allow create, update: if request.auth != null
+          && request.auth.uid == uid
+          && request.resource.data.films is list
+          && request.resource.data.films.size() <= 5;
+        allow delete: if isAdmin();
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Evento — Cinema di Casa</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1 id="event-title">Cinema di Casa</h1>
+      <p class="tagline" id="event-when"></p>
+    </div>
+    <nav class="top-links"><a href="index.html">Tutti gli eventi</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p id="event-description"></p>
+
+  <section id="join-section">
+    <h2>Partecipa</h2>
+    <div id="join-form">
+      <label for="nickname">Il tuo nome o nickname</label>
+      <input type="text" id="nickname" maxlength="30" placeholder="Es. Marco" />
+      <button id="join-btn">Partecipa all'evento</button>
+      <div id="join-error"></div>
+    </div>
+    <div id="joined-notice" class="notice" style="display:none;"></div>
+  </section>
+
+  <section id="proposals-section" style="display:none;">
+    <h2>I tuoi film (fino a 5)</h2>
+    <p>Proponi da 1 a 5 film. Resteranno segreti agli altri finché l'evento non inizia.</p>
+    <div id="film-inputs"></div>
+    <button id="save-films-btn">Salva i tuoi film</button>
+    <div id="films-status"></div>
+  </section>
+
+  <section>
+    <h2>Partecipanti</h2>
+    <ul class="plain" id="participants-list"><li>Carico…</li></ul>
+  </section>
+
+  <section>
+    <h2>Film proposti da tutti</h2>
+    <div id="reveal-area"></div>
+  </section>
+
+</main>
+
+<footer class="bottom">Cinema di Casa — organizzato tra amici</footer>
+
+<script type="module" src="js/event-detail.js"></script>
+</body>
+</html>
