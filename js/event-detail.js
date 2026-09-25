@@ -68,7 +68,7 @@ async function loadEvent() {
   els.title.textContent = ev.title;
   els.when.textContent = formatDateTime(startAt);
   els.description.textContent = ev.description || "";
-  document.title = `${ev.title} — Cinema di Casa`;
+  document.title = `${ev.title} — Matteo's Cinema`;
   scheduleReveal();
 }
 
