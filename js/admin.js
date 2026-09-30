@@ -366,16 +366,26 @@ function coverDomain(url) {
 
 function setCover(url) {
   const src = url || DEFAULT_COVER;
+  const label = $("cover-thumb-name");
+  label.textContent = url ? coverDomain(url) : "Copertina predefinita CineSerata";
+  $("preview-custom-bg").hidden = !url;
   for (const id of ["preview-cover-img", "cover-thumb-img"]) {
     const img = $(id);
+    img.referrerPolicy = "no-referrer";
+    img.onload = () => {
+      if (url && img.getAttribute("src") === url) label.textContent = coverDomain(url);
+    };
     img.onerror = () => {
       img.onerror = null;
+      img.onload = null;
       img.src = DEFAULT_COVER;
+      if (url) {
+        label.textContent = "Immagine non caricabile: usa il link diretto al file (.jpg, .png, .webp)";
+        $("preview-custom-bg").hidden = true;
+      }
     };
     if (img.getAttribute("src") !== src) img.src = src;
   }
-  $("cover-thumb-name").textContent = url ? coverDomain(url) : "Copertina predefinita CineSerata";
-  $("preview-custom-bg").hidden = !url;
 }
 
 function updatePreview() {

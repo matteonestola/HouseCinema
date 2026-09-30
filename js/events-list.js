@@ -230,7 +230,7 @@ function renderEventCard(ev, stats, phase, index) {
       : "";
     return `<div class="event-card completed flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 relative">
 <div class="relative aspect-[16/10] bg-surface-container overflow-hidden">
-<img class="w-full h-full object-cover grayscale-[30%]" alt="" src="${img}" onerror="${onerr}">
+<img class="w-full h-full object-cover grayscale-[30%]" alt="" referrerpolicy="no-referrer" src="${img}" onerror="${onerr}">
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
 <div class="absolute top-space-md left-space-md">
 <span class="px-space-md py-space-xs bg-surface-container-highest/90 text-on-surface font-label-sm text-label-sm rounded-full font-bold flex items-center gap-1">
@@ -280,7 +280,7 @@ ${desc}
     : "";
   return `<div class="event-card upcoming flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1">
 <div class="relative aspect-[16/10] bg-surface-container overflow-hidden">
-<img class="w-full h-full object-cover" alt="" src="${img}" onerror="${onerr}">
+<img class="w-full h-full object-cover" alt="" referrerpolicy="no-referrer" src="${img}" onerror="${onerr}">
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
 ${genre}
 <div class="absolute bottom-space-sm left-space-md right-space-md flex items-center justify-between text-on-surface font-label-sm text-label-sm">
