@@ -3,34 +3,78 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ATTENZIONE: sostituisci questa stringa con il TUO UID admin
-    // (Console Firebase -> Authentication -> Users -> colonna "User UID")
+    // UID admin (Console Firebase -> Authentication -> Users)
     function isAdmin() {
       return request.auth != null && request.auth.uid == "JhJhhIiniHcyitXoSHIflgkSnSt2";
     }
+    function isSelf(uid) { return request.auth != null && request.auth.uid == uid; }
+    function eventPath(eventId) { return /databases/$(database)/documents/events/$(eventId); }
+    function eventData(eventId) { return get(eventPath(eventId)).data; }
+    function started(eventId) { return request.time >= eventData(eventId).startAt; }
+
+    function validFilm(f) {
+      return f is map
+        && f.keys().hasOnly(['id', 'title', 'note'])
+        && f.id is string && f.id.size() > 0 && f.id.size() <= 16
+        && f.title is string && f.title.size() > 0 && f.title.size() <= 120
+        && (!('note' in f) || (f.note is string && f.note.size() <= 200));
+    }
+    function validFilms(films) {
+      return films is list && films.size() <= 5
+        && (films.size() < 1 || validFilm(films[0]))
+        && (films.size() < 2 || validFilm(films[1]))
+        && (films.size() < 3 || validFilm(films[2]))
+        && (films.size() < 4 || validFilm(films[3]))
+        && (films.size() < 5 || validFilm(films[4]));
+    }
 
     match /events/{eventId} {
-      allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow read: if resource.data.get('status', 'published') == 'published' || isAdmin();
+      allow create, update: if isAdmin()
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 60
+        && request.resource.data.startAt is timestamp
+        && request.resource.data.get('status', 'published') in ['draft', 'published'];
+      allow delete: if isAdmin();
 
       match /participants/{uid} {
-        // I nomi dei partecipanti sono sempre visibili a tutti.
         allow read: if true;
-        // Ognuno può creare/aggiornare solo il proprio documento (il proprio nickname).
-        allow create, update: if request.auth != null && request.auth.uid == uid;
+        // Scritto SEMPRE in batch insieme a proposals/{uid}: filmCount deve coincidere.
+        allow create, update: if isSelf(uid)
+          && request.resource.data.keys().hasOnly(['nickname', 'avatar', 'snack', 'filmCount', 'joinedAt', 'updatedAt'])
+          && request.resource.data.nickname is string
+          && request.resource.data.nickname.size() > 0 && request.resource.data.nickname.size() <= 30
+          && request.resource.data.get('avatar', '') is string && request.resource.data.get('avatar', '').size() <= 16
+          && request.resource.data.get('snack', '') is string && request.resource.data.get('snack', '').size() <= 20
+          && request.resource.data.filmCount is int
+          && request.resource.data.filmCount == getAfter(/databases/$(database)/documents/events/$(eventId)/proposals/$(uid)).data.films.size();
         allow delete: if isAdmin();
       }
 
       match /proposals/{uid} {
-        // Puoi sempre leggere/modificare i TUOI film proposti.
-        // Puoi leggere i film di TUTTI solo quando l'evento è già iniziato.
-        allow read: if (request.auth != null && request.auth.uid == uid) || (
-          request.time >= get(/databases/$(database)/documents/events/$(eventId)).data.startAt
-        );
-        allow create, update: if request.auth != null
-          && request.auth.uid == uid
-          && request.resource.data.films is list
-          && request.resource.data.films.size() <= 5;
+        // Propri film sempre; film altrui solo da startAt in poi.
+        allow read: if isSelf(uid) || started(eventId);
+        // Prima di startAt: modifica libera (max 5, validati). Dopo: solo scritture che NON cambiano i film
+        // (serve per join tardivo / cambio nickname).
+        allow create: if isSelf(uid)
+          && request.resource.data.keys().hasOnly(['nickname', 'films', 'updatedAt'])
+          && validFilms(request.resource.data.films)
+          && (!started(eventId) || request.resource.data.films.size() == 0);
+        allow update: if isSelf(uid)
+          && request.resource.data.keys().hasOnly(['nickname', 'films', 'updatedAt'])
+          && validFilms(request.resource.data.films)
+          && (!started(eventId) || request.resource.data.films == resource.data.films);
+        allow delete: if isAdmin();
+      }
+
+      match /votes/{uid} {
+        allow read: if started(eventId);
+        allow create, update: if isSelf(uid)
+          && started(eventId)
+          && !('screening' in eventData(eventId))
+          && exists(/databases/$(database)/documents/events/$(eventId)/participants/$(uid))
+          && request.resource.data.keys().hasOnly(['picks', 'updatedAt'])
+          && request.resource.data.picks is list && request.resource.data.picks.size() <= 50;
         allow delete: if isAdmin();
       }
     }
