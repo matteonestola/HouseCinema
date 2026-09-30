@@ -1,0 +1,366 @@
+<!DOCTYPE html><html class="dark" lang="it" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>CineSerata</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#402d00", "surface-container-low": "#191c22", "outline": "#a08e7a", "tertiary-fixed": "#ffdf9f", "surface-variant": "#32353c", "on-tertiary-fixed-variant": "#5c4300", "surface": "#10131a", "outline-variant": "#534434", "on-secondary-fixed": "#40000c", "tertiary": "#ffc32d", "surface-container-high": "#272a31", "surface-container-highest": "#32353c", "primary-container": "#f59e0b", "surface-container": "#1d2026", "primary-fixed": "#ffddb8", "on-secondary": "#68001a", "surface-container-lowest": "#0b0e14", "tertiary-fixed-dim": "#f9bd22", "on-tertiary-fixed": "#261a00", "surface-tint": "#ffb95f", "secondary-fixed-dim": "#ffb3b6", "on-error-container": "#ffdad6", "error-container": "#93000a", "inverse-surface": "#e1e2eb", "inverse-on-surface": "#2e3037", "surface-dim": "#10131a", "on-secondary-fixed-variant": "#920028", "primary": "#ffc174", "on-secondary-container": "#ffdcdc", "on-error": "#690005", "secondary-fixed": "#ffdada", "surface-bright": "#363940", "on-tertiary-container": "#584000", "on-primary-container": "#613b00", "error": "#ffb4ab", "on-primary-fixed": "#2a1700", "on-primary": "#472a00", "on-background": "#e1e2eb", "on-primary-fixed-variant": "#653e00", "on-surface": "#e1e2eb", "background": "#10131a", "inverse-primary": "#855300", "secondary-container": "#cc003c", "primary-fixed-dim": "#ffb95f", "secondary": "#ffb3b6", "on-surface-variant": "#d8c3ad", "tertiary-container": "#e0a800" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-md": "1rem", "space-lg": "1.5rem", "margin": "2rem", "gutter-mobile": "0.75rem", "space-sm": "0.5rem", "space-xl": "2.5rem", "gutter": "1.25rem", "margin-mobile": "1rem" }, "fontFamily": { "headline-sm": ["Space Grotesk"], "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Space Grotesk"], "display-hero": ["Space Grotesk"], "body-lg": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "display-hero-mobile": ["Space Grotesk"] }, "fontSize": { "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}], "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}], "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}], "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "600"}], "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0em", "fontWeight": "600"}], "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}], "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "700"}], "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700"}] } } } }</script></head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.35)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="Modern geometric logo for 'CineSerata', showing a sleek glowing cinema clapperboard combined with film strip frames and a warm amber and crimson accent, vector style, dark background friendly. Design context: - Primary color: #f59e0b
+- Font: spaceGrotesk
+- Mode: dark
+- Roundness: rounded-md
+. The logo should be visually consistent with these brand tokens." class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1U1gggbyDi4K-BvMgUgKxyn2vY7L0GfjSBk0fpitBO9a8ySo3PND4pB1GMv5XVxEza68sZv_9SiQFcyoaijUp_IFvGRJuspUgtsjrpp6y9RluPw20s04SfYaa2RDytyBMTLjcobAugy0R-OI33C5euNHZ-WPbRjLz_SfpE6sm4UpdOD6vr4GzgK75JUpuXQj9XjNRaPy9tg8j-rClROj0RYLu5jngeif5McUeQWhKuwlE3AQhE0g1g7yFM"><div class="flex flex-col truncate"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold leading-none truncate">CineSerata</span><div class="flex items-center gap-1.5 mt-1"><span class="relative flex h-2 w-2 shrink-0"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary-container"></span></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider truncate">LIVE NEL SALOTTO 🍿</span></div></div></div><div class="flex items-center gap-space-sm shrink-0"><span class="font-label-sm text-label-sm text-on-surface-variant hidden xs:inline-block">Leo</span><div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-high border border-primary text-primary shadow-sm"><span class="text-[16px] leading-none select-none">🍿</span><span class="absolute -bottom-1 -right-1 px-1 rounded-full bg-primary-container text-on-primary-container text-[8px] font-bold uppercase leading-tight tracking-wider shadow">Host</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-28 space-y-space-md">
+<!-- Live Room Banner & Header Context -->
+<section class="px-margin-mobile pt-space-sm">
+<div class="bg-surface-container rounded-xl p-space-md shadow-lg relative overflow-hidden">
+<!-- Ambient Glow Behind Countdown -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Status strip: Live badge & Friends Connected -->
+<div class="flex items-center justify-between gap-space-xs mb-space-sm relative z-10">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Votazione Live</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">6/6 sul divano</span>
+</div>
+</div>
+<!-- Title & Countdown -->
+<div class="flex items-start justify-between gap-space-sm relative z-10">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold tracking-tight">
+            Notte Horror Anni '80
+          </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Scegliamo insieme prima che si freddi la pizza
+          </p>
+</div>
+<!-- Countdown Pill Timer -->
+<div class="flex flex-col items-end shrink-0 bg-surface-container-highest px-2.5 py-1.5 rounded-lg text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Chiusura</span>
+<div class="flex items-center gap-1 text-primary-container font-headline-sm text-headline-sm font-bold tabular-nums">
+<span class="material-symbols-outlined text-[18px] text-secondary animate-pulse" style="font-variation-settings: 'FILL' 1;">timer</span>
+<span id="countdown-timer" class="">00:00</span>
+</div>
+</div>
+</div>
+<!-- Current Leader Micro-Banner -->
+<div class="mt-space-md pt-space-sm bg-surface-container-low/70 rounded-lg p-2.5 flex items-center justify-between gap-space-sm relative z-10">
+<div class="flex items-center gap-2 min-w-0">
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold uppercase tracking-wider shrink-0">In Vetta</span>
+<p class="font-label-lg text-label-lg font-bold text-on-surface truncate">
+            La Cosa <span class="text-on-surface-variant font-normal">(1982)</span>
+</p>
+</div>
+<!-- Voters Facepile -->
+<div class="flex items-center -space-x-1.5 shrink-0"><div class="w-6 h-6 rounded-full bg-surface-bright border border-surface-container-lowest flex items-center justify-center text-[11px]" title="Leo">🍿</div><div class="w-6 h-6 rounded-full bg-surface-variant border border-surface-container-lowest flex items-center justify-center text-[11px]" title="Giulia">🎬</div><div class="w-6 h-6 rounded-full bg-surface-container-highest border border-surface-container-lowest flex items-center justify-center text-[11px]" title="Marco">📼</div><span class="w-6 h-6 rounded-full bg-primary-container text-on-primary-container text-[10px] font-bold flex items-center justify-center shadow-sm">5★</span></div>
+</div>
+</div>
+</section>
+<!-- Horizontal Scrollable Category Filter Pills -->
+<section class="w-full">
+<div class="flex items-center gap-2 overflow-x-auto px-margin-mobile no-scrollbar py-1">
+<button class="shrink-0 px-3.5 py-1.5 rounded-full font-label-md text-label-md font-semibold bg-primary-container text-on-primary-container shadow-sm flex items-center gap-1.5 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[16px]">movie_filter</span>
+<span class="">Tutti i film (16)</span>
+</button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full font-label-md text-label-md font-semibold bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-transform active:scale-95">
+<span class="text-tertiary">🔥</span>
+<span class="">In testa (3)</span>
+</button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full font-label-md text-label-md font-semibold bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+<span class="">Rapidi (&lt;100m)</span>
+</button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full font-label-md text-label-md font-semibold bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center gap-1.5 transition-transform active:scale-95">
+<span class="">🍕</span>
+<span class="">Trash &amp; Cult</span>
+</button>
+</div>
+</section>
+<!-- Voting Cards Stack -->
+<section class="px-margin-mobile flex flex-col space-y-space-md">
+<!-- CARD 1: Leading Film (User Voted) -->
+<article class="bg-surface-container-high rounded-xl p-space-md shadow-xl relative overflow-hidden transition-all duration-300">
+<!-- Warm Cinema Flare Background Gradient -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary-container/15 via-transparent to-transparent pointer-events-none"></div>
+<div class="flex gap-space-md relative z-10">
+<!-- Film Poster -->
+
+<!-- Movie Details -->
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-[14px]">volunteer_activism</span>
+                Proposto da Leo (Tu)
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">109 min</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 truncate">
+              La Cosa
+            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">John Carpenter • 1982</p>
+<div class="flex flex-wrap gap-1 mt-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Fantascienza</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Body Horror</span>
+</div>
+</div>
+<!-- Friend Quote -->
+<div class="bg-surface-container-lowest/80 rounded-md p-2 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2 leading-tight">
+              “Effetti speciali pratici insuperabili, tensione claustrofobica assoluta!”
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Button: Active State Voted -->
+<div class="mt-space-md relative z-10">
+<button class="w-full h-12 rounded-lg bg-gradient-to-r from-primary-container to-tertiary-container text-on-primary-container font-headline-sm text-body-md font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/20 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">theater_comedy</span>
+<span class="">🍿 Votato da te! (5 voti)</span>
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</article>
+<!-- CARD 2: Evil Dead 2 -->
+<article class="bg-surface-container rounded-xl p-space-md shadow-md relative overflow-hidden transition-all duration-300">
+<div class="flex gap-space-md relative z-10">
+<!-- Poster -->
+
+<!-- Movie Details -->
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-[14px]">account_circle</span>
+                Proposto da Giulia
+              </span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold shrink-0">84 min • Rapido!</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 truncate">
+              La Casa II - Evil Dead
+            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Sam Raimi • 1987</p>
+<div class="flex flex-wrap gap-1 mt-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Splatter</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Cult Comedy</span>
+</div>
+</div>
+<!-- Friend Quote -->
+<div class="bg-surface-container-low rounded-md p-2 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2 leading-tight">
+              “Groovy! Dura solo 1h e 24m e Bruce Campbell è pura goduria.”
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Button: Unvoted -->
+<div class="mt-space-md relative z-10">
+<button class="vote-toggle-btn w-full h-12 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-body-md text-body-md font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary">add_reaction</span>
+<span class="">🍿 Voglio vederlo! (4 voti)</span>
+</button>
+</div>
+</article>
+<!-- CARD 3: Nightmare -->
+<article class="bg-surface-container rounded-xl p-space-md shadow-md relative overflow-hidden transition-all duration-300">
+<div class="flex gap-space-md relative z-10">
+<!-- Poster -->
+
+<!-- Movie Details -->
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-tertiary font-semibold flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                Proposto dall'Host (Marco)
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">91 min</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 truncate">
+              Nightmare
+            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Wes Craven • 1984</p>
+<div class="flex flex-wrap gap-1 mt-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Slasher</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Onirico</span>
+</div>
+</div>
+<!-- Friend Quote -->
+<div class="bg-surface-container-low rounded-md p-2 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2 leading-tight">
+              “Il capostipite con Freddy prima che diventasse una macchietta comic!”
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Button: Unvoted -->
+<div class="mt-space-md relative z-10">
+<button class="vote-toggle-btn w-full h-12 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-body-md text-body-md font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary">add_reaction</span>
+<span class="">🍿 Voglio vederlo! (3 voti)</span>
+</button>
+</div>
+</article>
+<!-- CARD 4: Hellraiser -->
+<article class="bg-surface-container rounded-xl p-space-md shadow-md relative overflow-hidden transition-all duration-300">
+<div class="flex gap-space-md relative z-10">
+<!-- Poster -->
+
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold truncate">
+                Proposto da Alessio
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">94 min</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 truncate">
+              Hellraiser
+            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Clive Barker • 1987</p>
+<div class="flex flex-wrap gap-1 mt-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Gothic Horror</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-md p-2 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2 leading-tight">
+              “Estetica incredibile e colonna sonora da brividi veri.”
+            </p>
+</div>
+</div>
+</div>
+<div class="mt-space-md relative z-10">
+<button class="vote-toggle-btn w-full h-12 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-body-md text-body-md font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary">add_reaction</span>
+<span class="">🍿 Voglio vederlo! (3 voti)</span>
+</button>
+</div>
+</article>
+<!-- CARD 5: Un Lupo Mannaro Americano a Londra -->
+<article class="bg-surface-container rounded-xl p-space-md shadow-md relative overflow-hidden transition-all duration-300">
+<div class="flex gap-space-md relative z-10">
+
+<div class="flex flex-col justify-between flex-1 min-w-0">
+<div>
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold truncate">
+                Proposto da Fabio
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">97 min</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight mt-0.5 truncate">
+              Un Lupo Mannaro a Londra
+            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant">John Landis • 1981</p>
+<div class="flex flex-wrap gap-1 mt-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Commedia Nera</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-md p-2 mt-2">
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2 leading-tight">
+              “La scena della trasformazione fa ancora scuola a Hollywood.”
+            </p>
+</div>
+</div>
+</div>
+<div class="mt-space-md relative z-10">
+<button class="vote-toggle-btn w-full h-12 rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-bright font-body-md text-body-md font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary">add_reaction</span>
+<span class="">🍿 Voglio vederlo! (2 voti)</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Sofa Live Feed / Quick Reactions Carousel -->
+<section class="px-margin-mobile pt-space-xs">
+<div class="bg-surface-container-low rounded-xl p-space-md">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">chat</span>
+<span class="font-headline-sm text-body-md font-bold text-on-surface">Voci dal Divano</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">2 min fa</span>
+</div>
+<div class="space-y-2"><div class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container/60"><div class="w-6 h-6 rounded-full bg-secondary-container/30 border border-secondary text-[12px] flex items-center justify-center shrink-0">🎬</div><div class="flex-1 min-w-0"><span class="font-label-sm text-label-sm font-bold text-secondary">Giulia:</span><span class="font-body-sm text-body-sm text-on-surface ml-1">"Io voto per la motosega di Ash! Chi porta i pop-corn salati?"</span></div></div><div class="flex items-start gap-2.5 p-2 rounded-lg bg-surface-container/60"><div class="w-6 h-6 rounded-full bg-tertiary-container/30 border border-tertiary text-[12px] flex items-center justify-center shrink-0">📼</div><div class="flex-1 min-w-0"><span class="font-label-sm text-label-sm font-bold text-tertiary">Marco (Host):</span><span class="font-body-sm text-body-sm text-on-surface ml-1">"Ultime scelte ragazzi, 2 minuti e faccio partire il proiettore!"</span></div></div></div>
+</div>
+</section>
+<!-- Sticky Bottom HUD (Floating Action Bar above system bottom-nav) -->
+<aside class="fixed bottom-20 inset-x-0 z-40 px-gutter-mobile pointer-events-none">
+<div class="max-w-md mx-auto pointer-events-auto bg-surface-container-highest/95 backdrop-blur-xl rounded-full p-1.5 shadow-2xl flex items-center justify-between gap-1">
+<!-- Votes Left Status Pill -->
+<div class="flex items-center gap-2 pl-3 py-1">
+<div class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-container"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider leading-none">Voti rimasti</span>
+<span class="font-headline-sm text-body-md font-bold text-primary leading-tight">1 di 3</span>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex items-center gap-1.5">
+<!-- Roulette Fun Button -->
+<button class="h-10 px-3 rounded-full bg-surface-container text-on-surface font-label-md text-label-md font-bold flex items-center gap-1.5 hover:bg-surface-bright active:scale-95 transition-all" id="roulette-btn">
+<span class="material-symbols-outlined text-[18px] text-tertiary">casino</span>
+<span class="hidden xs:inline">Roulette</span>
+</button>
+<!-- Quick Chat Trigger -->
+<button class="h-10 px-3.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md font-bold flex items-center gap-1.5 active:scale-95 shadow-md shadow-primary-container/20 transition-all">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span class="">Chat (4)</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Micro-Interactions Client Script -->
+<script>
+    // Live countdown simulation
+    (function initCountdown() {
+      let seconds = 3 * 60 + 42;
+      const timerDisplay = document.getElementById('countdown-timer');
+      if (!timerDisplay) return;
+
+      setInterval(() => {
+        if (seconds > 0) {
+          seconds--;
+          const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+          const s = String(seconds % 60).padStart(2, '0');
+          timerDisplay.textContent = `${m}:${s}`;
+        }
+      }, 1000);
+    })();
+
+    // Micro interactive vote toggling for unvoted cards
+    document.querySelectorAll('.vote-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const isVoted = this.getAttribute('data-voted') === 'true';
+        if (!isVoted) {
+          this.setAttribute('data-voted', 'true');
+          this.className = "w-full h-12 rounded-lg bg-gradient-to-r from-primary-container to-tertiary-container text-on-primary-container font-headline-sm text-body-md font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/25 transition-transform active:scale-[0.98]";
+          this.innerHTML = `
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">theater_comedy</span>
+            <span>🍿 Votato!</span>
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+          `;
+        }
+      });
+    });
+
+    // Fun Haptic / Visual trigger for Roulette
+    const rouletteBtn = document.getElementById('roulette-btn');
+    if (rouletteBtn) {
+      rouletteBtn.addEventListener('click', () => {
+        const dice = rouletteBtn.querySelector('.material-symbols-outlined');
+        if (dice) {
+          dice.classList.add('animate-spin');
+          setTimeout(() => dice.classList.remove('animate-spin'), 600);
+        }
+      });
+    }
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.5)]" data-active-classes="text-primary"><div class="h-20 px-gutter-mobile flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs transition-colors text-primary" data-path="votazione-film" href="#"><span class="material-symbols-outlined text-[24px]">how_to_vote</span><span class="font-label-sm text-label-sm mt-1 whitespace-nowrap">Votazione</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="classifica-live" href="#"><span class="material-symbols-outlined text-[24px]">leaderboard</span><span class="font-label-sm text-label-sm mt-1 whitespace-nowrap">Classifica</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="chat-salotto" href="#"><span class="material-symbols-outlined text-[24px]">forum</span><span class="font-label-sm text-label-sm mt-1 whitespace-nowrap">Chat</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-space-xs text-on-surface-variant hover:text-on-surface transition-colors" data-path="info-serata" href="#"><span class="material-symbols-outlined text-[24px]">local_activity</span><span class="font-label-sm text-label-sm mt-1 whitespace-nowrap">Info Serata</span></a></div></nav>
+
+
+
+</body></html>
