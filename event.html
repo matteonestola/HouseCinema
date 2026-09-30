@@ -1,60 +1,496 @@
 <!DOCTYPE html>
-<html lang="it">
+<html class="dark" lang="it">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Evento — Matteo's Cinema</title>
-<link rel="stylesheet" href="css/style.css" />
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<title>CineSerata — Serata</title>
 </head>
-<body>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div id="top-ticker" class="w-full bg-surface-container-low/95 px-gutter py-space-xs" hidden><div class="max-w-7xl mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-sm overflow-hidden text-ellipsis whitespace-nowrap"><span class="flex h-2 w-2 rounded-full bg-secondary-container animate-pulse"></span><span class="text-on-surface font-medium">🍿 Prossima serata: <strong id="ticker-title" class="text-primary font-semibold">CineSerata</strong></span><span class="hidden sm:inline text-on-surface-variant">•</span><span id="ticker-eta" class="hidden sm:inline text-tertiary font-medium"></span></div><a id="ticker-link" class="hidden md:inline-flex items-center gap-space-xs text-primary hover:text-primary-fixed-dim transition-colors" href="index.html"><span class="">Entra nel salotto</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div></div><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm group" href="index.html"><img alt="CineSerata Logo" class="h-8 w-auto object-contain" src="assets/img/logo.png"><span class="font-headline-md text-headline-md text-on-surface tracking-tight group-hover:text-primary transition-colors">CineSerata</span></a><nav class="hidden lg:flex items-center gap-space-md" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg px-space-md py-space-xs"><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="serate" href="index.html">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="archivio" href="index.html?filter=completed">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="come" href="index.html#come-funziona">Come Funziona</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-space-xs px-space-lg py-space-sm bg-primary-container text-on-primary-container hover:bg-surface-tint hover:text-on-primary-fixed font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_28px_rgba(245,158,11,0.55)] transition-all duration-200 transform hover:-translate-y-0.5" data-nav="organizza" href="admin.html"><span class="material-symbols-outlined text-[20px]">movie</span><span class="">Organizza Serata</span></a><div id="user-chip" class="flex items-center gap-space-sm pl-space-xs" hidden><div class="w-8 h-8 rounded-full bg-surface-container-high ring-2 ring-primary/40 flex items-center justify-center text-primary shadow-sm"><span class="material-symbols-outlined text-[18px]">movie_filter</span></div><div class="hidden sm:flex flex-col"><span id="user-chip-name" class="font-label-sm text-label-sm text-on-surface leading-tight"></span><span id="user-chip-role" class="font-label-sm text-[10px] text-primary leading-tight font-bold tracking-wider uppercase">Host</span></div></div></div></div></header>
+<main class="w-full pt-28 bg-surface">
+<div id="not-found" class="max-w-7xl mx-auto px-gutter py-space-xl w-full" hidden>
+<div class="w-full p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Serata non trovata.</span>
+<a class="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-semibold transition-colors" href="index.html">Torna alla Bacheca</a>
+</div>
+</div>
+<div id="view-pre" class="flex flex-col w-full" hidden>
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/4 w-[600px] h-[350px] bg-secondary-container/15 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute top-48 right-10 w-[500px] h-[300px] bg-primary-container/10 rounded-full blur-[160px] pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-gutter py-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+<nav class="flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="index.html">Serate</a>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<span id="pre-breadcrumb-title" class="text-on-surface font-medium truncate"></span>
+</nav>
+<div class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-secondary-container/20 text-secondary-fixed rounded-full shadow-[0_0_16px_rgba(204,0,60,0.25)]">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+<span class="font-label-sm text-label-sm tracking-wide uppercase font-bold">Fase Pre-Evento • Inviti Aperti</span>
+</div>
+</div>
+<div class="relative rounded-2xl bg-surface-container-low shadow-[0_12px_40px_rgba(0,0,0,0.6)] p-space-lg lg:p-space-xl mb-space-xl overflow-hidden">
+<div class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-primary/10 blur-[80px] pointer-events-none"></div>
+<div class="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-secondary-container/10 to-transparent pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div id="pre-tags" class="flex flex-wrap items-center gap-space-xs"></div>
+<div class="flex flex-col gap-space-xs">
+<h1 id="pre-title" class="font-display-hero text-display-hero text-on-surface tracking-tight leading-none"></h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-space-xs mt-space-xs">
+                Organizzato da <span id="pre-host" class="text-primary font-semibold"></span>
+<span class="text-outline-variant">•</span>
+<span id="pre-tagline" class=""></span>
+</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">calendar_today</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Data &amp; Ora</span>
+<span id="pre-when" class="font-label-lg text-label-lg text-on-surface font-bold"></span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[22px]">home_pin</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Location</span>
+<span id="pre-location" class="font-label-lg text-label-lg text-on-surface font-bold truncate"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 flex justify-center lg:justify-end">
+<div class="relative w-full max-w-[280px] aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)] group">
+<img id="pre-cover" referrerpolicy="no-referrer" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"  alt="" src="assets/img/cover-default.jpg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<div class="absolute top-3 left-3 px-space-sm py-1 bg-surface-container-lowest/80 backdrop-blur-md rounded-md flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[14px]">videocam</span>
+<span class="">Cinema da Salotto</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 p-space-sm bg-surface-container/90 backdrop-blur-md rounded-xl">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Tema della Notte</p>
+<p id="pre-theme" class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="rounded-2xl bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low p-space-lg lg:p-space-xl shadow-[0_16px_48px_rgba(245,158,11,0.12)] mb-space-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary-container/15 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute -left-20 bottom-0 w-80 h-80 bg-secondary-container/10 rounded-full blur-[90px] pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="p-space-xs bg-primary-container text-on-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">lock_clock</span>
+</span>
+<div>
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-widest">Time-Lock Caveau Attivo</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Countdown al Reveal dei Film</h2>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm sm:gap-space-md pt-space-xs">
+<div class="flex flex-col items-center bg-surface-container-lowest/90 px-space-md py-space-sm rounded-xl min-w-[80px] sm:min-w-[96px] shadow-inner">
+<span class="font-display-hero text-display-hero text-primary font-bold tabular-nums leading-none" id="pre-countdown-hours">00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mt-1">ORE</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary/60 font-bold">:</span>
+<div class="flex flex-col items-center bg-surface-container-lowest/90 px-space-md py-space-sm rounded-xl min-w-[80px] sm:min-w-[96px] shadow-inner">
+<span class="font-display-hero text-display-hero text-primary font-bold tabular-nums leading-none" id="pre-countdown-minutes">00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mt-1">MINUTI</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-primary/60 font-bold">:</span>
+<div class="flex flex-col items-center bg-surface-container-lowest/90 px-space-md py-space-sm rounded-xl min-w-[80px] sm:min-w-[96px] shadow-inner">
+<span class="font-display-hero text-display-hero text-secondary font-bold tabular-nums leading-none" id="pre-countdown-seconds">00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mt-1">SECONDI</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-lowest/70 backdrop-blur-md flex items-start gap-space-md mt-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[24px] mt-0.5 shrink-0">encrypted</span>
+<div class="flex flex-col gap-1 text-on-surface">
+<p class="font-label-lg text-label-lg font-bold">Nessuno spoiler prima del via!</p>
+<p id="pre-reveal-note" class="font-body-sm text-body-sm text-on-surface-variant"></p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-space-sm bg-surface-container-lowest/90 p-space-lg rounded-2xl shadow-xl justify-center">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold tracking-wider">Caveau Status</span>
+<span class="px-space-xs py-0.5 bg-primary/20 text-primary rounded font-label-sm text-[11px] font-bold">CRITTOGRAFATO</span>
+</div>
+<div class="flex items-baseline gap-space-xs my-space-xs">
+<span id="caveau-count" class="font-display-hero text-display-hero text-tertiary leading-none font-bold">0</span>
+<span class="font-body-md text-body-md text-on-surface-variant">film nel caveau</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+              Caricati da <strong id="caveau-friends" class="text-primary font-bold">0 amici partecipanti</strong>. Ognuno potrà caricare fino a un massimo di 5 titoli segreti.
+            </p>
+<div class="w-full bg-surface-container-high rounded-full h-2 mt-space-xs overflow-hidden">
+<div id="caveau-bar" class="bg-gradient-to-r from-primary to-tertiary h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+</div>
+<div class="flex justify-between font-label-sm text-[11px] text-on-surface-variant">
+<span id="caveau-slots" class="">0 / 0 slot utilizzati</span>
+<span id="caveau-pct" class="">0% riempimento</span>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<section class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">how_to_reg</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Partecipazione Rapida</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Nessuna password o registrazione richiesta. Inserisci il nome e sei a bordo.</p>
+</div>
+</div>
+<span class="hidden sm:inline-flex px-space-sm py-1 bg-surface-container text-on-surface-variant rounded-full font-label-sm text-label-sm">
+                Accesso Diretto Gruppo
+              </span>
+</div>
+<form class="flex flex-col gap-space-md pt-space-xs" id="rsvp-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="participant-name">
+<span class="material-symbols-outlined text-[16px] text-primary">person</span>
+<span class="">Il tuo Nome o Nickname *</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="participant-name" maxlength="30" required="" type="text" autocomplete="nickname">
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">badge</span>
+</div>
+<span id="participant-recognized" class="font-label-sm text-[11px] text-primary" hidden></span>
+<div class="mt-space-xs flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-[11px] text-on-surface-variant uppercase font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">badge</span>Avatar Cinefili Grafici</span><span id="avatar-active-label" class="font-label-sm text-[10px] text-primary font-bold">Popcorn attivo</span></div><div class="flex flex-wrap items-center gap-1.5 pt-0.5" id="avatar-selector"></div><div class="p-space-xs rounded-lg bg-surface-container border border-primary/20 flex flex-col gap-1 mt-0.5"><div class="flex items-center justify-between"><span class="font-label-sm text-[10px] text-tertiary font-bold uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">auto_awesome</span>Avatar Speciali della Settimana (Icone esclusive Host)</span><span id="special-avatars-tag" class="font-label-sm text-[10px] text-on-surface-variant"></span></div><div id="special-avatars" class="flex flex-wrap items-center gap-2 pt-0.5"></div></div></div></div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="snack-selection">
+<span class="material-symbols-outlined text-[16px] text-tertiary">lunch_dining</span>
+<span class="">Porto qualcosa da bere/sgranocchiare?</span>
+</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container appearance-none cursor-pointer" id="snack-selection">
+</select>
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">fastfood</span>
+<span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Facoltativo, serve a non duplicare gli snack</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">check_circle</span>
+<span id="rsvp-update-note" class="">Puoi aggiornare la scelta fino all'inizio della serata</span>
+</div>
+<button id="rsvp-submit" class="w-full sm:w-auto px-space-xl py-space-sm bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_24px_rgba(245,158,11,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-space-xs" type="submit">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+<span id="rsvp-submit-label" class="">Conferma Partecipazione</span>
+</button>
+</div>
+<div class="hidden p-space-sm rounded-xl bg-tertiary-container/20 text-tertiary font-label-md text-label-md flex items-center gap-space-sm mt-space-xs" id="rsvp-status-alert">
+<span class="material-symbols-outlined text-[20px]">thumb_up</span>
+<span id="rsvp-status-text" class=""></span>
+</div>
+</form>
+</section>
+<section id="proposals-section" class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col gap-space-lg" hidden>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">movie_filter</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Le Tue Proposte Film</h3>
+</div>
+<p id="proposals-note" class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Proponi fino a 5 film. I titoli resteranno anonimi e crittografati fino al reveal.</p>
+</div>
+<div class="flex flex-col items-end gap-space-xs shrink-0">
+<div class="flex items-center gap-space-xs font-label-md text-label-md">
+<span class="text-on-surface-variant">Slot utilizzati:</span>
+<span id="slots-used" class="text-primary font-bold text-headline-sm">0 di 5</span>
+</div>
+<div class="w-36 bg-surface-container-highest rounded-full h-2.5 overflow-hidden">
+<div id="slots-bar" class="bg-primary-container h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+</div>
+</div>
+</div>
+<div id="my-films" class="flex flex-col gap-space-md"></div>
+<div id="slot-area" class="flex flex-col gap-space-md pt-space-xs"></div>
+</section>
+</div>
+<aside class="lg:col-span-4 flex flex-col gap-space-lg">
+<div class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">group</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Chi viene stasera</h3>
+</div>
+<span id="participants-count" class="px-space-sm py-0.5 bg-surface-container-high text-primary font-label-sm text-label-sm font-bold rounded-full">0 confermati</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Ecco chi ha già caricato le proprie proposte nel caveau:
+            </p>
+<ul id="participants-list" class="flex flex-col gap-space-sm"></ul>
+</div>
+<div class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[22px]">theater_comedy</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Caveau Segreto</h3>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">visibility_off</span>
+</div>
+<p id="mystery-others" class="font-body-sm text-body-sm text-on-surface-variant">Uno sguardo d'insieme sui titoli misteriosi inseriti dagli altri amici:</p>
+<div id="mystery-grid" class="grid grid-cols-2 gap-space-sm"></div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center gap-space-xs font-label-sm text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">info</span>
+<span id="mystery-reveal-time" class="">I titoli diverranno leggibili in automatico allo scoccare dell'orario</span>
+</div>
+</div>
+<div class="bg-gradient-to-br from-surface-container via-surface-container-low to-surface-container-lowest p-space-lg rounded-2xl shadow-xl flex flex-col gap-space-sm relative overflow-hidden">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[22px]">send</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">Manca qualche amico?</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Condividi l'accesso diretto nel gruppo WhatsApp: chi apre il link potrà aggiungere i suoi film preferiti all'istante.
+            </p>
+<button class="w-full mt-space-xs py-space-sm px-space-md bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-lg text-label-lg font-bold rounded-xl transition-all flex items-center justify-center gap-space-xs group shadow-sm" id="share-btn">
+<span class="material-symbols-outlined text-tertiary group-hover:scale-110 transition-transform text-[20px]">share</span>
+<span id="share-text" class="">Copia Link Invito WhatsApp</span>
+</button>
+<span class="hidden text-center font-label-sm text-label-sm text-tertiary" id="copied-notice">✓ Link copiato negli appunti! Incollalo in chat.</span>
+</div>
+</aside>
+</div>
+<div class="mt-space-xl p-space-lg rounded-2xl bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-space-md shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[28px]">rule</span>
+</div>
+<div class="flex flex-col">
+<h4 id="pre-vote-banner-title" class="font-headline-sm text-headline-sm text-on-surface font-bold">Come voteremo stasera?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Il sistema genererà un tabellone eliminatorio a turni veloci dal telefono. Il film con più voti andrà direttamente sul proiettore!
+            </p>
+</div>
+</div>
+<a class="inline-flex items-center gap-space-xs px-space-lg py-space-sm bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-bold rounded-xl shrink-0 transition-colors" href="index.html#come-funziona">
+<span class="">Regole di voto</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="view-live" class="flex flex-col w-full" hidden>
+<section class="relative w-full overflow-hidden bg-surface-container-lowest px-gutter py-space-lg shadow-xl">
+<div class="absolute -top-24 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-16 -right-20 w-96 h-96 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md relative z-10">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-secondary-container text-white font-label-sm text-label-sm shadow-[0_0_18px_rgba(204,0,60,0.6)]">
+<span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
+<span class="">ORA IN DIRETTA • CAVEAU APERTO</span>
+</span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+<span id="live-start-time" class=""></span>
+</span>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[18px]">group</span>
+<span id="live-couch-count" class="text-on-surface font-bold">0</span>
+<span class="">sul divano</span>
+</div>
+<div class="hidden sm:flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]">movie_filter</span>
+<span id="live-films-count" class="text-on-surface font-bold">0 film</span>
+<span class="">svelati</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg pt-space-xs">
+<div class="max-w-3xl flex flex-col gap-space-xs">
+<span class="font-label-lg text-label-lg text-primary uppercase tracking-widest flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">celebration</span>
+            Il momento è arrivato
+          </span>
+<h1 id="live-title" class="font-display-hero text-headline-lg lg:text-display-hero text-on-surface tracking-tight leading-none"></h1>
+<p id="live-subtitle" class="font-body-lg text-body-lg text-on-surface-variant"></p>
+</div>
+<div class="flex flex-wrap items-center gap-space-md shrink-0">
+<button class="inline-flex items-center gap-space-sm px-space-lg py-space-md bg-gradient-to-r from-primary-container to-tertiary text-on-primary-container font-label-lg text-label-lg rounded-xl shadow-[0_0_24px_rgba(245,158,11,0.45)] hover:shadow-[0_0_32px_rgba(245,158,11,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" id="roulette-trigger">
+<span class="material-symbols-outlined text-[24px] animate-spin text-on-primary-container" style="animation-duration: 4s;">casino</span>
+<span class="">Estrai a Sorte (Roulette Cinema) 🎲</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section id="spotlight" class="max-w-7xl mx-auto w-full px-gutter -mt-4 relative z-20">
+<div class="w-full bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-high rounded-xl p-space-lg shadow-[0_16px_36px_rgba(0,0,0,0.7)]">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+<div class="lg:col-span-4 relative rounded-lg p-space-md bg-surface-container-lowest border border-outline-variant/30 flex flex-col justify-between min-h-[160px]"><div class="flex items-center justify-between gap-space-xs"><span class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm shadow-md"><span class="material-symbols-outlined text-[16px]">military_tech</span><span id="spotlight-badge" class="">1° IN CLASSIFICA</span></span></div><div class="flex items-end justify-between gap-space-sm mt-space-md"><div><span id="spotlight-genre" class="text-tertiary font-label-sm text-label-sm font-bold tracking-wider uppercase block"></span><span id="spotlight-title" class="font-headline-sm text-headline-sm text-on-surface font-bold block"></span></div><span id="spotlight-votes" class="font-headline-md text-headline-md text-primary font-bold shrink-0">0 / 0 voti</span></div></div>
+<div class="lg:col-span-5 flex flex-col justify-center gap-space-xs">
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span id="spotlight-headline-label" class="">Scelta del gruppo (Quasi unanime!)</span>
+</div>
+<h2 id="spotlight-headline" class="font-headline-md text-headline-md text-on-surface">
+            Il divano ha parlato chiaramente.
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Proposto da <strong id="spotlight-proposer" class="text-on-surface"></strong><span id="spotlight-note-wrap"> con la motivazione: <em id="spotlight-note" class="text-on-surface-variant font-medium"></em></span>
+</p>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div id="spotlight-voters" class="flex -space-x-2 overflow-hidden"></div>
+<span id="spotlight-voters-extra" class="font-label-sm text-label-sm text-primary font-semibold"></span>
+</div>
+</div>
+<div class="lg:col-span-3 flex flex-col gap-space-xs justify-center items-stretch">
+<button class="w-full inline-flex items-center justify-center gap-space-xs px-space-lg py-space-md rounded-xl bg-secondary-container text-white hover:bg-on-secondary font-label-lg text-label-lg font-bold shadow-[0_0_24px_rgba(204,0,60,0.5)] hover:shadow-[0_0_32px_rgba(204,0,60,0.8)] transition-all" id="start-screening-btn">
+<span class="material-symbols-outlined text-[22px]">play_circle</span>
+<span class="">🎬 Avvia Proiezione Film</span>
+</button>
+<span id="start-screening-note" class="font-label-sm text-label-sm text-center text-on-surface-variant"></span>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto w-full px-gutter mt-space-xl" id="live-join-card" hidden>
+<div class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">how_to_reg</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Partecipazione Rapida</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Nessuna password o registrazione richiesta. Inserisci il nome e potrai votare.</p>
+</div>
+</div>
+</div>
+<form class="flex flex-col gap-space-md pt-space-xs" id="live-join-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="live-nickname">
+<span class="material-symbols-outlined text-[16px] text-primary">person</span>
+<span class="">Il tuo Nome o Nickname *</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="live-nickname" maxlength="30" required="" type="text">
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">badge</span>
+</div>
+<div class="mt-space-xs flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-[11px] text-on-surface-variant uppercase font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">badge</span>Avatar Cinefili Grafici</span></div><div class="flex flex-wrap items-center gap-1.5 pt-0.5" id="live-avatar-selector"></div></div>
+</div>
+<div class="flex items-end justify-end">
+<button class="w-full sm:w-auto px-space-xl py-space-sm bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_24px_rgba(245,158,11,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-space-xs" type="submit">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+<span class="">Conferma Partecipazione</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</section>
+<section class="max-w-7xl mx-auto w-full px-gutter mt-space-xl">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-low p-space-md rounded-xl">
+<div class="flex flex-wrap items-center gap-space-xs" id="filter-tabs">
+<button class="filter-tab px-space-md py-space-xs rounded-lg bg-surface-container-highest text-primary font-label-md text-label-md font-bold transition-colors" data-filter="all">Tutti i Film (0)</button>
+<button class="filter-tab px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-filter="top">
+          🔥 I più votati
+        </button>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-space-sm top-3 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container-lowest text-on-surface pl-9 pr-space-md py-space-xs rounded-lg text-body-sm font-body-sm focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant" id="movie-search" placeholder="Cerca tra i film..." type="text">
+</div>
+<div class="hidden xl:flex items-center gap-space-xs font-label-sm text-label-sm text-primary">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="">Voto attivo</span>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto w-full px-gutter mt-space-lg mb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md" id="movies-container"></div>
+<div class="w-full p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant">
+<span id="live-pagination-text" class="font-body-sm text-body-sm"></span>
+<button id="live-load-more" type="button" class="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-semibold transition-colors">Carica altri film ↓</button>
+</div>
+</div>
+<aside class="lg:col-span-4 flex flex-col gap-space-md">
 
-<header class="top">
-  <div class="wrap">
-    <div>
-      <h1 id="event-title">Matteo's Cinema</h1>
-      <p class="tagline" id="event-when"></p>
-    </div>
-    <nav class="top-links"><a href="index.html">Tutti gli eventi</a></nav>
-  </div>
-</header>
-
-<main class="wrap">
-
-  <p id="event-description"></p>
-
-  <section id="join-section">
-    <h2>Partecipa</h2>
-    <div id="join-form">
-      <label for="nickname">Il tuo nome o nickname</label>
-      <input type="text" id="nickname" maxlength="30" placeholder="Es. Marco" />
-      <button id="join-btn">Partecipa all'evento</button>
-      <div id="join-error"></div>
-    </div>
-    <div id="joined-notice" class="notice" style="display:none;"></div>
-  </section>
-
-  <section id="proposals-section" style="display:none;">
-    <h2>I tuoi film (fino a 5)</h2>
-    <p>Proponi da 1 a 5 film. Resteranno segreti agli altri finché l'evento non inizia.</p>
-    <div id="film-inputs"></div>
-    <button id="save-films-btn">Salva i tuoi film</button>
-    <div id="films-status"></div>
-  </section>
-
-  <section>
-    <h2>Partecipanti</h2>
-    <ul class="plain" id="participants-list"><li>Carico…</li></ul>
-  </section>
-
-  <section>
-    <h2>Film proposti da tutti</h2>
-    <div id="reveal-area"></div>
-  </section>
-
+</aside>
+</div>
+</section>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-surface-container-lowest/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300" id="roulette-modal">
+<div class="relative w-full max-w-md mx-gutter bg-surface-container p-space-xl rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary-container/20 text-primary flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[36px] animate-spin" id="roulette-spinner">casino</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-bold">Il Fato Cinefilo</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1" id="roulette-title">Estrazione in corso...</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs" id="roulette-desc">Facciamo girare il proiettore tra i film svelati per rompere l'indecisione!</p>
+<div class="w-full my-space-lg p-space-md bg-surface-container-lowest rounded-xl hidden" id="roulette-result-box">
+<span class="text-tertiary font-label-sm text-label-sm uppercase font-semibold">Film Estratto dal Fato:</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1" id="roulette-movie-name"></h4>
+<span class="font-label-md text-label-md text-primary font-medium" id="roulette-proposer"></span>
+</div>
+<div class="flex items-center gap-space-sm w-full">
+<button class="flex-1 py-space-sm px-space-md rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold" id="close-roulette">
+          Chiudi
+        </button>
+<button class="flex-1 py-space-sm px-space-md rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md font-bold hidden" id="accept-roulette">
+          Vota Subito!
+        </button>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-surface-container-lowest/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300" id="screening-modal">
+<div class="relative w-full max-w-lg mx-gutter bg-surface-container p-space-xl rounded-xl shadow-[0_24px_60px_rgba(245,158,11,0.2)] text-center flex flex-col items-center">
+<div class="w-20 h-20 rounded-full bg-secondary-container text-white flex items-center justify-center mb-space-md shadow-[0_0_30px_rgba(204,0,60,0.6)]">
+<span class="material-symbols-outlined text-[44px]">local_movies</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-wider font-bold">Proiezione Ufficialmente Iniziata!</span>
+<h2 id="screening-title" class="font-display-hero text-headline-lg text-on-surface font-bold mt-space-xs"></h2>
+<p id="screening-desc" class="font-body-md text-body-md text-on-surface-variant mt-space-sm max-w-sm"></p>
+<div class="mt-space-lg flex gap-space-sm">
+<button class="px-space-xl py-space-sm rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg font-bold" id="close-screening">
+          Torna alla Serata
+        </button>
+</div>
+</div>
+</div>
+</div>
 </main>
-
-<footer class="bottom">Matteo's Cinema — organizzato tra amici</footer>
-
+<footer class="w-full bg-surface-container-lowest mt-space-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)]"><div class="max-w-7xl mx-auto px-gutter py-space-xl"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-lg items-center justify-between pb-space-lg"><div class="md:col-span-6 flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">local_movies</span><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">CineSerata</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">Fatto con passione per gli amanti del cinema e dei divani comodi. Vota, prepara i popcorn e goditi il film misterioso.</p></div><div class="md:col-span-6 flex flex-wrap md:justify-end gap-space-lg"><nav class="flex flex-wrap items-center gap-space-lg font-label-md text-label-md" data-active-classes="text-primary font-semibold"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="serate" href="index.html">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="archivio" href="index.html?filter=completed">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="come" href="index.html#come-funziona">Come Funziona</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="organizza" href="admin.html">Nuova Serata</a></nav></div></div><div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><p class="">© <span id="footer-year">2025</span> CineSerata. Tutti i diritti riservati ai cinefili da salotto.</p><div class="flex items-center gap-space-md"><span class="inline-flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[16px]">lock_clock</span><span class="">Secret Reveal Engine attivo</span></span></div></div></div></footer>
+<nav id="mobile-nav" class="lg:hidden fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.5)]" data-active-classes="text-primary"><div class="flex items-center justify-around h-16 px-space-xs"><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" data-nav="serate" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">explore</span><span class="font-label-sm text-label-sm mt-0.5">Bacheca</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" id="mobile-nav-serata" data-nav="serata" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">theaters</span><span class="font-label-sm text-label-sm mt-0.5">Serata</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" id="mobile-nav-vota" data-nav="vota" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">local_fire_department</span><span class="font-label-sm text-label-sm mt-0.5">Vota</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" data-nav="organizza" href="admin.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">add_circle</span><span class="font-label-sm text-label-sm mt-0.5">Organizza</span></a></div></nav>
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-space-xs px-space-lg py-space-md rounded-xl bg-surface-container-high text-on-surface shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-primary text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-message">Link copiato negli appunti!</span>
+</div>
 <script type="module" src="js/event-detail.js"></script>
 </body>
 </html>

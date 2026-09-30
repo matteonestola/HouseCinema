@@ -51,21 +51,34 @@ poi vai su `http://localhost:8000`. (Aprire `index.html` direttamente col doppio
 
 ```
 cinema-eventi/
-├── index.html          # elenco eventi
-├── event.html           # dettaglio evento: partecipa, proponi film, partecipanti
-├── admin.html            # login admin + creazione eventi
-├── css/style.css
+├── index.html            # Bacheca serate (filtri, serata in evidenza)
+├── event.html            # Dettaglio: vista PRE (proposte, caveau) e LIVE (voto, roulette, proiezione)
+├── admin.html            # Login host + pannello organizzatore
+├── css/style.css         # solo CSS non-Tailwind
 ├── js/
-│   ├── firebase-config.js   # le tue chiavi Firebase (da compilare)
-│   ├── app.js                # inizializzazione condivisa
-│   ├── events-list.js
-│   ├── event-detail.js
-│   └── admin.js
-└── firestore.rules      # da incollare nella console Firebase
+│   ├── tailwind-config.js    # config Tailwind (design system "Cinema Midnight")
+│   ├── firebase-config.js    # le tue chiavi Firebase
+│   ├── site-config.js        # costanti: HOST_NAME, ADMIN_UID, generi, avatar, snack
+│   ├── app.js                # init Firebase + helper condivisi
+│   ├── layout.js             # header ticker, chip utente, nav attiva
+│   ├── events-list.js, event-detail.js, event-pre.js, event-live.js, admin.js
+├── assets/img/           # logo e copertina predefinita
+├── design/stitch/        # export Stitch di riferimento (non linkati dal sito)
+└── firestore.rules       # da incollare nella console Firebase
 ```
 
-## Limiti noti e possibili miglioramenti futuri
+## Modello dati
 
-- L'identità dei partecipanti è legata al browser (login anonimo): se cancellano i dati del browser o cambiano dispositivo, per il sito sono "una persona nuova" e potranno ripartecipare/riproporre film da capo. Per un uso informale tra amici va bene così.
-- Eliminando un evento dall'area admin, i partecipanti e i film proposti restano nel database (semplicemente non più raggiungibili). Se vuoi una pulizia completa te lo posso aggiungere in un secondo momento con una Cloud Function.
-- Firebase (piano gratuito "Spark") copre ampiamente l'uso tra amici: decine di migliaia di letture/scritture al giorno gratis.
+- `events/{id}`: title, description, startAt, status (`draft`|`published`), genre, location, coverUrl (opzionale), hostName, createdBy, createdAt, screening (scritto da "Avvia Proiezione").
+- `events/{id}/participants/{uid}`: nickname, avatar, snack, filmCount, joinedAt, updatedAt.
+- `events/{id}/proposals/{uid}`: nickname, films `[{id,title,note?}]` (max 5), updatedAt. Leggibile dagli altri solo dopo `startAt`.
+- `events/{id}/votes/{uid}`: picks (id film), updatedAt. Solo dopo `startAt` e prima della proiezione.
+
+Gli eventi creati con la versione precedente vengono aggiornati automaticamente al primo login admin (`status: published`, ecc.).
+
+## Note importanti
+
+- **Dopo ogni modifica a `firestore.rules` va ripubblicato** in Console Firebase -> Firestore -> Regole.
+- `ADMIN_UID` in `js/site-config.js` deve coincidere con l'UID scritto in `firestore.rules`.
+- Il QR code dell'invito usa il servizio esterno `api.qrserver.com` (l'URL dell'evento viene inviato a quel servizio).
+- Tailwind e' caricato dal Play CDN (come nell'export Stitch): nessun build step.

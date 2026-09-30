@@ -1,0 +1,533 @@
+<!DOCTYPE html><html class="dark" lang="it"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-container":"#cc003c","surface-tint":"#ffb95f","surface-variant":"#32353c","on-primary-fixed":"#2a1700","tertiary-container":"#e0a800","tertiary":"#ffc32d","error":"#ffb4ab","on-primary":"#472a00","surface-container":"#1d2026","surface-container-low":"#191c22","on-tertiary-fixed-variant":"#5c4300","surface-container-high":"#272a31","secondary-fixed-dim":"#ffb3b6","on-tertiary":"#402d00","surface":"#10131a","primary-container":"#f59e0b","surface-container-highest":"#32353c","secondary":"#ffb3b6","inverse-primary":"#855300","on-secondary":"#68001a","on-error-container":"#ffdad6","on-tertiary-container":"#584000","on-background":"#e1e2eb","tertiary-fixed":"#ffdf9f","on-secondary-fixed-variant":"#920028","secondary-fixed":"#ffdada","primary-fixed":"#ffddb8","background":"#10131a","on-surface-variant":"#d8c3ad","on-error":"#690005","on-secondary-fixed":"#40000c","primary":"#ffc174","surface-container-lowest":"#0b0e14","error-container":"#93000a","outline-variant":"#534434","tertiary-fixed-dim":"#f9bd22","surface-bright":"#363940","inverse-on-surface":"#2e3037","on-primary-container":"#613b00","on-secondary-container":"#ffdcdc","on-tertiary-fixed":"#261a00","on-primary-fixed-variant":"#653e00","inverse-surface":"#e1e2eb","on-surface":"#e1e2eb","surface-dim":"#10131a","outline":"#a08e7a","primary-fixed-dim":"#ffb95f"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-lg":"1.5rem","space-xl":"2.5rem","margin":"2rem","gutter-mobile":"0.75rem","space-md":"1rem","space-sm":"0.5rem","gutter":"1.25rem","margin-mobile":"1rem","space-xs":"0.25rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-hero-mobile":["Space Grotesk"],"headline-sm":["Space Grotesk"],"label-sm":["Plus Jakarta Sans"],"display-hero":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"headline-md":["Space Grotesk"],"headline-lg":["Space Grotesk"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"body-md":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",fontWeight:"400"}],"body-sm":["14px",{lineHeight:"20px",fontWeight:"400"}],"display-hero-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.01em",fontWeight:"700"}],"headline-sm":["20px",{lineHeight:"28px",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.05em",fontWeight:"700"}],"display-hero":["56px",{lineHeight:"64px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-lg-mobile":["26px",{lineHeight:"34px",letterSpacing:"0em",fontWeight:"600"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"0em",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div class="w-full bg-surface-container-low/95 px-gutter py-space-xs"><div class="max-w-7xl mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-sm overflow-hidden text-ellipsis whitespace-nowrap"><span class="flex h-2 w-2 rounded-full bg-secondary-container animate-pulse"></span><span class="text-on-surface font-medium">🍿 Prossima serata: <strong class="text-primary font-semibold">Notte Horror Anni 80</strong></span><span class="hidden sm:inline text-on-surface-variant">•</span><span class="hidden sm:inline text-tertiary font-medium">Inizio tra 2h 15m</span></div><a class="hidden md:inline-flex items-center gap-space-xs text-primary hover:text-primary-fixed-dim transition-colors" data-path="dettaglio-serata-live" href="#"><span class="">Entra nel salotto</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div></div><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm group" data-path="tutte-le-serate" href="#"><img alt="CineSerata Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUtkBBNDG6Adzu5PYkJNVy99Wqqc4mX0-qFxtkf9PYmEgS1RKeqHe4qfzrRxUiM2HD09a8vi0-VN6xVA58nB827hjAmzLqGAw_ZwwiMmOO1MtIqTDEoz3lDE0v-ZnFb9ZlnUnkFjEM3CuzGpVFAFaWBaaYX4D8M4ZMfXgM79Kyhp1ymN5N3vG1bVhH_RhrHrIFo8ZyrdAU4xV80JVoCtBGraFt5sm56Xj6VL3oFDb8K2zu6iiDQoTmGg"><span class="font-headline-md text-headline-md text-on-surface tracking-tight group-hover:text-primary transition-colors">CineSerata</span></a><nav class="hidden lg:flex items-center gap-space-md" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg px-space-md py-space-xs"><a aria-current="page" class="transition-colors bg-surface-container-high text-primary font-semibold rounded-lg px-space-md py-space-xs" data-path="tutte-le-serate" href="#">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-path="archivio-film-visti" href="#">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-path="come-funziona" href="#">Come Funziona</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-space-xs px-space-lg py-space-sm bg-primary-container text-on-primary-container hover:bg-surface-tint hover:text-on-primary-fixed font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_28px_rgba(245,158,11,0.55)] transition-all duration-200 transform hover:-translate-y-0.5" data-path="organizza-serata" href="#"><span class="material-symbols-outlined text-[20px]">movie</span><span class="">Organizza Serata</span></a><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-surface-container-high ring-2 ring-primary/40 flex items-center justify-center text-primary shadow-sm"><span class="material-symbols-outlined text-[18px]">movie_filter</span></div><div class="hidden sm:flex flex-col"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Marco</span><span class="font-label-sm text-[10px] text-primary leading-tight font-bold tracking-wider uppercase">Host</span></div></div></div></div></header><main class="w-full pt-28 bg-surface"><div class="flex flex-col w-full">
+<!-- Atmospheric Background Ambient Glows -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-primary-container/15 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="absolute top-[480px] -right-40 w-[600px] h-[500px] bg-secondary-container/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+<!-- 1. Hero Section -->
+<section class="max-w-7xl mx-auto px-gutter pt-space-md pb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+<!-- Hero Copy -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs self-start px-space-md py-space-xs bg-surface-container-high rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">theater_comedy</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Democrazia da Salotto</span>
+<span class="h-1 w-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Zero Registrazioni</span>
+</div>
+<h1 class="font-display-hero text-display-hero text-on-surface tracking-tight leading-none">
+            Il cinema sul divano, <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-surface-tint to-tertiary">democratico e a sorpresa.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+            Basta con 45 minuti sprecati a scorrere trailer senza decidere. Crea la serata tra amici, raccogli nomination segrete nel caveau e lascia che il voto decida il film giusto all'ora stabilita.
+          </p>
+<!-- Quick Action Buttons -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-space-lg py-space-md bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-xl transition-all duration-200 transform hover:-translate-y-0.5" data-path="organizza-serata" href="#">
+<span class="material-symbols-outlined text-[22px]">rocket_launch</span>
+<span class="">Lancia una Serata Ora</span>
+</a>
+<a class="inline-flex items-center gap-space-sm px-space-lg py-space-md bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg rounded-xl shadow-sm transition-all duration-200" href="#serata-imminente">
+<span class="material-symbols-outlined text-primary text-[20px]">play_circle</span>
+<span class="">Guarda il Caveau Live</span>
+</a>
+</div>
+<!-- Social Proof metric -->
+<div class="flex items-center gap-space-md pt-space-xs text-on-surface-variant font-label-md text-label-md">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold text-xs">🍿</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-secondary font-bold text-xs">🎬</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary font-bold text-xs">🍕</div>
+</div>
+<span class=""><strong>240+ serate</strong> organizzate senza litigi sul telecomando</span>
+</div>
+</div>
+<!-- 3 Visual Steps Illustration Card -->
+<div class="lg:col-span-5 bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Come Funziona</span>
+<span class="font-label-sm text-label-sm px-space-sm py-space-xs bg-primary/10 text-primary rounded-full font-bold">3 Semplici Fasi</span>
+</div>
+<div class="flex flex-col gap-space-md mt-space-sm">
+<!-- Step 1 -->
+<div class="flex items-start gap-space-md p-space-md bg-surface-container rounded-lg shadow-sm group hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center shrink-0 font-headline-sm text-headline-sm">
+                1
+              </div>
+<div class="flex flex-col gap-space-xs min-w-0">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-base text-on-surface">L'Host lancia il Tema</h2>
+<span class="material-symbols-outlined text-primary text-[18px]">add_circle</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Scegli data, orario, genere e condividi il link su WhatsApp o Telegram. Nessuna app da installare.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-start gap-space-md p-space-md bg-surface-container rounded-lg shadow-sm group hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center shrink-0 font-headline-sm text-headline-sm">
+                2
+              </div>
+<div class="flex flex-col gap-space-xs min-w-0">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-base text-on-surface">Proposte al Buio nel Caveau</h2>
+<span class="material-symbols-outlined text-tertiary text-[18px]">lock</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ciascuno inserisce fino a 5 nomination segrete. Nessuno sa chi ha proposto cosa finché non scatta l'ora.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-start gap-space-md p-space-md bg-surface-container rounded-lg shadow-sm group hover:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0 font-headline-sm text-headline-sm">
+                3
+              </div>
+<div class="flex flex-col gap-space-xs min-w-0">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-base text-on-surface">Sblocco &amp; Voto Corale</h2>
+<span class="material-symbols-outlined text-secondary text-[18px]">how_to_vote</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Allo scoccare dell'orario il caveau si apre: votazione lampo a turni veloci e si parte coi popcorn!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Scheda in Evidenza (Featured / Next Screening) -->
+<section class="max-w-7xl mx-auto px-gutter py-space-lg" id="serata-imminente">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary-container"></span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-bold">In Programma Questa Settimana</span>
+</div>
+<div class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">visibility</span>
+<span class="">Serata Aperta per Amici di Marco</span>
+</div>
+</div>
+<!-- Feature Big Card -->
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-2xl relative overflow-hidden">
+<!-- Ambient Radial Highlight inside card -->
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10">
+<!-- Visual Media / Poster Preview Frame -->
+<div class="lg:col-span-5 relative group">
+<div class="w-full aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden relative shadow-lg bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Dark neon retro 1980s horror movie marathon VHS aesthetic with glowing synthesizer vibe, eerie fog and warm cinema popcorn lights, cinematic dark lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8gp-ttJiNFGIu6c-G1VgSvvhxFzpfOzOyc0skwZ5KclkqgXijlSUcaMwQy87YHiOJS9OGH86dRXTxaPrMj5erJTCspjOB13Taemb2iKVGAtXTsB4adY7GEPcXjJfKKAbHh40JCZ-9H85OuaDw1fRHLIEpSPslHhOYFXQSASnzTlejTNeAtPvUGyQELJC_EDfqMrrsFSMCJ5uzYnMDLtrhtHUccG9EDpPuljVQ-486QA7cFEhNYy_fqA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
+<!-- Floating Vault Shutter Graphic -->
+<div class="absolute inset-0 flex flex-col items-center justify-center p-space-md text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary shadow-xl mb-space-sm animate-pulse">
+<span class="material-symbols-outlined text-[36px]">lock</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Caveau Sigillato</span>
+<span class="font-label-md text-label-md text-primary mt-space-xs font-semibold">16 Titoli Segreti in attesa</span>
+</div>
+<!-- Genre Pill on Media -->
+<div class="absolute top-space-md left-space-md">
+<span class="px-space-md py-space-xs bg-surface-container-lowest/90 backdrop-blur-md text-primary font-label-sm text-label-sm rounded-full font-bold uppercase tracking-wider">
+                  Horror Cult Anni '80
+                </span>
+</div>
+</div>
+</div>
+<!-- Event Details Column -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Host and Time Badge -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-full bg-primary-container/20 ring-2 ring-primary/40 flex items-center justify-center text-primary shadow-md"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider leading-none">Organizzato da</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold leading-tight">Marco (Host)</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_month</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Sabato 18 Maggio, ore 21:00</span>
+</div>
+</div>
+<!-- Title & Pitch -->
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+                Notte Horror Anni '80 Cult
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+                Slasher, creature mostruose, sintetizzatori analogici ed effetti pratici senza CGI. Ognuno porti i suoi classici proibiti: voteremo la pellicola vincitrice 15 minuti prima del via libera alle pizze.
+              </p>
+</div>
+<!-- Live Countdown Box -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-inner">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase font-bold tracking-wider text-secondary">Countdown Reveal Caveau</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sblocco automatico</span>
+</div>
+<!-- Segmented Timer Grid -->
+<div class="grid grid-cols-3 gap-space-sm text-center" id="countdown-module">
+<div class="bg-surface-container-high rounded-lg py-space-sm px-space-xs">
+<span class="font-display-hero text-headline-lg text-primary tabular-nums font-bold" id="countdown-hours">02</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant tracking-widest uppercase">ORE</span>
+</div>
+<div class="bg-surface-container-high rounded-lg py-space-sm px-space-xs">
+<span class="font-display-hero text-headline-lg text-primary tabular-nums font-bold" id="countdown-minutes">44</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant tracking-widest uppercase">MIN</span>
+</div>
+<div class="bg-surface-container-high rounded-lg py-space-sm px-space-xs">
+<span class="font-display-hero text-headline-lg text-secondary tabular-nums font-bold" id="countdown-seconds">59</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant tracking-widest uppercase">SEC</span>
+</div>
+</div>
+</div>
+<!-- Attendees RSVP Pills -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
+                  Partecipanti Confermati (6)
+                </span>
+<span class="font-label-sm text-label-sm text-tertiary">Max 10 posti sul divano</span>
+</div>
+<div class="flex flex-wrap gap-space-xs">
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Marco <span class="text-primary font-bold text-xs">★</span>
+</span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Giulia
+                </span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Leo
+                </span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-surface-tint"></span> Samuele
+                </span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-primary-fixed"></span> Elena
+                </span>
+<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> Sara
+                </span>
+</div>
+</div>
+<!-- CTAs for Featured Event -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-space-sm px-space-lg py-space-md bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-lg transition-all duration-200 transform hover:-translate-y-0.5" data-path="proponi-film" href="#">
+<span class="material-symbols-outlined text-[20px]">add_to_queue</span>
+<span class="">Partecipa &amp; Proponi Film</span>
+</a>
+<a class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-space-sm px-space-lg py-space-md bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg rounded-xl shadow-sm transition-all duration-200" data-path="dettaglio-serata-live" href="#">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+<span class="">Vedi Dettagli Serata</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Sezione Tutte le Serate in Programma -->
+<section class="max-w-7xl mx-auto px-gutter py-space-xl">
+<!-- Section Header & Filters -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="inline-flex items-center gap-space-xs text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">local_activity</span>
+<span class="">Bacheca Cinefili</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Tutte le Serate in Programma</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Sfoglia gli appuntamenti con gli amici, guarda quanti titoli sono già stati depositati nel caveau e controlla i vincitori passati.
+          </p>
+</div>
+<!-- Filter Pills Bar -->
+<div class="flex items-center gap-space-xs p-1.5 bg-surface-container-low rounded-xl self-start md:self-auto shadow-inner" id="event-filters">
+<button class="filter-btn active px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold bg-surface-container-high text-primary shadow-sm transition-all" data-filter="all" type="button">
+            Tutte (4)
+          </button>
+<button class="filter-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" data-filter="upcoming" type="button">
+            In arrivo (3)
+          </button>
+<button class="filter-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all" data-filter="completed" type="button">
+            Concluse (1)
+          </button>
+</div>
+</div>
+<!-- Events Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg" id="events-grid">
+<!-- Card 1: Ghibli & Ramen -->
+<div class="event-card upcoming flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1">
+<!-- Poster Top Image with Badge -->
+<div class="relative aspect-[16/10] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Magical Japanese anime aesthetic, vibrant cozy kitchen with steaming ramen bowls and lush green Studio Ghibli landscape through the window, warm cinematic glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZlQVk2RzkBoQrZtLrZAA-f5BgnIyP_oq2NbB6b8IxRC4P6qkGZeXWZXOIGt-vZkYakqvFsb5WmbO6vG81KbmbAkElWWRfbcxq_WpNprcGt-tySXPxipnMoSmATu1UEPf7V1krbgwNBNlWPlfQVQeiUYOyEENQRy3daqt_hVY6HheYSV-YWFjm3TuKAuD4kZ7W8_kTMsUwguMgQFdyqVtB0YRTHn79mhjhWE01GcjAr7-xRdgcowWmqg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md">
+<span class="px-space-md py-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-tertiary font-label-sm text-label-sm rounded-full font-bold">
+                Animazione d'Autore
+              </span>
+</div>
+<div class="absolute bottom-space-sm left-space-md right-space-md flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="inline-flex items-center gap-space-xs bg-surface-container-highest/90 px-space-sm py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] text-tertiary">calendar_today</span>
+                25 Maggio, 20:30
+              </span>
+<span class="inline-flex items-center gap-space-xs bg-surface-container-highest/90 px-space-sm py-1 rounded-md text-primary font-semibold">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                12 Film Segreti
+              </span>
+</div>
+</div>
+<!-- Body Content -->
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+                Maratona Studio Ghibli &amp; Ramen
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+                Preparazione casalinga di ramen miso e brodo fumante, seguita da un classico di Miyazaki o Takahata votato all'istante.
+              </p>
+</div>
+<!-- Host & Participants Stats -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-7 h-7 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container text-xs font-bold">
+                  G
+                </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Host: <strong>Giulia</strong></span>
+</div>
+<div class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">group</span>
+<span class=""><strong>8</strong> partecipanti</span>
+</div>
+</div>
+<!-- Card Action -->
+<a class="w-full inline-flex items-center justify-center gap-space-xs py-space-sm px-space-md bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-bold rounded-lg transition-colors shadow-sm" data-path="dettaglio-serata-ghibli" href="#">
+<span class="">Entra nel Caveau</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2: Cyberpunk & Sci-Fi Dystopia -->
+<div class="event-card upcoming flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1">
+<!-- Poster Top Image -->
+<div class="relative aspect-[16/10] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Futuristic cyberpunk city skyline at night with rainy neon reflections, holographic advertisements in dark slate blue and amber tones, gritty sci-fi cinematic scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2rjimsnIloW_MS3x8_czRDY1_IT42GGICdNx-MkQy43GgneQZgsAxtjvJuOTUuogQEfma4vqMxO9Ylwkjp5JNGSwMkilBZdK4p7zld63F3bkDsr3viJZLztSp1_ed5YHRPiq_lT65DzCQ8d1R5Q4QCwIFCAU9fTMUDhFXgFBZBkfB5SwKmGvMVtG79Qi_2Gwl6YPLkxYHVfKvHxWkU_bxs_PyW4cA1NuS7j9NGGuzYV1nX_nFSyk-hQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md">
+<span class="px-space-md py-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-sm text-label-sm rounded-full font-bold">
+                Fantascienza Distopica
+              </span>
+</div>
+<div class="absolute bottom-space-sm left-space-md right-space-md flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="inline-flex items-center gap-space-xs bg-surface-container-highest/90 px-space-sm py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px] text-secondary">calendar_today</span>
+                1 Giugno, 21:15
+              </span>
+<span class="inline-flex items-center gap-space-xs bg-surface-container-highest/90 px-space-sm py-1 rounded-md text-primary font-semibold">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                7 Film Segreti
+              </span>
+</div>
+</div>
+<!-- Body Content -->
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+                Cyberpunk &amp; Sci-Fi Dystopia
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+                Dall'anno 2019 di Blade Runner ai futuri neurali di Philip K. Dick. Sintetizzatori cupi e popcorn speziati alla paprika.
+              </p>
+</div>
+<!-- Host & Participants Stats -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container text-xs font-bold">
+                  L
+                </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Host: <strong>Leo</strong></span>
+</div>
+<div class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">group</span>
+<span class=""><strong>4</strong> partecipanti</span>
+</div>
+</div>
+<!-- Card Action -->
+<a class="w-full inline-flex items-center justify-center gap-space-xs py-space-sm px-space-md bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md font-bold rounded-lg transition-colors shadow-sm" data-path="dettaglio-serata-cyberpunk" href="#">
+<span class="">Proponi i tuoi Titoli</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 3: Cine-Pizza Risate all'Italiana (Conclusa/Archiviata) -->
+<div class="event-card completed flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 relative">
+<!-- Poster Top Image -->
+<div class="relative aspect-[16/10] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover grayscale-[30%]" data-alt="Classic vintage Italian trattoria table with artisanal pizza, checkered cloth, wine glasses and nostalgic black and white cinema reel on background, warm warm candlelit room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATnaGmNHyadzOZyDbt6Jb3TeHYkYYDXXBt8N0CYPOUpjyy4PnmqohDXvAVEw51muZZVQ9mYoPNLQgX0VDxzTVithn43H59EZD4bEZ_NNatyVhp1fvdEC1Dh3HzFcppc6eenhdqicxZ1ypc4orkzUYQFmcBN8-zBefteycRD0JeIHFwT2jqWhkSgp1LqQ9uErEmtDGrD1zY6bfQSbmVN5UEdl7ZT6x7Y1vJ-tBViHavbkBHBx4Vsv23Mw">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+<div class="absolute top-space-md left-space-md">
+<span class="px-space-md py-space-xs bg-surface-container-highest/90 text-on-surface font-label-sm text-label-sm rounded-full font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
+                Serata Conclusa
+              </span>
+</div>
+<!-- Winner Stamp Tag -->
+<div class="absolute bottom-space-sm left-space-md right-space-md flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="inline-flex items-center gap-space-xs bg-primary-container text-on-primary-container px-space-sm py-1 rounded-md font-bold">
+<span class="material-symbols-outlined text-[14px]">trophy</span>
+                Film Visto: Amici Miei
+              </span>
+<span class="inline-flex items-center gap-space-xs bg-surface-container-highest/90 px-space-sm py-1 rounded-md text-tertiary font-bold">
+                ★ 4.8 / 5.0
+              </span>
+</div>
+</div>
+<!-- Body Content -->
+<div class="p-space-lg flex-1 flex flex-col justify-between gap-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+                Cine-Pizza: Risate all'Italiana
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs line-clamp-2">
+                Sfida tra Monicelli, Manfredi e Villaggio. Dopo 3 manche di votazione spietata il capolavoro della supercazzola ha trionfato all'unanimità!
+              </p>
+</div>
+<!-- Host & Participants Stats -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant text-xs font-bold">
+                  S
+                </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Host: <strong>Samuele</strong></span>
+</div>
+<div class="inline-flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">how_to_vote</span>
+<span class=""><strong>9</strong> votanti</span>
+</div>
+</div>
+<!-- Card Action -->
+<a class="w-full inline-flex items-center justify-center gap-space-xs py-space-sm px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium rounded-lg transition-colors shadow-sm" data-path="archivio-film-visti" href="#">
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+<span class="">Leggi Recensioni del Salotto</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Interactive Callout: Sei il Padrone di Casa? -->
+<section class="max-w-7xl mx-auto px-gutter pb-space-xl">
+<div class="bg-gradient-to-r from-surface-container-low via-surface-container to-surface-container-low rounded-xl p-space-lg lg:p-space-xl shadow-2xl relative overflow-hidden">
+<!-- Ambient decorative shapes -->
+<div class="absolute -right-16 -bottom-16 w-80 h-80 bg-primary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10">
+<div class="lg:col-span-8 flex flex-col gap-space-sm">
+<div class="inline-flex items-center gap-space-xs text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">weekend</span>
+<span class="">Tocca a te ospitare</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">
+              Sei il padrone di casa del prossimo weekend?
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+              Organizza la tua serata cinema in 2 click: decidi il tema, condividi il link sul gruppo chat e guarda il caveau riempirsi di film senza dover gestire messaggi confusi o doppioni.
+            </p>
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="inline-flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Nessun account richiesto agli ospiti
+              </span>
+<span class="inline-flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Scrutinio segreto anti-spoiler
+              </span>
+<span class="inline-flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check</span>
+                Tabellone snack &amp; birre integrato
+              </span>
+</div>
+</div>
+<div class="lg:col-span-4 flex lg:justify-end">
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-space-sm px-space-xl py-space-md bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-xl transition-all duration-200 transform hover:-translate-y-0.5" data-path="organizza-serata" href="#">
+<span class="material-symbols-outlined text-[24px]">movie_edit</span>
+<span class="">Crea Serata Adesso</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  // Countdown Timer Microinteraction Simulation
+  (function() {
+    let hours = 2;
+    let minutes = 45;
+    let seconds = 12;
+
+    const elH = document.getElementById('countdown-hours');
+    const elM = document.getElementById('countdown-minutes');
+    const elS = document.getElementById('countdown-seconds');
+
+    if (!elH || !elM || !elS) return;
+
+    setInterval(function() {
+      if (seconds > 0) {
+        seconds--;
+      } else {
+        seconds = 59;
+        if (minutes > 0) {
+          minutes--;
+        } else {
+          minutes = 59;
+          if (hours > 0) {
+            hours--;
+          }
+        }
+      }
+
+      elH.textContent = String(hours).padStart(2, '0');
+      elM.textContent = String(minutes).padStart(2, '0');
+      elS.textContent = String(seconds).padStart(2, '0');
+    }, 1000);
+  })();
+
+  // Filter Buttons Interaction
+  (function() {
+    const filterContainer = document.getElementById('event-filters');
+    const cards = document.querySelectorAll('.event-card');
+    if (!filterContainer) return;
+
+    const buttons = filterContainer.querySelectorAll('.filter-btn');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Reset classes
+        buttons.forEach(b => {
+          b.classList.remove('bg-surface-container-high', 'text-primary', 'shadow-sm');
+          b.classList.add('text-on-surface-variant');
+        });
+        
+        // Active classes
+        btn.classList.add('bg-surface-container-high', 'text-primary', 'shadow-sm');
+        btn.classList.remove('text-on-surface-variant');
+
+        const filter = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          if (filter === 'all') {
+            card.style.display = 'flex';
+          } else if (filter === 'upcoming') {
+            card.style.display = card.classList.contains('upcoming') ? 'flex' : 'none';
+          } else if (filter === 'completed') {
+            card.style.display = card.classList.contains('completed') ? 'flex' : 'none';
+          }
+        });
+      });
+    });
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest mt-space-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)]"><div class="max-w-7xl mx-auto px-gutter py-space-xl"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-lg items-center justify-between pb-space-lg"><div class="md:col-span-6 flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">local_movies</span><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">CineSerata</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">Fatto con passione per gli amanti del cinema e dei divani comodi. Vota, prepara i popcorn e goditi il film misterioso.</p></div><div class="md:col-span-6 flex flex-wrap md:justify-end gap-space-lg"><nav class="flex flex-wrap items-center gap-space-lg font-label-md text-label-md" data-active-classes="text-primary font-semibold"><a aria-current="page" class="transition-colors text-primary font-semibold" data-path="tutte-le-serate" href="#">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="archivio-film-visti" href="#">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="come-funziona" href="#">Come Funziona</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-path="organizza-serata" href="#">Nuova Serata</a></nav></div></div><div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><p class="">© 2025 CineSerata. Tutti i diritti riservati ai cinefili da salotto.</p><div class="flex items-center gap-space-md"><span class="inline-flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[16px]">lock_clock</span><span class="">Secret Reveal Engine attivo</span></span></div></div></div></footer>
+
+
+
+</body></html>

@@ -1,55 +1,462 @@
 <!DOCTYPE html>
-<html lang="it">
+<html class="dark" lang="it">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Area organizzatore — Matteo's Cinema</title>
-<link rel="stylesheet" href="css/style.css" />
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="js/tailwind-config.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<title>CineSerata — Organizza Serata</title>
 </head>
-<body>
-
-<header class="top">
-  <div class="wrap">
-    <div>
-      <h1>Area organizzatore</h1>
-      <p class="tagline">Solo per chi organizza le serate.</p>
-    </div>
-    <nav class="top-links"><a href="index.html">Tutti gli eventi</a></nav>
-  </div>
-</header>
-
-<main class="wrap">
-
-  <section id="login-section">
-    <h2>Accedi</h2>
-    <label for="email">Email</label>
-    <input type="email" id="email" />
-    <label for="password">Password</label>
-    <input type="password" id="password" />
-    <button id="login-btn">Accedi</button>
-    <div id="login-error"></div>
-  </section>
-
-  <section id="admin-panel" style="display:none;">
-    <p><span class="pill" id="who"></span> <button class="secondary" id="logout-btn" style="margin-left:0.5rem;">Esci</button></p>
-
-    <h2>Crea un nuovo evento</h2>
-    <label for="title">Titolo</label>
-    <input type="text" id="title" placeholder="Es. Serata horror" maxlength="80" />
-    <label for="description">Descrizione (facoltativa)</label>
-    <textarea id="description" rows="3" placeholder="Qualche riga per invogliare i partecipanti"></textarea>
-    <label for="startAt">Data e ora</label>
-    <input type="datetime-local" id="startAt" />
-    <button id="create-btn">Crea evento</button>
-    <div id="create-status"></div>
-
-    <h2>Eventi esistenti</h2>
-    <ul class="plain" id="admin-events-list"><li>Carico…</li></ul>
-  </section>
-
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div id="top-ticker" class="w-full bg-surface-container-low/95 px-gutter py-space-xs" hidden><div class="max-w-7xl mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-sm overflow-hidden text-ellipsis whitespace-nowrap"><span class="flex h-2 w-2 rounded-full bg-secondary-container animate-pulse"></span><span class="text-on-surface font-medium">🍿 Prossima serata: <strong id="ticker-title" class="text-primary font-semibold">CineSerata</strong></span><span class="hidden sm:inline text-on-surface-variant">•</span><span id="ticker-eta" class="hidden sm:inline text-tertiary font-medium"></span></div><a id="ticker-link" class="hidden md:inline-flex items-center gap-space-xs text-primary hover:text-primary-fixed-dim transition-colors" href="index.html"><span class="">Entra nel salotto</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div></div><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm group" href="index.html"><img alt="CineSerata Logo" class="h-8 w-auto object-contain" src="assets/img/logo.png"><span class="font-headline-md text-headline-md text-on-surface tracking-tight group-hover:text-primary transition-colors">CineSerata</span></a><nav class="hidden lg:flex items-center gap-space-md" data-active-classes="bg-surface-container-high text-primary font-semibold rounded-lg px-space-md py-space-xs"><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="serate" href="index.html">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="archivio" href="index.html?filter=completed">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg px-space-md py-space-xs transition-colors" data-nav="come" href="index.html#come-funziona">Come Funziona</a></nav></div><div class="flex items-center gap-space-md"><a class="inline-flex items-center gap-space-xs px-space-lg py-space-sm bg-primary-container text-on-primary-container hover:bg-surface-tint hover:text-on-primary-fixed font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_28px_rgba(245,158,11,0.55)] transition-all duration-200 transform hover:-translate-y-0.5" data-nav="organizza" href="admin.html"><span class="material-symbols-outlined text-[20px]">movie</span><span class="">Organizza Serata</span></a><div id="user-chip" class="flex items-center gap-space-sm pl-space-xs" hidden><div class="w-8 h-8 rounded-full bg-surface-container-high ring-2 ring-primary/40 flex items-center justify-center text-primary shadow-sm"><span class="material-symbols-outlined text-[18px]">movie_filter</span></div><div class="hidden sm:flex flex-col"><span id="user-chip-name" class="font-label-sm text-label-sm text-on-surface leading-tight"></span><span id="user-chip-role" class="font-label-sm text-[10px] text-primary leading-tight font-bold tracking-wider uppercase">Host</span></div></div></div></div></header>
+<main class="w-full pt-28 bg-surface">
+<div class="flex flex-col w-full">
+<section id="login-section" class="max-w-md mx-auto w-full px-gutter py-space-xl">
+<div class="bg-surface-container-low p-space-lg rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">admin_panel_settings</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Accesso Host</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Area riservata all'organizzatore.</p>
+</div>
+</div>
+</div>
+<form class="flex flex-col gap-space-md pt-space-xs" id="login-form">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="email">
+<span class="material-symbols-outlined text-[16px] text-primary">mail</span>
+<span class="">Email</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="email" required="" type="email" autocomplete="username">
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">mail</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="password">
+<span class="material-symbols-outlined text-[16px] text-primary">key</span>
+<span class="">Password</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="password" required="" type="password" autocomplete="current-password">
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">key</span>
+</div>
+</div>
+<button class="w-full px-space-xl py-space-sm bg-primary-container hover:bg-surface-tint text-on-primary-container font-label-lg text-label-lg font-bold rounded-xl shadow-[0_0_24px_rgba(245,158,11,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-space-xs" id="login-btn" type="submit">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+<span class="">Entra nella Stanza Regia</span>
+</button>
+<div class="hidden p-space-sm rounded-xl bg-error-container/20 text-error font-label-md text-label-md flex items-center gap-space-sm mt-space-xs" id="login-error">
+<span class="material-symbols-outlined text-[20px]">error</span>
+<span class="" id="login-error-text"></span>
+</div>
+</form>
+</div>
+</section>
+<div id="admin-panel" hidden>
+<div class="w-full max-w-7xl mx-auto px-gutter py-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-lg">
+<div class="flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="index.html">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span class="">Serate Cinema</span>
+</a>
+<span class="">/</span>
+<span class="text-primary font-semibold">Console Host Privato</span>
+<span class="">/</span>
+<button class="hover:text-primary transition-colors" id="logout-btn" type="button">Esci</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span class="">Modalità Regista Attiva</span>
+</span>
+</div>
+</div>
+<div class="relative mb-space-xl p-space-lg sm:p-space-xl rounded-2xl bg-surface-container-low overflow-hidden shadow-xl">
+<div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute right-12 bottom-0 w-48 h-48 rounded-full bg-secondary-container/10 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-space-lg">
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold mb-space-xs">
+<span class="material-symbols-outlined text-[18px]">theater_comedy</span>
+<span class="">Stanza Regia • CineSerata Club</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight">
+            Pannello Organizzatore: Crea o Gestisci il tuo Evento Cinema
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+            Configura la sala, imposta il countdown per lo sblocco segreto delle proposte e condividi il biglietto d'invito con la tua cerchia di cinefili.
+          </p>
+</div>
+<div class="inline-flex p-1.5 rounded-xl bg-surface-container-lowest shadow-inner gap-1 self-start md:self-auto">
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md font-bold bg-primary-container text-on-primary-container shadow-md transition-all" id="tab-create" type="button">
+            Nuova Serata
+          </button>
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all flex items-center gap-1" id="tab-manage" type="button">
+<span class="">Gestisci Serata Attiva</span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<form class="flex flex-col gap-space-lg" id="cinema-event-form">
+<div class="p-space-lg rounded-2xl bg-surface-container shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-headline-sm text-headline-sm">1</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Titolo &amp; Atmosfera</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Obbligatorio</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between" for="event-title">
+<span class="">Titolo della Serata</span>
+<span class="text-on-surface-variant font-normal text-[11px]" id="title-char-count">0/60</span>
+</label>
+<div class="relative">
+<input class="w-full h-12 px-space-md rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline/60 font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all" id="event-title" maxlength="60" placeholder="Es. Maratona Quentin Tarantino, Notte Thriller Coreano, Risate Anni 90..." type="text">
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-2">
+<span class="">Tema • Genere Principale</span>
+<span class="text-on-surface-variant font-normal text-body-sm">(scegli l'atmosfera)</span>
+</label>
+<div class="flex flex-wrap gap-2" id="category-chips">
+<button class="chip-item active px-space-md py-space-xs rounded-full font-label-md text-label-md font-semibold bg-secondary-container text-on-secondary transition-all shadow-sm" data-cat="Horror" type="button">
+                  🩸 Horror
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Sci-Fi" type="button">
+                  🚀 Sci-Fi
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Cult d'Autore" type="button">
+                  📽️ Cult d'Autore
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Commedia" type="button">
+                  😂 Commedia
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Animazione" type="button">
+                  ✨ Animazione
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Trash &amp; Pizza" type="button">
+                  🍕 Trash &amp; Pizza
+                </button>
+<button class="chip-item px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant bg-surface-container-high hover:bg-surface-bright transition-all" data-cat="Azione" type="button">
+                  💥 Azione
+                </button>
+</div><div class="flex flex-col gap-space-sm pt-space-sm"><div class="flex items-center justify-between"><label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">image</span><span class="">Immagine di Sfondo / Copertina Serata</span></label><span class="font-label-sm text-label-sm text-primary bg-surface-container-high px-space-sm py-0.5 rounded-full">Consigliato per l'header</span></div><div class="p-space-md rounded-xl bg-surface-container-lowest border-0 shadow-inner flex flex-col sm:flex-row items-center gap-space-md justify-between"><div class="flex items-center gap-space-sm w-full sm:w-auto"><div class="relative w-28 h-16 rounded-lg overflow-hidden bg-surface-container-high shrink-0 shadow-sm"><img id="cover-thumb-img" src="assets/img/cover-default.jpg" alt="Miniatura copertina" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div><span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 text-[9px] font-label-sm text-primary font-bold">16:9</span></div><div class="flex flex-col gap-0.5 overflow-hidden"><div class="flex items-center gap-1.5"><span class="font-label-sm text-label-sm text-on-surface font-semibold truncate" id="cover-thumb-name">Copertina predefinita CineSerata</span></div></div></div></div><div class="flex flex-col gap-1.5"><label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5" for="event-cover-url"><span class="material-symbols-outlined text-[18px] text-primary">image</span><span class="">Indirizzo immagine (URL)</span></label><input class="w-full h-12 px-space-md rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline/60 font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all" id="event-cover-url" placeholder="https://… (lascia vuoto per la copertina predefinita)" type="text"></div></div>
+</div>
+</div>
+<div class="p-space-lg rounded-2xl bg-surface-container shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm pb-space-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-headline-sm text-headline-sm">2</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Data di Inizio &amp; Luogo Salotto</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5" for="event-date">
+<span class="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+<span class="">Data Serata</span>
+</label>
+<input class="w-full h-12 px-space-md rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all" id="event-date" type="date">
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5" for="event-time">
+<span class="material-symbols-outlined text-[18px] text-tertiary">schedule</span>
+<span class="">Ora di Inizio (Reveal)</span>
+</label>
+<input class="w-full h-12 px-space-md rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all" id="event-time" type="time">
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-start gap-space-sm shadow-inner">
+<span class="material-symbols-outlined text-primary text-[22px] mt-0.5">lock_clock</span>
+<div class="flex flex-col gap-0.5 text-on-surface">
+<span class="font-label-md text-label-md font-bold text-primary">Regola del Secret Reveal Engine:</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  ⏰ <strong>Questa sarà l'ora esatta in cui i film proposti dagli amici verranno rivelati automaticamente!</strong> Fino a quel minuto, tutti vedranno solo un misterioso lucchetto con conto alla rovescia.
+                </p>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5" for="event-location">
+<span class="material-symbols-outlined text-[18px] text-primary">pin_drop</span>
+<span class="">Luogo • Info Ritrovo • Istruzioni Salotto</span>
+</label>
+<input class="w-full h-12 px-space-md rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline/60 font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all" id="event-location" placeholder="es. A casa mia - Citofono 12B, portate qualcosa da bere o stuzzichini" type="text">
+</div>
+</div>
+<div class="p-space-lg rounded-2xl bg-surface-container shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm pb-space-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-headline-sm text-headline-sm">3</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Regole Proposte &amp; Descrizione</h2>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between">
+<span class="">Limite Proposte per Ospite</span>
+<span class="text-tertiary font-label-sm text-label-sm">Standard CineSerata</span>
+</label>
+<div class="flex items-center justify-between p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">video_library</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface block">Fino a 5 film per persona</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ogni ospite invitato può inserire fino a 5 pellicole segrete nel calderone</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between" for="event-desc">
+<span class="">Descrizione • Dress code • Note extra</span>
+<span class="text-on-surface-variant font-normal text-body-sm">Facoltativo</span>
+</label>
+<textarea class="w-full p-space-md rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline/60 font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary-container transition-all resize-none" id="event-desc" placeholder="Es. Portate snack a tema! Obbligatorio abbigliamento comodo. Iniziamo con birra ghiacciata e sveliamo il vincitore prima della sigla..." rows="3"></textarea>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-space-md pt-space-sm">
+<button class="w-full sm:flex-1 h-14 rounded-xl bg-primary-container text-on-primary-container hover:bg-surface-tint hover:text-on-primary-fixed font-headline-sm text-headline-sm font-bold flex items-center justify-center gap-space-sm shadow-[0_0_24px_rgba(245,158,11,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.6)] transition-all transform hover:-translate-y-0.5 active:translate-y-0" id="btn-publish" type="button">
+<span class="material-symbols-outlined text-[24px]">send</span>
+<span class="">Pubblica Serata Cinema</span>
+</button>
+<button class="w-full sm:w-auto h-14 px-space-xl rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-lg text-label-lg font-semibold flex items-center justify-center gap-space-xs transition-all" id="btn-draft" type="button">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">save</span>
+<span class="">Salva Bozza</span>
+</button>
+</div>
+</form>
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-lg flex flex-col gap-space-md mt-space-md" id="management-section" hidden>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-space-xs" for="manage-event-select">
+<span class="material-symbols-outlined text-[16px] text-primary">event</span>
+<span class="">Serata da gestire</span>
+</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-lowest text-on-surface px-space-md pl-11 rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container appearance-none cursor-pointer" id="manage-event-select"></select>
+<span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant text-[20px]">event</span>
+<span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px]">admin_panel_settings</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Strumenti Gestione Evento Attivo</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accessibile solo a te come creatore e Host</span>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-container/20 text-secondary-fixed-dim font-label-sm text-label-sm font-bold uppercase tracking-wider">
+              Control Room
+            </span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-sm shadow-inner">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">link</span>
+<span class="">Link Invito Segreto per il Salotto</span>
+</span>
+<span class="text-tertiary font-label-sm text-label-sm font-semibold">Accesso Proposte Aperto</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1.5 rounded-lg">
+<input class="bg-transparent border-0 text-on-surface-variant font-label-sm text-label-sm px-2 w-full outline-none select-all" id="invite-link-input" readonly="" type="text">
+<button class="px-space-md py-space-xs rounded-md bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-label-sm text-label-sm font-semibold transition-all flex items-center gap-1 shrink-0" id="btn-copy-link" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span class="">Copia Link</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs pt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">Condividi rapido:</span>
+<a id="invite-wa" class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-emerald-900/40 text-on-surface font-label-sm text-label-sm transition-all text-emerald-400 font-semibold" href="https://wa.me/" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span class="">WhatsApp</span>
+</a>
+<a id="invite-tg" class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-sky-900/40 text-on-surface font-label-sm text-label-sm transition-all text-sky-400 font-semibold" href="https://t.me/share/url" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span class="">Telegram</span>
+</a>
+<button class="inline-flex items-center gap-1.5 px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-all" id="btn-fast-qr" type="button">
+<span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+<span class="">QR Salotto</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<button class="h-12 px-space-md rounded-xl bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-space-xs transition-all shadow-sm" id="btn-edit-reveal" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">timer_pause</span>
+<span class="">Modifica orario reveal (+15m)</span>
+</button>
+<button class="h-12 px-space-md rounded-xl bg-surface-container-lowest hover:bg-secondary-container/20 text-secondary font-label-md text-label-md font-semibold flex items-center justify-center gap-space-xs transition-all" id="btn-delete-event" type="button">
+<span class="material-symbols-outlined text-secondary text-[20px]">delete_forever</span>
+<span class="">Elimina Evento Cinema</span>
+</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 flex flex-col gap-space-md lg:sticky lg:top-32">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="">Anteprima Ospiti in Tempo Reale</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-space-sm py-0.5 rounded-full">
+            Schermata Pre-Reveal
+          </span>
+</div>
+<div class="relative w-full rounded-2xl bg-surface-container-low overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.7)] flex flex-col">
+<div class="relative w-full h-56 bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover opacity-60 scale-105 hover:scale-100 transition-transform duration-700" id="preview-cover-img"  alt="" src="assets/img/cover-default.jpg">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
+<div class="absolute top-4 left-4 z-10">
+<span class="px-space-md py-1 rounded-full font-label-sm text-label-sm font-bold bg-secondary-container text-on-secondary shadow-lg flex items-center gap-1" id="preview-badge">
+<span class="">🩸</span>
+<span id="preview-badge-text" class="">Horror</span>
+</span>
+</div>
+<div id="preview-custom-bg" class="absolute bottom-4 right-4 z-10 hidden sm:flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-sm text-[11px] text-primary shadow" hidden><span class="material-symbols-outlined text-[13px] text-emerald-400">wallpaper</span><span class="">Sfondo personalizzato attivo</span></div><div class="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-sm text-label-sm text-on-surface shadow">
+<span class="material-symbols-outlined text-primary text-[14px]">movie_edit</span>
+<span class="">Host: <strong id="preview-host">Host</strong></span>
+</div>
+<div class="absolute bottom-4 left-4 right-4 z-10">
+<h4 class="font-headline-md text-headline-md text-on-surface font-bold leading-tight drop-shadow-md" id="preview-title">Titolo Serata Cinema</h4>
+</div>
+</div>
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="grid grid-cols-2 gap-space-sm p-space-md rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm shadow-inner">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+<span class="font-label-sm text-label-sm font-semibold truncate" id="preview-date-text">Data da definire</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">lock_clock</span>
+<span class="font-label-sm text-label-sm font-semibold truncate" id="preview-time-text">Reveal da definire</span>
+</div>
+<div class="col-span-2 flex items-center gap-space-xs pt-1 text-on-surface-variant font-label-sm text-label-sm truncate">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0">location_on</span>
+<span class="truncate" id="preview-location-text">Salotto da definire</span>
+</div>
+</div>
+<div class="relative p-space-md rounded-xl bg-surface-container-lowest overflow-hidden shadow-inner flex flex-col items-center justify-center text-center py-space-lg">
+<div class="absolute inset-0 bg-gradient-to-b from-primary-container/5 via-transparent to-primary/5 pointer-events-none"></div>
+<div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center text-primary-container shadow-[0_0_20px_rgba(245,158,11,0.3)] mb-space-sm relative">
+<span class="material-symbols-outlined text-[28px] animate-pulse">lock</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-secondary-container animate-ping"></span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">
+                Vault Proposte Sigillato
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs mt-0.5 mb-space-md">
+                I titoli proposti dal gruppo sono protetti da crittografia fino all'orario di inizio evento.
+              </p>
+<div class="flex items-center gap-2 mb-2 font-display-hero text-[22px] text-primary" style="font-variant-numeric: tabular-nums;">
+<div class="flex flex-col items-center">
+<span class="bg-surface-container px-2.5 py-1 rounded-lg font-bold text-on-surface" id="preview-countdown-hours">00</span>
+<span class="text-[9px] font-label-sm uppercase tracking-widest text-on-surface-variant mt-1">Ore</span>
+</div>
+<span class="text-primary font-bold -mt-3">:</span>
+<div class="flex flex-col items-center">
+<span class="bg-surface-container px-2.5 py-1 rounded-lg font-bold text-on-surface" id="preview-countdown-minutes">00</span>
+<span class="text-[9px] font-label-sm uppercase tracking-widest text-on-surface-variant mt-1">Min</span>
+</div>
+<span class="text-primary font-bold -mt-3">:</span>
+<div class="flex flex-col items-center">
+<span class="bg-surface-container px-2.5 py-1 rounded-lg font-bold text-on-surface" id="preview-countdown-seconds">00</span>
+<span class="text-[9px] font-label-sm uppercase tracking-widest text-on-surface-variant mt-1">Sec</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<button class="w-full h-11 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-2 cursor-not-allowed opacity-75" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="">Aggiungi i tuoi film (Max 5)</span>
+</button>
+<div class="flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant px-1">
+<span class="">Partecipanti attuali: <span id="preview-participants">0</span> confermati</span>
+<span class="text-primary"><span id="preview-films">0</span> film in cassaforte</span>
+</div>
+</div>
+<div class="pt-space-xs border-t-0 bg-surface-container/50 p-space-sm rounded-lg flex items-center gap-2 text-[12px] font-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-[16px]">info</span>
+<span class="">Le modifiche al form aggiornano istantaneamente questa vista.</span>
+</div>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex items-start gap-space-sm shadow-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">tips_and_updates</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Consiglio del Cinefilo</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Fissa l'orario di reveal con almeno 30 minuti di anticipo rispetto all'orario in cui pensi di premere "Play". Lascia al gruppo il tempo di votare e gustare l'aperitivo!
+            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center p-gutter bg-surface-container-lowest/80 backdrop-blur-md hidden transition-opacity" id="delete-modal">
+<div class="relative w-full max-w-md p-space-lg rounded-2xl bg-surface-container shadow-2xl flex flex-col gap-space-md transform scale-95 transition-transform duration-200" id="delete-modal-box">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/20 flex items-center justify-center text-secondary shrink-0 shadow-[0_0_16px_rgba(204,0,60,0.3)]">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Eliminare la Serata?</h3>
+<span class="font-label-sm text-label-sm text-secondary">Azione irreversibile riservata all'Host</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Stai per cancellare definitivamente <strong class="text-on-surface font-semibold" id="modal-event-name">Questa Serata</strong>. Tutte le <span id="modal-film-count">0</span> proposte caricate dagli amici e i voti andranno persi.
+      </p>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-lg py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md font-semibold transition-all" id="btn-cancel-delete" type="button">
+          Annulla
+        </button>
+<button class="px-space-lg py-2.5 rounded-xl bg-secondary-container hover:bg-red-700 text-on-secondary font-label-md text-label-md font-bold transition-all shadow-[0_0_16px_rgba(204,0,60,0.4)]" id="btn-confirm-delete" type="button">
+          Sì, Elimina Definitivamente
+        </button>
+</div>
+</div>
+</div>
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-space-xs px-space-lg py-space-md rounded-xl bg-surface-container-high text-on-surface shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-primary text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-message">Link copiato negli appunti!</span>
+</div>
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-md p-space-md" id="qr-modal">
+<div class="w-full max-w-xs flex flex-col items-center p-space-lg rounded-2xl bg-surface-container gap-space-md shadow-2xl">
+<div class="flex items-center justify-between w-full">
+<span class="font-headline-sm text-headline-sm text-on-surface">QR Code Salotto</span>
+<button class="text-on-surface-variant hover:text-on-surface" id="qr-close" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4 rounded-xl bg-white flex items-center justify-center">
+<img alt="QR Code invito" class="w-48 h-48" id="qr-img" src="">
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">Fai inquadrare dal salotto per votare direttamente dallo smartphone!</p>
+<button class="w-full py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md" id="qr-close-btn" type="button">
+        Chiudi
+      </button>
+</div>
+</div>
+</div>
+</div>
 </main>
-
-<footer class="bottom">Matteo's Cinema — organizzato tra amici</footer>
+<footer class="w-full bg-surface-container-lowest mt-space-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)]"><div class="max-w-7xl mx-auto px-gutter py-space-xl"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-lg items-center justify-between pb-space-lg"><div class="md:col-span-6 flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">local_movies</span><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">CineSerata</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">Fatto con passione per gli amanti del cinema e dei divani comodi. Vota, prepara i popcorn e goditi il film misterioso.</p></div><div class="md:col-span-6 flex flex-wrap md:justify-end gap-space-lg"><nav class="flex flex-wrap items-center gap-space-lg font-label-md text-label-md" data-active-classes="text-primary font-semibold"><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="serate" href="index.html">Tutte le Serate</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="archivio" href="index.html?filter=completed">Archivio Film Visti</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="come" href="index.html#come-funziona">Come Funziona</a><a class="text-on-surface-variant hover:text-on-surface transition-colors" data-nav="organizza" href="admin.html">Nuova Serata</a></nav></div></div><div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><p class="">© <span id="footer-year">2025</span> CineSerata. Tutti i diritti riservati ai cinefili da salotto.</p><div class="flex items-center gap-space-md"><span class="inline-flex items-center gap-space-xs text-primary"><span class="material-symbols-outlined text-[16px]">lock_clock</span><span class="">Secret Reveal Engine attivo</span></span></div></div></div></footer>
+<nav id="mobile-nav" class="lg:hidden fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.5)]" data-active-classes="text-primary"><div class="flex items-center justify-around h-16 px-space-xs"><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" data-nav="serate" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">explore</span><span class="font-label-sm text-label-sm mt-0.5">Bacheca</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" id="mobile-nav-serata" data-nav="serata" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">theaters</span><span class="font-label-sm text-label-sm mt-0.5">Serata</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" id="mobile-nav-vota" data-nav="vota" href="index.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">local_fire_department</span><span class="font-label-sm text-label-sm mt-0.5">Vota</span></a><a class="group flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-space-xs text-on-surface-variant transition-colors" data-nav="organizza" href="admin.html"><span class="material-symbols-outlined text-[24px] group-hover:text-primary transition-colors">add_circle</span><span class="font-label-sm text-label-sm mt-0.5">Organizza</span></a></div></nav>
 
 <script type="module" src="js/admin.js"></script>
 </body>
