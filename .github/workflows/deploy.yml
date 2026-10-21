@@ -28,13 +28,13 @@ jobs:
         run: |
           cat > js/firebase-config.js <<EOF
           export const firebaseConfig = {
-            apiKey: "${{ secrets.API_KEY }}",
-            authDomain: "${{ secrets.AUTH_DOMAIN }}",
-            projectId: "${{ secrets.PROJECT_ID }}",
-            storageBucket: "${{ secrets.STORAGE_BUCKET }}",
-            messagingSenderId: "${{ secrets.MESSAGING_SENDER_ID }}",
-            appId: "${{ secrets.APP_ID }}",
-            measurementId: "${{ secrets.MEASUREMENT_ID }}"
+            apiKey: "${{ secrets.APIKEY }}",
+            authDomain: "${{ secrets.AUTHDOMAIN }}",
+            projectId: "${{ secrets.PROJECTID }}",
+            storageBucket: "${{ secrets.STORAGEBUCKET }}",
+            messagingSenderId: "${{ secrets.MESSAGINGSENDERID }}",
+            appId: "${{ secrets.APPID }}",
+            measurementId: "${{ secrets.MEASUREMENTID }}"
           };
           EOF
 
