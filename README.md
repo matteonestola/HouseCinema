@@ -29,13 +29,15 @@ In **Settings → Secrets and variables → Actions → New repository secret** 
 
 | Campo `firebaseConfig` | Nome del secret        |
 | ----------------------- | ----------------------- |
-| `apiKey`                 | `API_KEY`                |
-| `authDomain`              | `AUTH_DOMAIN`             |
-| `projectId`               | `PROJECT_ID`              |
-| `storageBucket`           | `STORAGE_BUCKET`          |
-| `messagingSenderId`       | `MESSAGING_SENDER_ID`     |
-| `appId`                   | `APP_ID`                  |
-| `measurementId`           | `MEASUREMENT_ID`          |
+| `apiKey`                 | `APIKEY`                |
+| `authDomain`              | `AUTHDOMAIN`             |
+| `projectId`               | `PROJECTID`              |
+| `storageBucket`           | `STORAGEBUCKET`          |
+| `messagingSenderId`       | `MESSAGINGSENDERID`     |
+| `appId`                   | `APPID`                  |
+| `measurementId`           | `MEASUREMENTID`          |
+
+I nomi devono coincidere **esattamente** (lettera per lettera) con quelli letti da `.github/workflows/deploy.yml`: GitHub Actions non segnala un errore se il nome non corrisponde, sostituisce semplicemente il secret con una stringa vuota.
 
 Il workflow `.github/workflows/deploy.yml` genera `js/firebase-config.js` a partire da questi secret ad ogni deploy: il file nel repository contiene solo segnaposto.
 
