@@ -21,7 +21,23 @@ Sito statico (HTML/CSS/JS) per organizzare serate cinema tra amici, pubblicabile
 ## 2. Collega il sito al tuo progetto Firebase
 
 1. Nella console Firebase vai su **Impostazioni progetto** (icona ingranaggio) → scorri fino a "Le tue app" → clicca l'icona `</>` per creare una "App web" (basta un nickname qualsiasi, non serve Hosting).
-2. Ti mostrerà un oggetto `firebaseConfig`: copia i valori dentro `js/firebase-config.js` in questo progetto, al posto dei segnaposto `INCOLLA_QUI...`.
+2. Ti mostrerà un oggetto `firebaseConfig`: **non va incollato in `js/firebase-config.js`**, va invece salvato come secret del repository GitHub (vedi sotto), per non avere le chiavi in chiaro nel codice.
+
+### Secret del repository
+
+In **Settings → Secrets and variables → Actions → New repository secret** crea un secret per ciascun valore di `firebaseConfig`, con questi nomi (uguali ai campi ma in maiuscolo):
+
+| Campo `firebaseConfig` | Nome del secret        |
+| ----------------------- | ----------------------- |
+| `apiKey`                 | `API_KEY`                |
+| `authDomain`              | `AUTH_DOMAIN`             |
+| `projectId`               | `PROJECT_ID`              |
+| `storageBucket`           | `STORAGE_BUCKET`          |
+| `messagingSenderId`       | `MESSAGING_SENDER_ID`     |
+| `appId`                   | `APP_ID`                  |
+| `measurementId`           | `MEASUREMENT_ID`          |
+
+Il workflow `.github/workflows/deploy.yml` genera `js/firebase-config.js` a partire da questi secret ad ogni deploy: il file nel repository contiene solo segnaposto.
 
 ## 3. Imposta le regole di sicurezza
 
@@ -42,10 +58,11 @@ poi vai su `http://localhost:8000`. (Aprire `index.html` direttamente col doppio
 ## 5. Pubblica su GitHub Pages
 
 1. Crea un repository su GitHub (es. `cinema-di-casa`) e carica tutti i file di questa cartella nella radice del repository.
-2. Vai su **Settings → Pages** del repository.
-3. In "Source" scegli il branch principale (es. `main`) e cartella `/ (root)`, poi salva.
-4. Dopo qualche minuto il sito sarà online su `https://TUO-USERNAME.github.io/cinema-di-casa/`.
-5. Da quell'indirizzo, tu vai su `.../admin.html` per creare eventi; condividi invece il link della home o di un evento specifico con i tuoi amici.
+2. Crea i secret Firebase come descritto al punto 2.
+3. Vai su **Settings → Pages** del repository e in "Build and deployment → Source" scegli **GitHub Actions** (non "Deploy from a branch").
+4. Fai un push su `main` (o lancia manualmente il workflow da "Actions → Deploy to GitHub Pages → Run workflow"): il workflow genera `js/firebase-config.js` dai secret e pubblica il sito.
+5. Dopo qualche minuto il sito sarà online su `https://TUO-USERNAME.github.io/cinema-di-casa/`.
+6. Da quell'indirizzo, tu vai su `.../admin.html` per creare eventi; condividi invece il link della home o di un evento specifico con i tuoi amici.
 
 ## Struttura del progetto
 
