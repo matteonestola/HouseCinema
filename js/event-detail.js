@@ -3,6 +3,7 @@ import { db, qs, ensureAnonymousUser, isAdminUser, toDate, eventPhase } from "./
 import { initLayout } from "./layout.js";
 import { initPre } from "./event-pre.js";
 import { initLive } from "./event-live.js";
+import { initEventsBrowse } from "./events-browse.js";
 
 const eventId = qs("id");
 const ctx = { eventId, ev: null, user: null, isAdmin: false, participants: new Map(), me: null, route: null };
@@ -16,9 +17,18 @@ const $ = (id) => document.getElementById(id);
 initLayout({ active: "serata" });
 
 function showNotFound() {
+  $("view-list").hidden = true;
   $("view-pre").hidden = true;
   $("view-live").hidden = true;
   $("not-found").hidden = false;
+}
+
+function showList() {
+  $("not-found").hidden = true;
+  $("view-pre").hidden = true;
+  $("view-live").hidden = true;
+  $("view-list").hidden = false;
+  initEventsBrowse();
 }
 
 function route() {
@@ -67,7 +77,7 @@ function notifyParticipants() {
 
 async function init() {
   if (!eventId) {
-    showNotFound();
+    showList();
     return;
   }
   try {
