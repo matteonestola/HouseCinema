@@ -37,6 +37,52 @@ function initUserChip() {
   });
 }
 
+const COME_FUNZIONA_KEY = "cineserata:hideComeFunziona";
+
+function initComeFunzionaModal() {
+  const modal = document.getElementById("come-funziona-modal");
+  if (!modal) return;
+  const checkbox = document.getElementById("come-funziona-dont-show");
+
+  const close = () => modal.classList.add("hidden");
+  const open = () => {
+    if (checkbox) checkbox.checked = false;
+    modal.classList.remove("hidden");
+  };
+
+  document.getElementById("come-funziona-close")?.addEventListener("click", close);
+  document.getElementById("come-funziona-ok")?.addEventListener("click", () => {
+    if (checkbox?.checked) {
+      try {
+        localStorage.setItem(COME_FUNZIONA_KEY, "1");
+      } catch (e) {
+        console.warn("localStorage non disponibile", e);
+      }
+    }
+    close();
+  });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) close();
+  });
+  document.querySelectorAll('[data-open-modal="come-funziona"]').forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      open();
+    });
+  });
+
+  let hidden = false;
+  try {
+    hidden = localStorage.getItem(COME_FUNZIONA_KEY) === "1";
+  } catch (e) {
+    console.warn("localStorage non disponibile", e);
+  }
+  if (!hidden) open();
+}
+
 function initTopTicker() {
   const ticker = document.getElementById("top-ticker");
   const title = document.getElementById("ticker-title");
@@ -50,8 +96,8 @@ function initTopTicker() {
   function paint() {
     if (!next) {
       if (ticker) ticker.hidden = true;
-      if (navSerata) navSerata.href = "index.html";
-      if (navVota) navVota.href = "index.html";
+      if (navSerata) navSerata.href = "event.html";
+      if (navVota) navVota.href = "event.html";
       return;
     }
     const href = "event.html?id=" + encodeURIComponent(next.id);
@@ -87,4 +133,5 @@ export function initLayout({ active } = {}) {
   if (active) setActiveNav(active);
   initUserChip();
   initTopTicker();
+  initComeFunzionaModal();
 }
