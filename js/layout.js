@@ -23,8 +23,12 @@ export function setActiveNav(active) {
 
 function initUserChip() {
   const chip = document.getElementById("user-chip");
+  const organizza = document.getElementById("header-organizza");
+  const navOrganizza = document.getElementById("mobile-nav-organizza");
   if (!chip) return;
   onAuthStateChanged(auth, (user) => {
+    if (organizza) organizza.hidden = !isAdminUser(user);
+    if (navOrganizza) navOrganizza.hidden = !isAdminUser(user);
     if (isAdminUser(user)) {
       const name = document.getElementById("user-chip-name");
       const role = document.getElementById("user-chip-role");
@@ -37,35 +41,46 @@ function initUserChip() {
   });
 }
 
-const COME_FUNZIONA_KEY = "cineserata:hideComeFunziona";
-
 function initComeFunzionaModal() {
   const modal = document.getElementById("come-funziona-modal");
   if (!modal) return;
-  const checkbox = document.getElementById("come-funziona-dont-show");
+  let lastFocus = null;
 
-  const close = () => modal.classList.add("hidden");
+  const close = () => {
+    modal.classList.add("hidden");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  };
   const open = () => {
-    if (checkbox) checkbox.checked = false;
+    lastFocus = document.activeElement;
     modal.classList.remove("hidden");
+    const ok = document.getElementById("come-funziona-ok");
+    if (ok) ok.focus();
   };
 
   document.getElementById("come-funziona-close")?.addEventListener("click", close);
-  document.getElementById("come-funziona-ok")?.addEventListener("click", () => {
-    if (checkbox?.checked) {
-      try {
-        localStorage.setItem(COME_FUNZIONA_KEY, "1");
-      } catch (e) {
-        console.warn("localStorage non disponibile", e);
-      }
-    }
-    close();
-  });
+  document.getElementById("come-funziona-ok")?.addEventListener("click", close);
   modal.addEventListener("click", (e) => {
     if (e.target === modal) close();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) close();
+    if (modal.classList.contains("hidden")) return;
+    if (e.key === "Escape") {
+      close();
+      return;
+    }
+    if (e.key !== "Tab") return;
+    const items = [...modal.querySelectorAll("button, a[href]")];
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
   document.querySelectorAll('[data-open-modal="come-funziona"]').forEach((el) => {
     el.addEventListener("click", (e) => {
@@ -73,14 +88,6 @@ function initComeFunzionaModal() {
       open();
     });
   });
-
-  let hidden = false;
-  try {
-    hidden = localStorage.getItem(COME_FUNZIONA_KEY) === "1";
-  } catch (e) {
-    console.warn("localStorage non disponibile", e);
-  }
-  if (!hidden) open();
 }
 
 function initTopTicker() {
@@ -90,24 +97,42 @@ function initTopTicker() {
   const link = document.getElementById("ticker-link");
   const navSerata = document.getElementById("mobile-nav-serata");
   const navVota = document.getElementById("mobile-nav-vota");
+  const dot = document.getElementById("ticker-dot");
+  const noTicker = document.body.hasAttribute("data-no-ticker"); // la home ha gia' la card della serata
   let next = null;
   let timer = null;
+
+  // "Vota" ha senso solo a serata in corso
+  function setVota(on) {
+    if (!navVota) return;
+    navVota.classList.toggle("opacity-40", !on);
+    navVota.classList.toggle("pointer-events-none", !on);
+    navVota.setAttribute("aria-disabled", on ? "false" : "true");
+    navVota.tabIndex = on ? 0 : -1;
+  }
 
   function paint() {
     if (!next) {
       if (ticker) ticker.hidden = true;
       if (navSerata) navSerata.href = "event.html";
       if (navVota) navVota.href = "event.html";
+      setVota(false);
       return;
     }
     const href = "event.html?id=" + encodeURIComponent(next.id);
-    if (ticker) ticker.hidden = false;
+    if (ticker) ticker.hidden = noTicker;
     if (title) title.textContent = next.title;
     const phase = eventPhase(next);
+    if (dot) {
+      dot.classList.toggle("bg-secondary-container", phase === "live");
+      dot.classList.toggle("animate-pulse", phase === "live");
+      dot.classList.toggle("bg-primary", phase !== "live");
+    }
     if (eta) eta.textContent = phase === "live" ? "In corso ora" : "Inizio tra " + timeUntilLabel(toDate(next.startAt));
     if (link) link.href = href;
     if (navSerata) navSerata.href = href;
     if (navVota) navVota.href = href + "#vota";
+    setVota(phase === "live");
   }
 
   const q = query(collection(db, "events"), where("status", "==", "published"));

@@ -174,7 +174,7 @@ Palette scura monocroma-calda: inchiostro blu per le superfici, ambra per la luc
 - **Ambra Calda hover** (`#ffb95f`, `surface-tint`): hover dei bottoni primari e punto medio del gradiente del titolo hero.
 
 ### Secondary
-- **Rosso Spia Live** (`#cc003c`, `secondary-container`): puntino pulsante "live", secondi del countdown, tappa 3 di Come Funziona.
+- **Rosso Spia Live** (`#cc003c`, `secondary-container`): puntino pulsante e etichetta di stato solo quando la serata è live, tappa 3 di Come Funziona.
 - **Rosa Cipria** (`#ffb3b6`, `secondary`): etichette testuali sul rosso (es. "In Programma Questa Settimana").
 
 ### Tertiary
@@ -182,7 +182,7 @@ Palette scura monocroma-calda: inchiostro blu per le superfici, ambra per la luc
 
 ### Neutral
 - **Buio di Sala** (`#10131a`, `surface`/`background`): sfondo pagina.
-- **Quinta Nera** (`#0b0e14`, `surface-container-lowest`): header, footer, bottom-nav, vani incassati (countdown box).
+- **Quinta Nera** (`#0b0e14`, `surface-container-lowest`): header, footer, bottom-nav.
 - **Strati Inchiostro** (`#191c22` → `#1d2026` → `#272a31` → `#32353c`): `container-low`, `container`, `high`, `highest`; card, chip, tile, hover.
 - **Testo Pergamena** (`#e1e2eb`, `on-surface`): testo primario.
 - **Testo Seppia** (`#d8c3ad`, `on-surface-variant`): testo secondario e label.
@@ -191,7 +191,7 @@ Palette scura monocroma-calda: inchiostro blu per le superfici, ambra per la luc
 ### Named Rules
 **The One Lamp Rule.** L'ambra è l'unica luce: compare su CTA, countdown, stato attivo e icone chiave. Se tutto è ambra, niente è illuminato.
 
-**The Live Red Rule.** Il rosso `secondary-container` significa "sta succedendo adesso" (spia live, secondi). Mai decorativo, mai per bottoni generici.
+**The Live Red Rule.** Il rosso `secondary-container` significa "sta succedendo adesso": compare solo quando la serata è live (spia, etichetta di stato, puntino del ticker). Il countdown di una serata futura è ambra. Mai decorativo, mai per bottoni generici.
 
 **The No-Line Rule.** Le superfici si separano per salto di tono, non per bordi. I fili (`outline-variant` ≤ 20% opacità) sono solo divisori interni.
 
@@ -204,7 +204,7 @@ Palette scura monocroma-calda: inchiostro blu per le superfici, ambra per la luc
 **Character:** Space Grotesk è geometrico e leggermente tecnico, da insegna di sala; Plus Jakarta Sans è morbida e leggibile, amichevole su schermo piccolo.
 
 ### Hierarchy
-- **Display Hero** (700, 56px / 36px mobile, 64/44): titolo della Bacheca, con gradiente ambra→oro su una frase.
+- **Display Hero** (700, 56px / 36px mobile, 64/44): riservato a stati di apertura senza serata; la Bacheca oggi usa Headline LG come saluto di una riga, con enfasi in `primary` e senza gradiente sul testo.
 - **Headline LG** (600, 32px / 26px mobile): titolo serata, titoli di sezione-card.
 - **Headline MD** (600, 24px): wordmark nell'header, titoli modali.
 - **Headline SM** (500, 20px): titoli di blocco, "Caveau Sigillato".
@@ -226,7 +226,7 @@ Sistema ibrido: la profondità primaria è **tonale** (da `surface` a `surface-c
 - **Scheda** (`shadow-2xl`): card in evidenza su fondo scuro.
 - **Header/footer** (`0 1px 8px rgba(0,0,0,0.5)` / `0 -1px 12px rgba(0,0,0,0.6)`): separano le barre fisse senza bordo.
 - **Glow CTA** (`0 0 20px rgba(245,158,11,0.35)` → `0 0 28px rgba(245,158,11,0.55)` in hover): solo sul bottone primario dell'header.
-- **Luce di sfondo** (cerchi `blur-[140px]` ambra al 15% e rosso al 10%): atmosfera dietro hero, mai sopra il contenuto.
+- **Luce di sfondo** (cerchi `blur-[140px]` e `blur-[150px]` in ambra al 15% e al 10%): atmosfera dietro hero, mai sopra il contenuto.
 - **Vetro** (`backdrop-blur-xl` su barre al 85–90%): header, bottom-nav, overlay modali.
 
 ### Named Rules
@@ -250,7 +250,7 @@ Angoli morbidi ma non gonfi: bottoni e card `rounded-xl` (0.75rem), tile interni
 
 ### Cards / Containers
 - **Corner Style:** `rounded-xl`.
-- **Background:** `surface-container-low`; vani incassati su `surface-container-lowest` con `shadow-inner`.
+- **Background:** `surface-container-low`; senza contenitori annidati: i gruppi interni si separano con spazio o un filo `outline-variant/20`.
 - **Shadow Strategy:** `shadow-2xl` solo sulla card in evidenza.
 - **Border:** nessuno.
 - **Internal Padding:** `space-lg` (1.5rem), `space-md` per tile.
@@ -264,7 +264,7 @@ Nessun componente di input documentato in Bacheca; i campi si trovano in `admin.
 - **Ticker:** striscia `surface-container-low/95` con puntino rosso pulsante e ETA in `tertiary`.
 
 ### Caveau (componente firma)
-Lo stato sigillato di una serata: copertina con gradiente scuro, lucchetto in cerchio vetro `surface-container-lowest/80`, titolo "Caveau Sigillato" e conteggio titoli segreti in ambra. Sotto, il countdown a tre tile (ORE/MIN ambra, SEC rosso) in vano incassato.
+Lo stato sigillato di una serata: copertina con scrim leggero, lucchetto in cerchio vetro `surface-container-lowest/80`, titolo "Caveau Sigillato" e conteggio dei titoli segreti in ambra. Da `sm` in su una fila di tagliandi (`confirmation_number`, uno per film proposto, solo conteggio, max 8) dice quante proposte ci sono senza svelarle. Su mobile la copertina è un banner basso (3:1) con lucchetto e testo affiancati. Il lucchetto non pulsa: a serata live si apre una sola volta (`unlock-pop`, 0,7 s). Il countdown (`GIORNI/ORE/MIN` oltre 48 ore, poi `ORE/MIN/SEC`) sta nella card sotto un filo `outline-variant/20`, senza vano né tile.
 
 ### Modale "Come Funziona"
 Overlay `surface-container-lowest/80` + blur, pannello `rounded-2xl` su `surface-container-low`, tre passi numerati con badge colorati (ambra, oro, rosso).

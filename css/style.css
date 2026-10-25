@@ -9,6 +9,22 @@
 }
 .animate-fade-in { animation: fade-in 0.25s ease-out both; }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* sblocco del caveau: una sola volta, al passaggio a live */
+@keyframes unlock-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+.unlock-pop { animation: unlock-pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1 both; }
+
 /* spazio per la bottom nav mobile */
 @media (max-width: 1023px) {
   body { padding-bottom: 4rem; }

@@ -11,6 +11,7 @@ let pre = null;
 let live = null;
 let routeTimer = null;
 let scheduledFor = 0;
+let proponiDone = false;
 
 const $ = (id) => document.getElementById(id);
 
@@ -40,6 +41,12 @@ function route() {
     $("view-pre").hidden = false;
     if (!pre) pre = initPre(ctx);
     else pre.onEvent();
+    // "Partecipa & Proponi" dalla home: porta al modulo di partecipazione
+    if (location.hash === "#proponi" && !proponiDone) {
+      proponiDone = true;
+      const target = $("rsvp-form");
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
     // passaggio automatico a LIVE allo scoccare di startAt
     const start = toDate(ctx.ev.startAt);
     if (start && scheduledFor !== start.getTime()) {
