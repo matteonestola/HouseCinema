@@ -13,7 +13,8 @@ import {
   formatMetaDate,
   coverOf,
   genreEmoji,
-  waitForUser
+  waitForUser,
+  avatarHtml
 } from "./app.js";
 import { initLayout } from "./layout.js";
 import { HOST_NAME, DEFAULT_COVER, MAX_FILMS } from "./site-config.js";
@@ -312,7 +313,7 @@ function renderFeatured(item) {
             .map((p) => {
               const star = p.uid === ev.createdBy ? ' <span class="text-primary font-bold text-xs" aria-hidden="true">★</span><span class="sr-only"> host</span>' : "";
               const you = p.uid === myUid ? ' <span class="text-primary">(tu)</span>' : "";
-              const avatar = p.avatar ? `<span aria-hidden="true">${escapeHtml(p.avatar)}</span>` : '<span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></span>';
+              const avatar = p.avatar ? `<span class="inline-flex items-center justify-center h-5 w-5 shrink-0 overflow-hidden rounded-full" aria-hidden="true">${avatarHtml(p.avatar)}</span>` : '<span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></span>';
               return `<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">${avatar} ${escapeHtml(p.nickname)}${star}${you}</span>`;
             })
             .join("")
