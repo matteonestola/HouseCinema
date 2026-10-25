@@ -15,8 +15,9 @@ File: `firestore.rules`. Schema descritto in `cineserata-map`. Regole attuali (r
 1. **Non indebolire** il vincolo "film altrui visibili solo da `startAt`" né "solo admin scrive eventi".
 2. Ogni campo nuovo su un documento con `hasOnly([...])` (participants, proposals, votes) va aggiunto alla lista, altrimenti la scrittura fallisce con `permission-denied`.
 3. `ADMIN_UID` deve essere identico in `firestore.rules` (funzione `isAdmin`) e `js/site-config.js`.
-4. Le query client devono rispettare le regole: niente `getDocs(proposals)` prima di `startAt`; bacheca filtra per `status == 'published'`.
+4. Le query client devono rispettare le regole: niente `getDocs(proposals)` prima di `startAt`; bacheca filtra per `status == 'published'` e legge `participants` (pubblici) con `onSnapshot` solo per la serata in evidenza. Se restringi la lettura di `participants`, la Bacheca (lista, conteggi, CTA personalizzato) smette di funzionare: mostra "Non riesco a caricare chi partecipa".
 5. Nessun indice composto: ordina lato client.
+6. `coverUrl` non è validato dalle regole (URL esterno o percorso `background_img/…`): la validazione sta in `js/admin.js`.
 
 ## Procedura
 1. Modifica `firestore.rules` **e** il codice che scrive/legge (vedi skill di sezione).

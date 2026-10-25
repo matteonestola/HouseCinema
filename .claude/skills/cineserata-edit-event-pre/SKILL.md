@@ -5,7 +5,7 @@ description: Modificare la vista PRE del dettaglio evento (prima dell'inizio): h
 
 # Dettaglio evento, fase PRE (`event.html#view-pre` + `js/event-pre.js`)
 
-`event-detail.js` decide la vista (`route()`): fase `upcoming` → mostra `#view-pre` e chiama `initPre(ctx)`; allo scoccare di `startAt` passa a LIVE da sola. `ctx` = `{ eventId, ev, user, isAdmin, participants: Map, me }`.
+`event-detail.js` decide la vista (`route()`): fase `upcoming` → mostra `#view-pre` e chiama `initPre(ctx)`; allo scoccare di `startAt` passa a LIVE da sola. `ctx` = `{ eventId, ev, user, isAdmin, participants: Map, me }`. Se l'URL ha `#proponi` (CTA della Bacheca), `route()` scorre una sola volta fino a `#rsvp-form` (`proponiDone` in `event-detail.js`).
 
 ## Sezioni → funzioni → id
 | Sezione | Funzione | Id principali |

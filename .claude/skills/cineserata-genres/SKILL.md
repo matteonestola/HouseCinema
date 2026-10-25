@@ -14,7 +14,8 @@ Il genere è salvato in `events/{id}.genre` come **id testuale** (es. `"Horror"`
 ## Procedura: aggiungere un genere
 1. Aggiungi `{ id: "Thriller", emoji: "🔪" }` a `GENRES`.
 2. In `admin.html` duplica un chip inattivo in `#category-chips`, imposta `data-cat="Thriller"` e il testo `🔪 Thriller`.
-3. Verifica in admin: il chip si seleziona, il badge dell'anteprima mostra emoji+nome; pubblica un evento e controlla il tag `#Thriller` nel dettaglio (`tagOf` in `js/event-pre.js`) e il badge in bacheca.
+3. Il genere compare anche nel badge `#featured-genre` della card in Bacheca (`genreEmoji`, `js/events-list.js`) e nel tag del dettaglio.
+4. Verifica in admin: il chip si seleziona, il badge dell'anteprima mostra emoji+nome; pubblica un evento e controlla il tag `#Thriller` nel dettaglio (`tagOf` in `js/event-pre.js`) e il badge in bacheca.
 
 ## Rinominare / rimuovere
 - Gli eventi già creati mantengono il vecchio id: dopo un rename compaiono col badge `🍿` (nome invariato). Per migrare, aggiorna `genre` sugli eventi in Console Firestore.

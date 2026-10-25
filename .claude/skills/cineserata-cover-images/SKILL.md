@@ -24,7 +24,7 @@ Le copertine "del sito" sono i file di `background_img/` (repo). Il pannello adm
 ### 2. Guarda l'immagine
 Apri il file con Read e controlla due cose, poi riportale nella conferma:
 - **Titoli leggibili**: una locandina con il titolo del film in grande non è protetta dalla sfocatura della bacheca (`blur-[8px]` finché il caveau è sigillato) e il titolo resta visibile nel dettaglio serata e nell'elenco.
-- **Formato**: la copertina è orizzontale (16:9 in bacheca, 4:3 su desktop). Una foto verticale viene ritagliata.
+- **Formato**: la copertina è orizzontale (16:9 in bacheca su mobile, 4:3 su desktop, 16:10 nell'elenco). Nel dettaglio serata è un **poster verticale 2:3**: si vede solo la fascia centrale, quindi il soggetto va al centro. Una foto verticale viene ritagliata.
 
 ### 3. Ottimizza e copia
 Dalla radice del repo (PowerShell + Node, nessun'altra dipendenza):
@@ -53,7 +53,7 @@ Se l'utente annulla o vuole cambiare: ripristina e torna al branch di partenza: 
 2. `git push -u origin claude/copertina-<nome>`.
 3. `gh pr create --base main --head claude/copertina-<nome> --title "Aggiungi copertina <nome>" --body "..."` (il corpo dice quale file, dimensioni, e che aggiunge solo una copertina selezionabile; termina con la riga di attribuzione delle PR). Annota il numero della PR.
 4. Auto-merge con merge commit (convenzione del repo): `gh pr merge <n> --merge --auto`.
-   - Se risponde che l'auto-merge non è abilitato per il repository o che la PR è già pronta ("clean status"), fai il merge immediato: `gh pr merge <n> --merge`. La conferma del passo 4 copre questo caso.
+   - Su questo repository l'auto-merge **non è abilitato** (`GraphQL: Auto merge is not allowed for this repository`): quando succede, fai il merge immediato `gh pr merge <n> --merge` (o saltando `--auto` fin dall'inizio). La conferma del passo 4 copre questo caso. Lo stesso vale se risponde che la PR è già pronta ("clean status").
    - Se il merge viene rifiutato (controlli richiesti falliti, conflitti, permessi), **fermati**, mostra l'errore e l'URL della PR; non forzare né aggirare le protezioni.
 5. Verifica: `gh pr view <n> --json state,mergedAt,url`. Se lo stato non è `MERGED` ma l'auto-merge è in coda, dillo (si completerà da solo quando i controlli passano).
 6. Torna al branch di partenza: se è `main`, `git switch main && git pull --ff-only`; altrimenti `git switch <branch di partenza>`. Cancella il branch locale `claude/copertina-<nome>` se la PR è mergiata.

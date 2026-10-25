@@ -5,7 +5,7 @@ description: Modificare la vista LIVE del dettaglio evento (dopo l'inizio): spot
 
 # Dettaglio evento, fase LIVE (`event.html#view-live` + `js/event-live.js`)
 
-Attiva da `startAt` (o se c'è `ev.screening`). `initLive(ctx)` si sottoscrive a `proposals` (ora leggibili) e `votes`; `render()` = `renderHeader` + `renderSpotlight` + `renderGrid`.
+Attiva da `startAt` (o se c'è `ev.screening`). `event.html?id=…#vota` (CTA "Entra & Vota" della Bacheca e tab Vota, attivo solo a serata live) fa scorrere a `#movies-container` (`event-detail.js`). `initLive(ctx)` si sottoscrive a `proposals` (ora leggibili) e `votes`; `render()` = `renderHeader` + `renderSpotlight` + `renderGrid`.
 
 ## Sezioni → funzioni → id
 | Sezione | Funzione | Id |
