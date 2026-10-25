@@ -35,6 +35,14 @@ import { HOST_NAME, DEFAULT_COVER, TITLE_MAX, REVEAL_POSTPONE_MIN } from "./site
 
 const $ = (id) => document.getElementById(id);
 
+// Copertine locali: file nella cartella background_img/ del repository (elenco in manifest.json,
+// generato dal workflow di deploy). Nel campo copertina si salva il percorso relativo.
+const COVER_DIR = "background_img/";
+const COVER_PATH_RE = /^background_img\/[A-Za-z0-9._~%!*'()-]+\.(jpe?g|png|webp|avif|gif)$/i;
+const COVER_NAME_RE = /^[^/\\]+\.(jpe?g|png|webp|avif|gif)$/i;
+const isLocalCover = (url) => COVER_PATH_RE.test(url);
+let coverImages = [];
+
 let panelReady = false;
 let mode = "create";
 let editingId = null;
@@ -219,8 +227,8 @@ function readForm() {
 function validateForm(v) {
   if (!v.title || v.title.length > TITLE_MAX) return `Il titolo è obbligatorio (max ${TITLE_MAX} caratteri)`;
   if (!v.startAt || isNaN(v.startAt.getTime())) return "Imposta data e ora di inizio";
-  if (v.coverUrl && (!/^https?:\/\//i.test(v.coverUrl) || v.coverUrl.length > 500)) {
-    return "L'indirizzo dell'immagine deve iniziare con http:// o https://";
+  if (v.coverUrl && !isLocalCover(v.coverUrl) && (!/^https?:\/\//i.test(v.coverUrl) || v.coverUrl.length > 500)) {
+    return "L'indirizzo dell'immagine deve iniziare con http:// o https://, oppure scegli una copertina del sito";
   }
   if (v.location.length > 200) return "Il luogo è troppo lungo (max 200 caratteri)";
   if (v.description.length > 1000) return "La descrizione è troppo lunga (max 1000 caratteri)";
@@ -357,6 +365,13 @@ function selectEvent(id, override) {
 // ---------------------------------------------------------------- anteprima
 
 function coverDomain(url) {
+  if (isLocalCover(url)) {
+    try {
+      return "Dal sito: " + decodeURIComponent(url.slice(COVER_DIR.length));
+    } catch (e) {
+      return "Dal sito: " + url.slice(COVER_DIR.length);
+    }
+  }
   try {
     return new URL(url).host;
   } catch (e) {
@@ -380,12 +395,71 @@ function setCover(url) {
       img.onload = null;
       img.src = DEFAULT_COVER;
       if (url) {
-        label.textContent = "Immagine non caricabile: usa il link diretto al file (.jpg, .png, .webp)";
+        label.textContent = isLocalCover(url)
+          ? "File non trovato in background_img/: controlla che sia nel repository e pubblicato"
+          : "Immagine non caricabile: usa il link diretto al file (.jpg, .png, .webp)";
         $("preview-custom-bg").hidden = true;
       }
     };
     if (img.getAttribute("src") !== src) img.src = src;
   }
+}
+
+// ---------------------------------------------------------------- galleria copertine
+
+function markCoverGallery(url) {
+  $("cover-gallery")?.querySelectorAll("button[data-path]").forEach((b) => {
+    b.setAttribute("aria-pressed", b.dataset.path === (url || "") ? "true" : "false");
+  });
+}
+
+function coverTile(path, label, src) {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.dataset.path = path;
+  b.className =
+    "relative aspect-video rounded-lg overflow-hidden bg-surface-container-high text-left transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary aria-pressed:ring-2 aria-pressed:ring-primary";
+  const img = document.createElement("img");
+  img.src = src;
+  img.alt = "";
+  img.loading = "lazy";
+  img.className = "w-full h-full object-cover";
+  img.onerror = () => {
+    img.onerror = null;
+    img.src = DEFAULT_COVER;
+  };
+  const cap = document.createElement("span");
+  cap.className =
+    "absolute inset-x-0 bottom-0 px-space-sm py-space-xs bg-surface-container-lowest/85 font-label-md text-label-md text-on-surface truncate";
+  cap.textContent = label;
+  b.append(img, cap);
+  return b;
+}
+
+function renderCoverGallery() {
+  const box = $("cover-gallery");
+  if (!box) return;
+  box.replaceChildren(coverTile("", "Predefinita", DEFAULT_COVER));
+  for (const name of coverImages) {
+    box.append(coverTile(COVER_DIR + encodeURIComponent(name), name, COVER_DIR + encodeURIComponent(name)));
+  }
+  $("cover-gallery-note").textContent = coverImages.length
+    ? "Per aggiungerne altre, copia i file in background_img/ nel repository e ripubblica il sito."
+    : "Nessuna immagine in background_img/: aggiungi i file nel repository e ripubblica il sito.";
+  markCoverGallery($("event-cover-url").value.trim());
+}
+
+async function loadCoverGallery() {
+  try {
+    const res = await fetch(COVER_DIR + "manifest.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const list = await res.json();
+    coverImages = Array.isArray(list) ? list.filter((n) => typeof n === "string" && COVER_NAME_RE.test(n)) : [];
+  } catch (e) {
+    console.warn("Elenco copertine non disponibile", e);
+    coverImages = [];
+  }
+  renderCoverGallery();
 }
 
 function updatePreview() {
@@ -402,6 +476,7 @@ function updatePreview() {
   $("preview-badge-text").textContent = genre;
   $("preview-host").textContent = HOST_NAME;
   setCover($("event-cover-url").value.trim());
+  markCoverGallery($("event-cover-url").value.trim());
 
   const target = date && time ? new Date(`${date}T${time}`) : null;
   const ids = { h: $("preview-countdown-hours"), m: $("preview-countdown-minutes"), s: $("preview-countdown-seconds") };
@@ -524,6 +599,13 @@ function bindForm() {
     $(id).addEventListener("input", updatePreview);
     $(id).addEventListener("change", updatePreview);
   });
+  $("cover-gallery").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-path]");
+    if (!b) return;
+    $("event-cover-url").value = b.dataset.path;
+    updatePreview();
+  });
+  loadCoverGallery();
   $("category-chips").addEventListener("click", (e) => {
     const b = e.target.closest(".chip-item");
     if (!b) return;

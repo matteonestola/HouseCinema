@@ -38,6 +38,12 @@ jobs:
           };
           EOF
 
+      - name: Genera l'elenco delle copertine (background_img/manifest.json)
+        run: |
+          mkdir -p background_img
+          (cd background_img && ls | grep -iE '\.(jpe?g|png|webp|avif|gif)$' | jq -R . | jq -sc .) > background_img/manifest.json
+          cat background_img/manifest.json
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
