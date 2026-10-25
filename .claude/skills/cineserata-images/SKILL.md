@@ -16,9 +16,9 @@ description: Sostituire le immagini di default di CineSerata (logo, copertina pr
 4. Verifica su bacheca, dettaglio evento e anteprima admin.
 
 ## Copertina per singolo evento
-- Campo `events/{id}.coverUrl` (URL `http(s)://`, ≤ 500 car.), impostato da `#event-cover-url` in admin. `coverOf(ev)` (`js/app.js`) ritorna `coverUrl || DEFAULT_COVER`.
+- Campo `events/{id}.coverUrl`, impostato da `#event-cover-url` in admin. Valori ammessi: URL `http(s)://` (≤ 500 car.) oppure un percorso del sito `background_img/<file>` (vedi sotto). `coverOf(ev)` (`js/app.js`) ritorna `coverUrl || DEFAULT_COVER`.
 - L'URL deve puntare **direttamente al file** (.jpg/.png/.webp), non a una pagina. Le immagini sono richieste con `referrerpolicy="no-referrer"`; se non si caricano, `onerror` ripiega sul default e l'admin vede "Immagine non caricabile" (`setCover` in `js/admin.js`).
-- Non c'è upload file: l'admin incolla un link (scelta di progetto, nessun Storage).
+- Non c'è upload dal browser (nessun Storage). L'admin incolla un link **oppure** sceglie una miniatura dalla galleria `#cover-gallery` (sotto il campo URL), che mostra i file di `background_img/` letti da `background_img/manifest.json` (generato dal workflow di deploy; in locale va rigenerato). Per aggiungere o togliere immagini in `background_img/` usa la skill `cineserata-cover-images`.
 
 ## Altre immagini
 Le card usano template in `js/events-list.js` (`renderEventCard`, `onerror` inline); altre immagini demo di Stitch sono in `design/stitch/` solo come riferimento e non sono caricate dal sito.

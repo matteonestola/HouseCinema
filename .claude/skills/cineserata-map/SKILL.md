@@ -44,4 +44,4 @@ Auth: Firebase email/password per l'admin (UID in `ADMIN_UID` **e** in `firestor
 Valori ripetuti in `site-config.js` e `firestore.rules` (vedi skill `cineserata-firestore` e `cineserata-limits`): ADMIN_UID, max film (5), max titolo (60), lunghezza avatar (≤16) e id snack (≤20), nickname (≤30).
 
 ## Altre skill
-`cineserata-avatars`, `cineserata-snacks`, `cineserata-genres`, `cineserata-images`, `cineserata-texts`, `cineserata-limits`, `cineserata-edit-home`, `cineserata-edit-event-pre`, `cineserata-edit-event-live`, `cineserata-edit-admin`, `cineserata-firestore`, `cineserata-verify`.
+`cineserata-avatars`, `cineserata-snacks`, `cineserata-genres`, `cineserata-images`, `cineserata-cover-images`, `cineserata-texts`, `cineserata-limits`, `cineserata-edit-home`, `cineserata-edit-event-pre`, `cineserata-edit-event-live`, `cineserata-edit-admin`, `cineserata-firestore`, `cineserata-verify`.
