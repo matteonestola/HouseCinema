@@ -33,6 +33,7 @@ Il ticker in alto (`#top-ticker`: "Prossima serata…") compare in event/admin m
 - L'HTML ha contenitori con id; i template di card/liste sono stringhe nei moduli JS. Usa sempre `escapeHtml()` per dati utente (in DOM API usa `textContent`).
 - Ogni id usato dal JS deve esistere nell'HTML della sua pagina e non essere duplicato (le due viste di `event.html` hanno prefissi `pre-`/`live-`).
 - Header, footer, bottom-nav e modale "Come Funziona" sono duplicati in tutte e 3 le pagine: una modifica va replicata in `index.html`, `event.html`, `admin.html`.
+- Tipografia **fluida e phone-first**: `display-hero`, `headline-lg|md|sm`, `body-lg` in `js/tailwind-config.js` usano `clamp()` (≈28 / 22 / 18 / 17 px a 390px, 56 / 32 / 24 / 20 px su desktop). Per i titoli usa i token, non `text-[NNpx]`; il countdown dell'evento sta su **una riga** (3 tile `flex-1`) anche a 390px. Controlla sempre a 390px (iPhone 14).
 - Accessibilità già curata (non toglierla): `prefers-reduced-motion` in `css/style.css`, `role="timer"` sul countdown, `aria-live` sullo stato, bersagli ≥ 44px.
 
 ## Fasi evento (`eventPhase` in app.js)
