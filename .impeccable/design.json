@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-25T00:00:00Z",
+  "title": "Design System: CineSerata",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Ambra Chiara", "canonical": "#ffc174", "tonalRamp": ["#2a1700","#4d2d00","#7a4a00","#a86800","#d98a05","#f59e0b","#ffc174","#ffe3bf"] },
+      "primary-container": { "role": "primary", "displayName": "Ambra di Proiettore", "canonical": "#f59e0b", "tonalRamp": ["#2a1700","#4d2d00","#7a4a00","#a86800","#d98a05","#f59e0b","#ffc174","#ffe3bf"] },
+      "secondary-container": { "role": "secondary", "displayName": "Rosso Spia Live", "canonical": "#cc003c", "tonalRamp": ["#40000c","#680018","#920028","#cc003c","#f23a63","#ff7a92","#ffb3b6","#ffdcdc"] },
+      "tertiary": { "role": "tertiary", "displayName": "Oro Biglietto", "canonical": "#ffc32d", "tonalRamp": ["#261a00","#402d00","#5c4300","#8a6500","#c28d00","#e0a800","#ffc32d","#ffdf9f"] },
+      "surface": { "role": "neutral", "displayName": "Buio di Sala", "canonical": "#10131a", "tonalRamp": ["#0b0e14","#10131a","#191c22","#1d2026","#272a31","#32353c","#363940","#e1e2eb"] },
+      "on-surface": { "role": "neutral", "displayName": "Testo Pergamena", "canonical": "#e1e2eb", "tonalRamp": ["#32353c","#534434","#a08e7a","#d8c3ad","#c5c6cf","#e1e2eb","#eeeff8","#ffffff"] }
+    },
+    "typographyMeta": {
+      "display-hero": { "displayName": "Display Hero", "purpose": "Titolo Bacheca con gradiente ambra." },
+      "headline-lg": { "displayName": "Headline LG", "purpose": "Titolo serata e numeri del countdown." },
+      "body-md": { "displayName": "Body", "purpose": "Descrizioni e testo corrente." },
+      "label-sm": { "displayName": "Label SM", "purpose": "Eyebrow, chip, stato in maiuscolo." }
+    },
+    "shadows": [
+      { "name": "cta-glow", "value": "0 0 20px rgba(245,158,11,0.35)", "purpose": "Glow ambra del bottone primario in header." },
+      { "name": "bar-top", "value": "0 1px 8px rgba(0,0,0,0.5)", "purpose": "Separa l'header fisso." },
+      { "name": "bar-bottom", "value": "0 -4px 24px rgba(0,0,0,0.5)", "purpose": "Separa la bottom-nav." },
+      { "name": "card-deep", "value": "shadow-2xl", "purpose": "Card in evidenza." }
+    ],
+    "motion": [
+      { "name": "fade-in", "value": "0.25s ease-out both (translateY 4px)", "purpose": "Ingresso contenuti." },
+      { "name": "cta-lift", "value": "200ms, translateY(-2px) in hover", "purpose": "Sollevamento CTA." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA principale ambra.",
+      "html": "<button class=\"ds-btn-primary\">Partecipa &amp; Proponi Film</button>",
+      "css": ".ds-btn-primary{background:#f59e0b;color:#613b00;font:700 14px/20px 'Plus Jakarta Sans',sans-serif;letter-spacing:.01em;padding:16px 24px;border:none;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.4);cursor:pointer;transition:background .2s,transform .2s}.ds-btn-primary:hover{background:#ffb95f;transform:translateY(-2px)}.ds-btn-primary:focus-visible{outline:2px solid #ffc174;outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Azione secondaria su fondo tonale.",
+      "html": "<button class=\"ds-btn-secondary\">Vedi Dettagli Serata</button>",
+      "css": ".ds-btn-secondary{background:#272a31;color:#e1e2eb;font:600 14px/20px 'Plus Jakarta Sans',sans-serif;padding:16px 24px;border:none;border-radius:12px;cursor:pointer;transition:background .2s}.ds-btn-secondary:hover{background:#32353c}.ds-btn-secondary:focus-visible{outline:2px solid #ffc174;outline-offset:2px}"
+    },
+    {
+      "name": "Badge Chip",
+      "kind": "chip",
+      "refersTo": "chip-badge",
+      "description": "Etichetta pillola per genere e stato.",
+      "html": "<span class=\"ds-chip\">Democrazia da Salotto</span>",
+      "css": ".ds-chip{display:inline-block;background:#272a31;color:#ffc174;font:700 11px/14px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:4px 16px;border-radius:9999px}"
+    },
+    {
+      "name": "Feature Card",
+      "kind": "card",
+      "refersTo": "card-feature",
+      "description": "Card in evidenza della prossima serata.",
+      "html": "<div class=\"ds-card\"><h3>Venerdì Horror</h3><p>Il caveau si apre alle 21:00.</p></div>",
+      "css": ".ds-card{background:#191c22;color:#e1e2eb;padding:24px;border-radius:12px;box-shadow:0 25px 50px rgba(0,0,0,.5);font-family:'Plus Jakarta Sans',sans-serif}.ds-card h3{margin:0;font:600 32px/40px 'Space Grotesk',sans-serif;letter-spacing:-.01em}.ds-card p{margin:4px 0 0;color:#d8c3ad;font-size:16px;line-height:24px}"
+    },
+    {
+      "name": "Countdown Tile",
+      "kind": "custom",
+      "refersTo": "countdown-tile",
+      "description": "Tile ORE/MIN/SEC del countdown del Caveau.",
+      "html": "<div class=\"ds-tile\"><span class=\"ds-tile-n\">02</span><span class=\"ds-tile-l\">ORE</span></div>",
+      "css": ".ds-tile{background:#272a31;border-radius:8px;padding:8px 4px;text-align:center;width:88px}.ds-tile-n{display:block;color:#ffc174;font:700 32px/40px 'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums}.ds-tile-l{display:block;color:#d8c3ad;font:700 10px/14px 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em}"
+    },
+    {
+      "name": "Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Voce di navigazione attiva dell'header.",
+      "html": "<a class=\"ds-nav ds-nav-active\" href=\"#\">Tutte le Serate</a>",
+      "css": ".ds-nav{display:inline-block;color:#d8c3ad;font:600 14px/20px 'Plus Jakarta Sans',sans-serif;padding:4px 16px;text-decoration:none;transition:color .2s}.ds-nav:hover{color:#e1e2eb}.ds-nav-active{background:#272a31;color:#ffc174;border-radius:8px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Living-Room Projection Booth",
+    "overview": "Una sala di proiezione ricavata in salotto: il buio è il materiale, l'ambra è la luce del proiettore, il rosso è la spia LED \"live\". Tema scuro fisso, scuro, caldo, giocoso; profondità per strati tonali, glow ambra solo sull'azione.",
+    "keyCharacteristics": [
+      "Tema scuro fisso, profondità per strati tonali, non per bordi.",
+      "Ambra come unica luce; rosso secondary-container solo per live/urgenza.",
+      "Space Grotesk per titoli e numeri, Plus Jakarta Sans per testo e label.",
+      "Glow ambra morbido su CTA primarie e blur radiali di sfondo.",
+      "Icone Material Symbols Outlined; emoji per identità dei partecipanti."
+    ],
+    "rules": [
+      { "name": "The One Lamp Rule", "body": "L'ambra è l'unica luce: compare su CTA, countdown, stato attivo e icone chiave. Se tutto è ambra, niente è illuminato.", "section": "colors" },
+      { "name": "The Live Red Rule", "body": "Il rosso secondary-container significa \"sta succedendo adesso\". Mai decorativo, mai per bottoni generici.", "section": "colors" },
+      { "name": "The No-Line Rule", "body": "Le superfici si separano per salto di tono, non per bordi.", "section": "colors" },
+      { "name": "The Tabular Clock Rule", "body": "Ogni numero che cambia usa tabular-nums per non far ballare il layout.", "section": "typography" },
+      { "name": "The Tonal-First Rule", "body": "Prima si alza il tono della superficie, poi (se serve) si aggiunge un'ombra. Il glow ambra è riservato all'azione.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usare solo i token di js/tailwind-config.js; cambiare l'aspetto modificando le classi Tailwind esistenti.",
+      "Do separare le superfici per salto di tono (surface-container-*), non per bordi.",
+      "Do tenere l'ambra (#f59e0b / #ffc174) per azioni, stato e countdown.",
+      "Do usare tabular-nums sui numeri che cambiano e bersagli tocco ≥44px.",
+      "Do replicare ogni modifica a header, footer e bottom-nav in index.html, event.html e admin.html."
+    ],
+    "donts": [
+      "Don't introdurre un tema chiaro: il sistema è scuro fisso.",
+      "Don't usare il rosso #cc003c per decorazione o bottoni generici: significa \"live\".",
+      "Don't aggiungere bordi spessi, border-left colorati a banda o card annidate.",
+      "Don't riscrivere i componenti Stitch da zero né aggiungere uno step di build.",
+      "Don't rivelare i titoli dei film altrui prima dell'inizio: il design del Caveau deve restare sigillato."
+    ]
+  }
+}

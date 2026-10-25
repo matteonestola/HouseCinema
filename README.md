@@ -1,4 +1,4 @@
-# Matteo's Cinema
+# CineSerata
 
 Sito statico (HTML/CSS/JS) per organizzare serate cinema tra amici, pubblicabile gratuitamente su GitHub Pages. I dati (eventi, partecipanti, film proposti) sono salvati su Firebase, l'unico servizio gratuito a cui il sito si appoggia.
 
