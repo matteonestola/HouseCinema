@@ -228,6 +228,7 @@ Sistema ibrido: la profondità primaria è **tonale** (da `surface` a `surface-c
 - **Glow CTA** (`0 0 20px rgba(245,158,11,0.35)` → `0 0 28px rgba(245,158,11,0.55)` in hover): solo sul bottone primario dell'header.
 - **Luce di sfondo** (cerchi `blur-[140px]` e `blur-[150px]` in ambra al 15% e al 10%): atmosfera dietro hero, mai sopra il contenuto.
 - **Vetro** (`backdrop-blur-xl` su barre al 85–90%): header, bottom-nav, overlay modali.
+- **Cover sigillata** (`blur-[8px]` + `scale-110`, nitida allo sblocco): la copertina si vede come atmosfera ma non lascia leggere un titolo.
 
 ### Named Rules
 **The Tonal-First Rule.** Prima si alza il tono della superficie, poi (se serve) si aggiunge un'ombra. Il glow ambra è riservato all'azione.

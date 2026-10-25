@@ -1,6 +1,6 @@
 import { collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { db, auth, isAdminUser, toDate, eventPhase, timeUntilLabel } from "./app.js";
+import { db, auth, isAdminUser, toDate, eventPhase, timeUntilLabel, formatTime } from "./app.js";
 import { HOST_NAME } from "./site-config.js";
 
 const DEACTIVATE = ["text-on-surface-variant", "hover:text-on-surface", "font-label-lg", "text-label-lg"];
@@ -25,10 +25,12 @@ function initUserChip() {
   const chip = document.getElementById("user-chip");
   const organizza = document.getElementById("header-organizza");
   const navOrganizza = document.getElementById("mobile-nav-organizza");
+  const footerOrganizza = document.getElementById("footer-organizza");
   if (!chip) return;
   onAuthStateChanged(auth, (user) => {
     if (organizza) organizza.hidden = !isAdminUser(user);
     if (navOrganizza) navOrganizza.hidden = !isAdminUser(user);
+    if (footerOrganizza) footerOrganizza.hidden = !isAdminUser(user);
     if (isAdminUser(user)) {
       const name = document.getElementById("user-chip-name");
       const role = document.getElementById("user-chip-role");
@@ -102,14 +104,20 @@ function initTopTicker() {
   let next = null;
   let timer = null;
 
-  // "Vota" ha senso solo a serata in corso
-  function setVota(on) {
+  // "Vota" ha senso solo a serata in corso: altrimenti lucchetto e motivo (l'ora d'inizio)
+  function setVota(on, start) {
     if (!navVota) return;
-    navVota.classList.toggle("opacity-40", !on);
+    const icon = navVota.querySelector(".material-symbols-outlined");
+    if (icon) icon.textContent = on ? "local_fire_department" : "lock_clock";
+    navVota.classList.toggle("opacity-60", !on);
     navVota.classList.toggle("pointer-events-none", !on);
     navVota.setAttribute("aria-disabled", on ? "false" : "true");
+    const reason = start ? "Vota (si apre alle " + formatTime(start) + ")" : "Vota (si apre quando la serata inizia)";
+    navVota.setAttribute("aria-label", on ? "Vota" : reason);
+    navVota.title = on ? "" : reason;
     navVota.tabIndex = on ? 0 : -1;
   }
+  setVota(false); // finche' non sappiamo se c'e' una serata live
 
   function paint() {
     if (!next) {
@@ -132,7 +140,7 @@ function initTopTicker() {
     if (link) link.href = href;
     if (navSerata) navSerata.href = href;
     if (navVota) navVota.href = href + "#vota";
-    setVota(phase === "live");
+    setVota(phase === "live", toDate(next.startAt));
   }
 
   const q = query(collection(db, "events"), where("status", "==", "published"));
