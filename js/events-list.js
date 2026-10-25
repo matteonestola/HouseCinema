@@ -31,6 +31,10 @@ let stats = null; // null = in arrivo, { failed: true } = lettura fallita, altri
 let myUid = null;
 let stopCountdown = null;
 let lastPhase = null; // { id, phase } per animare lo sblocco una sola volta
+let statsTimer = null;
+let featuredId = null;
+const STATS_TIMEOUT_MS = 6000;
+const DEFAULT_SUB = "Proponi fino a 5 film in segreto: all'ora stabilita il caveau si apre e si vota.";
 
 const $ = (id) => document.getElementById(id);
 
@@ -43,11 +47,20 @@ initLayout({ active: "bacheca" });
 function watchStats(eventId) {
   if (statsFor === eventId) return;
   if (stopStats) stopStats();
+  clearTimeout(statsTimer);
   statsFor = eventId;
   stats = null;
+  // una lettura lenta non deve restare uno scheletro per sempre
+  statsTimer = setTimeout(() => {
+    if (stats === null) {
+      stats = { timedOut: true };
+      render();
+    }
+  }, STATS_TIMEOUT_MS);
   stopStats = onSnapshot(
     collection(db, "events", eventId, "participants"),
     (snap) => {
+      clearTimeout(statsTimer);
       const people = [];
       let films = 0;
       snap.forEach((d) => {
@@ -60,11 +73,21 @@ function watchStats(eventId) {
       render();
     },
     (e) => {
+      clearTimeout(statsTimer);
       console.warn("Partecipanti non disponibili per", eventId, e);
       stats = { failed: true };
       render();
     }
   );
+}
+
+function retryStats() {
+  const id = featuredId;
+  if (stopStats) stopStats();
+  stopStats = null;
+  statsFor = null;
+  if (id) watchStats(id);
+  render();
 }
 
 function setLoadState(state) {
@@ -177,11 +200,15 @@ function renderOthers(items) {
   }
   box.hidden = false;
   $("other-events-list").innerHTML = items
-    .map(({ ev }) => {
+    .map(({ ev, phase }) => {
       const href = "event.html?id=" + encodeURIComponent(ev.id);
-      return `<a class="flex items-center justify-between gap-space-md px-space-md py-space-sm min-h-[44px] bg-surface-container-low hover:bg-surface-container-high rounded-lg transition-colors" href="${href}">
+      const start = toDate(ev.startAt);
+      return `<a class="flex items-center justify-between gap-space-md px-space-md py-space-sm min-h-[56px] bg-surface-container-low hover:bg-surface-container-high rounded-lg transition-colors" href="${href}">
+<span class="flex flex-col min-w-0">
 <span class="font-label-lg text-label-lg text-on-surface truncate">${escapeHtml(ev.title || "Serata")}</span>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">${escapeHtml(formatMetaDate(toDate(ev.startAt)))}</span>
+<span class="font-label-md text-label-md text-on-surface-variant">${escapeHtml(formatLongDate(start))}</span>
+</span>
+<span class="flex items-center gap-space-xs font-label-md text-label-md text-primary whitespace-nowrap shrink-0">${escapeHtml(statusLabel(start, phase === "live"))}<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span></span>
 </a>`;
     })
     .join("");
@@ -197,23 +224,29 @@ function renderFeatured(item) {
   }
   if (!item) {
     section.hidden = true;
+    $("home-sub").textContent = DEFAULT_SUB;
+    clearTimeout(statsTimer);
     if (stopStats) stopStats();
     stopStats = null;
     statsFor = null;
+    featuredId = null;
     stats = null;
     return;
   }
   const { ev, phase } = item;
+  featuredId = ev.id;
   watchStats(ev.id);
   const start = toDate(ev.startAt);
   const host = ev.hostName || HOST_NAME;
   const baseHref = "event.html?id=" + encodeURIComponent(ev.id);
   const live = phase === "live";
-  const ready = stats && !stats.failed;
+  const unavailable = !!(stats && (stats.failed || stats.timedOut));
+  const ready = !!(stats && stats.people);
   const people = ready ? stats.people : [];
   const films = ready ? stats.films : 0;
   const me = people.find((p) => p.uid === myUid);
   section.hidden = false;
+  $("home-sub").textContent = live ? "Il caveau è aperto. Si vota." : DEFAULT_SUB;
 
   // stato e data (il rosso solo se la serata e' live)
   $("featured-status").textContent = statusLabel(start, live);
@@ -231,17 +264,21 @@ function renderFeatured(item) {
   desc.textContent = ev.description || "";
   desc.hidden = !ev.description;
 
-  // caveau: lo sblocco si anima una sola volta, quando la serata passa a live
+  // caveau: la cover si vede ma e' sfocata finche' e' sigillato (una locandina non deve far
+  // leggere un titolo); si fa nitida allo sblocco, che si anima una sola volta
   const cover = $("featured-cover");
   cover.onerror = () => {
     cover.onerror = null;
     cover.src = DEFAULT_COVER;
   };
   cover.src = coverOf(ev);
+  cover.classList.toggle("blur-[8px]", !live);
+  cover.classList.toggle("scale-110", !live);
   const justUnlocked = live && lastPhase && lastPhase.id === ev.id && lastPhase.phase !== "live";
   lastPhase = { id: ev.id, phase };
   $("featured-lock-icon").textContent = live ? "lock_open" : "lock";
   $("featured-lock").classList.toggle("unlock-pop", !!justUnlocked);
+  $("featured-panel").classList.toggle("unlock-flash", !!justUnlocked);
   $("featured-lock-title").textContent = live ? "Caveau Aperto" : "Caveau Sigillato";
   const plural = films === 1;
   $("featured-lock-count").textContent = !ready
@@ -260,25 +297,30 @@ function renderFeatured(item) {
   $("featured-countdown-box").hidden = live;
   if (!live) stopCountdown = startHomeCountdown(start, render);
 
-  // partecipanti: scheletro finche' non arrivano, nulla se la lettura fallisce
-  const block = $("featured-participants-block");
-  block.hidden = !!(stats && stats.failed);
+  // partecipanti: scheletro in arrivo, messaggio con "Riprova" se non si leggono
   $("featured-participants-label").textContent = ready ? `Partecipanti (${people.length})` : "Partecipanti";
-  $("featured-participants").innerHTML = !ready
-    ? '<span class="h-8 w-24 rounded-full bg-surface-container-high" aria-hidden="true"></span>'.repeat(3)
-    : people.length
-      ? people
-          .map((p) => {
-            const star = p.uid === ev.createdBy ? ' <span class="text-primary font-bold text-xs" title="Host">★</span>' : "";
-            const you = p.uid === myUid ? ' <span class="text-primary">(tu)</span>' : "";
-            const avatar = p.avatar ? `<span aria-hidden="true">${escapeHtml(p.avatar)}</span>` : '<span class="w-2 h-2 rounded-full bg-primary"></span>';
-            return `<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">${avatar} ${escapeHtml(p.nickname)}${star}${you}</span>`;
-          })
-          .join("")
-      : '<span class="font-body-sm text-body-sm text-on-surface-variant">Nessun partecipante ancora. Sii il primo!</span>';
+  if (unavailable) {
+    $("featured-participants").innerHTML =
+      '<span class="font-body-sm text-body-sm text-on-surface-variant">Non riesco a caricare chi partecipa.</span>' +
+      '<button id="stats-retry" type="button" class="min-h-[44px] inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md rounded-full transition-colors"><span class="material-symbols-outlined text-primary text-[18px]" aria-hidden="true">refresh</span>Riprova</button>';
+    $("stats-retry").onclick = retryStats;
+  } else {
+    $("featured-participants").innerHTML = !ready
+      ? '<span class="h-8 w-24 rounded-full bg-surface-container-high" aria-hidden="true"></span>'.repeat(3)
+      : people.length
+        ? people
+            .map((p) => {
+              const star = p.uid === ev.createdBy ? ' <span class="text-primary font-bold text-xs" aria-hidden="true">★</span><span class="sr-only"> host</span>' : "";
+              const you = p.uid === myUid ? ' <span class="text-primary">(tu)</span>' : "";
+              const avatar = p.avatar ? `<span aria-hidden="true">${escapeHtml(p.avatar)}</span>` : '<span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true"></span>';
+              return `<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">${avatar} ${escapeHtml(p.nickname)}${star}${you}</span>`;
+            })
+            .join("")
+        : '<span class="font-body-sm text-body-sm text-on-surface-variant">Nessun partecipante ancora. Sii il primo!</span>';
+  }
   $("featured-host").textContent = host;
 
-  // CTA: un solo bottone primario che sa se ci sei gia'
+  // CTA: un solo bottone primario, un solo verbo; sa se ci sei gia'
   const join = $("featured-cta-join");
   const joinLabel = join.querySelector("span:last-child");
   const joinIcon = join.querySelector("span:first-child");
@@ -294,7 +336,7 @@ function renderFeatured(item) {
     icon = "edit";
     href = baseHref + "#proponi";
   } else {
-    label = "Partecipa & Proponi Film";
+    label = "Proponi i tuoi film";
     icon = "add_to_queue";
     href = baseHref + "#proponi";
   }
@@ -302,6 +344,8 @@ function renderFeatured(item) {
   if (joinLabel) joinLabel.textContent = label;
   if (joinIcon) joinIcon.textContent = icon;
   $("featured-cta-details").href = baseHref;
+  // la spiegazione serve a chi non e' ancora dentro
+  $("featured-note").hidden = !!me;
 }
 
 $("home-empty").textContent = `Nessuna serata in programma. ${HOST_NAME} la annuncia in chat.`;
