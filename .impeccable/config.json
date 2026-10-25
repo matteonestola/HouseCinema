@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "material symbols outlined",
+        "createdAt": "2026-10-25T20:30:12.630Z",
+        "reason": "Icon font, not a text typeface: false positive; agent decision, user did not confirm"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-25T20:30:42.214Z",
+        "reason": "Static detector cannot resolve Tailwind custom font-size tokens; rendered h1/h2 are 26-32px vs 16px body (checked in browser screenshots, overlay does not flag it). Agent decision, user did not confirm"
+      }
+    ]
+  }
+}

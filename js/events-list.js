@@ -2,148 +2,319 @@ import {
   collection,
   query,
   where,
-  onSnapshot,
-  getDocs
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   db,
   escapeHtml,
   toDate,
   eventPhase,
-  startCountdown,
   formatLongDate,
+  formatMetaDate,
   coverOf,
-  genreEmoji
+  genreEmoji,
+  waitForUser
 } from "./app.js";
 import { initLayout } from "./layout.js";
-import { HOST_NAME, DEFAULT_COVER } from "./site-config.js";
+import { HOST_NAME, DEFAULT_COVER, MAX_FILMS } from "./site-config.js";
 
 let events = []; // { id, ...data } ordinati per startAt asc
-const statsCache = new Map(); // eventId -> { participants, films, nicknames: [{uid,nickname}], votersCount }
+let loaded = false;
+let unsubscribe = null;
+let loadTimer = null;
+const LOAD_TIMEOUT_MS = 10000;
+
+// Partecipanti della sola serata in evidenza (live via onSnapshot).
+let statsFor = null; // eventId osservato
+let stopStats = null;
+let stats = null; // null = in arrivo, { failed: true } = lettura fallita, altrimenti dati
+let myUid = null;
 let stopCountdown = null;
+let lastPhase = null; // { id, phase } per animare lo sblocco una sola volta
 
 const $ = (id) => document.getElementById(id);
 
-const DOT_COLORS = ["bg-primary", "bg-secondary", "bg-tertiary", "bg-surface-tint", "bg-primary-fixed", "bg-secondary-fixed"];
+const MAX_TICKETS = 8;
 
-initLayout({ active: "serate" });
+initLayout({ active: "bacheca" });
 
 // ---------------------------------------------------------------- dati
 
-async function loadStats(ev) {
-  if (statsCache.has(ev.id)) return statsCache.get(ev.id);
-  const stats = { participants: 0, films: 0, nicknames: [], votersCount: 0 };
-  try {
-    const snap = await getDocs(collection(db, "events", ev.id, "participants"));
-    snap.forEach((d) => {
-      const p = d.data();
-      stats.participants += 1;
-      stats.films += Number(p.filmCount) || 0;
-      stats.nicknames.push({ uid: d.id, nickname: p.nickname || "" });
-    });
-  } catch (e) {
-    console.warn("Statistiche non disponibili per", ev.id, e);
+function watchStats(eventId) {
+  if (statsFor === eventId) return;
+  if (stopStats) stopStats();
+  statsFor = eventId;
+  stats = null;
+  stopStats = onSnapshot(
+    collection(db, "events", eventId, "participants"),
+    (snap) => {
+      const people = [];
+      let films = 0;
+      snap.forEach((d) => {
+        const p = d.data();
+        const filmCount = Number(p.filmCount) || 0;
+        films += filmCount;
+        people.push({ uid: d.id, nickname: p.nickname || "", avatar: p.avatar || "", filmCount });
+      });
+      stats = { people, films };
+      render();
+    },
+    (e) => {
+      console.warn("Partecipanti non disponibili per", eventId, e);
+      stats = { failed: true };
+      render();
+    }
+  );
+}
+
+function setLoadState(state) {
+  const loading = $("home-loading");
+  const error = $("home-error");
+  if (loading) loading.hidden = state !== "loading";
+  if (error) error.hidden = state !== "error";
+}
+
+function showLoadError() {
+  clearTimeout(loadTimer);
+  loaded = false;
+  if (stopCountdown) {
+    stopCountdown();
+    stopCountdown = null;
   }
-  statsCache.set(ev.id, stats);
-  return stats;
+  $("serata-imminente").hidden = true;
+  $("other-events").hidden = true;
+  $("home-empty").hidden = true;
+  setLoadState("error");
 }
 
 function subscribeEvents() {
+  loaded = false;
+  setLoadState("loading");
+  // Offline Firestore non segnala errori: dopo un po' meglio dirlo che girare a vuoto.
+  clearTimeout(loadTimer);
+  loadTimer = setTimeout(showLoadError, LOAD_TIMEOUT_MS);
   const q = query(collection(db, "events"), where("status", "==", "published"));
-  onSnapshot(
+  unsubscribe = onSnapshot(
     q,
     (snap) => {
+      clearTimeout(loadTimer);
+      loaded = true;
+      setLoadState("ready");
       events = snap.docs
         .map((d) => ({ id: d.id, ...d.data() }))
         .filter((e) => toDate(e.startAt))
         .sort((a, b) => toDate(a.startAt) - toDate(b.startAt));
       render();
-      Promise.all(events.map(loadStats)).then(render);
     },
     (err) => {
       console.error(err);
+      showLoadError();
     }
   );
 }
 
 // ---------------------------------------------------------------- render
 
+// "In corso ora", "Oggi", "Domani", "Fra 3 giorni"
+function statusLabel(start, live) {
+  if (live) return "In corso ora";
+  const day = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const days = Math.round((day(start) - day(new Date())) / 86400000);
+  if (days <= 0) return "Oggi";
+  if (days === 1) return "Domani";
+  return `Fra ${days} giorni`;
+}
+
+// Oltre le 48 ore: giorni / ore / minuti. Prima: ore / minuti / secondi.
+function startHomeCountdown(target, onDone) {
+  const els = [$("countdown-hours"), $("countdown-minutes"), $("countdown-seconds")];
+  const labels = [$("countdown-label-1"), $("countdown-label-2"), $("countdown-label-3")];
+  let done = false;
+  let timer = null;
+  const pad = (n) => String(n).padStart(2, "0");
+  const tick = () => {
+    const diff = Math.max(0, Math.floor((target.getTime() - Date.now()) / 1000));
+    const far = diff >= 48 * 3600;
+    const values = far
+      ? [Math.floor(diff / 86400), Math.floor((diff % 86400) / 3600), Math.floor((diff % 3600) / 60)]
+      : [Math.floor(diff / 3600), Math.floor((diff % 3600) / 60), diff % 60];
+    const names = far ? ["GIORNI", "ORE", "MIN"] : ["ORE", "MIN", "SEC"];
+    els.forEach((el, i) => {
+      if (el) el.textContent = pad(values[i]);
+    });
+    labels.forEach((el, i) => {
+      if (el) el.textContent = names[i];
+    });
+    if (diff <= 0 && !done) {
+      done = true;
+      clearInterval(timer);
+      if (onDone) onDone();
+    }
+  };
+  tick();
+  if (!done) timer = setInterval(tick, 1000);
+  return () => {
+    done = true;
+    clearInterval(timer);
+  };
+}
+
 function render() {
+  if (!loaded) return;
   const now = new Date();
-  const withPhase = events.map((ev) => ({ ev, phase: eventPhase(ev, now), stats: statsCache.get(ev.id) }));
+  const upcoming = events
+    .map((ev) => ({ ev, phase: eventPhase(ev, now) }))
+    .filter((x) => x.phase !== "completed");
+  renderFeatured(upcoming[0]);
+  renderOthers(upcoming.slice(1, 4));
+}
 
-  const count = $("stat-events-count");
-  if (count) count.textContent = withPhase.length === 1 ? "1 serata" : `${withPhase.length} serate`;
-
-  renderFeatured(withPhase.find((x) => x.phase !== "completed"));
+function renderOthers(items) {
+  const box = $("other-events");
+  if (!items.length) {
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  $("other-events-list").innerHTML = items
+    .map(({ ev }) => {
+      const href = "event.html?id=" + encodeURIComponent(ev.id);
+      return `<a class="flex items-center justify-between gap-space-md px-space-md py-space-sm min-h-[44px] bg-surface-container-low hover:bg-surface-container-high rounded-lg transition-colors" href="${href}">
+<span class="font-label-lg text-label-lg text-on-surface truncate">${escapeHtml(ev.title || "Serata")}</span>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">${escapeHtml(formatMetaDate(toDate(ev.startAt)))}</span>
+</a>`;
+    })
+    .join("");
 }
 
 function renderFeatured(item) {
   const section = $("serata-imminente");
+  const empty = $("home-empty");
+  if (empty) empty.hidden = !!item;
   if (stopCountdown) {
     stopCountdown();
     stopCountdown = null;
   }
   if (!item) {
     section.hidden = true;
+    if (stopStats) stopStats();
+    stopStats = null;
+    statsFor = null;
+    stats = null;
     return;
   }
   const { ev, phase } = item;
-  const stats = item.stats || { participants: 0, films: 0, nicknames: [] };
+  watchStats(ev.id);
   const start = toDate(ev.startAt);
   const host = ev.hostName || HOST_NAME;
-  const href = "event.html?id=" + encodeURIComponent(ev.id);
+  const baseHref = "event.html?id=" + encodeURIComponent(ev.id);
+  const live = phase === "live";
+  const ready = stats && !stats.failed;
+  const people = ready ? stats.people : [];
+  const films = ready ? stats.films : 0;
+  const me = people.find((p) => p.uid === myUid);
   section.hidden = false;
 
-  $("featured-audience").textContent = `Serata Aperta per Amici di ${host}`;
+  // stato e data (il rosso solo se la serata e' live)
+  $("featured-status").textContent = statusLabel(start, live);
+  $("featured-status").classList.toggle("text-secondary", live);
+  $("featured-status").classList.toggle("text-primary", !live);
+  $("featured-status-ping").hidden = !live;
+  $("featured-status-dot").classList.toggle("bg-secondary-container", live);
+  $("featured-status-dot").classList.toggle("bg-primary", !live);
+  $("featured-date").textContent = formatLongDate(start);
+  const genre = $("featured-genre");
+  genre.textContent = ev.genre ? `${genreEmoji(ev.genre)} ${ev.genre}` : "";
+  genre.hidden = !ev.genre;
+  $("featured-title").textContent = ev.title || "";
+  const desc = $("featured-desc");
+  desc.textContent = ev.description || "";
+  desc.hidden = !ev.description;
+
+  // caveau: lo sblocco si anima una sola volta, quando la serata passa a live
   const cover = $("featured-cover");
   cover.onerror = () => {
     cover.onerror = null;
     cover.src = DEFAULT_COVER;
   };
   cover.src = coverOf(ev);
-  const live = phase === "live";
+  const justUnlocked = live && lastPhase && lastPhase.id === ev.id && lastPhase.phase !== "live";
+  lastPhase = { id: ev.id, phase };
   $("featured-lock-icon").textContent = live ? "lock_open" : "lock";
+  $("featured-lock").classList.toggle("unlock-pop", !!justUnlocked);
   $("featured-lock-title").textContent = live ? "Caveau Aperto" : "Caveau Sigillato";
-  $("featured-lock-count").textContent = live
-    ? `${stats.films} ${stats.films === 1 ? "Titolo Svelato" : "Titoli Svelati"}`
-    : `${stats.films} ${stats.films === 1 ? "Titolo Segreto" : "Titoli Segreti"} in attesa`;
-  const genre = $("featured-genre");
-  genre.textContent = ev.genre ? `${genreEmoji(ev.genre)} ${ev.genre}` : "";
-  genre.parentElement.hidden = !ev.genre;
-  $("featured-host").textContent = `${host} (Host)`;
-  $("featured-date").textContent = formatLongDate(start);
-  $("featured-title").textContent = ev.title || "";
-  const desc = $("featured-desc");
-  desc.textContent = ev.description || "";
-  desc.hidden = !ev.description;
+  const plural = films === 1;
+  $("featured-lock-count").textContent = !ready
+    ? live
+      ? "Titoli svelati"
+      : "Titoli segreti in attesa"
+    : live
+      ? `${films} ${plural ? "Titolo Svelato" : "Titoli Svelati"}`
+      : `${films} ${plural ? "Titolo Segreto" : "Titoli Segreti"} in attesa`;
+  const shown = Math.min(films, MAX_TICKETS);
+  $("featured-tickets").innerHTML =
+    '<span class="material-symbols-outlined text-[18px]">confirmation_number</span>'.repeat(shown) +
+    (films > MAX_TICKETS ? `<span class="font-label-md text-label-md">+${films - MAX_TICKETS}</span>` : "");
 
+  // countdown (solo prima dell'inizio)
   $("featured-countdown-box").hidden = live;
-  if (!live) {
-    stopCountdown = startCountdown(
-      start,
-      { h: $("countdown-hours"), m: $("countdown-minutes"), s: $("countdown-seconds") },
-      render
-    );
+  if (!live) stopCountdown = startHomeCountdown(start, render);
+
+  // partecipanti: scheletro finche' non arrivano, nulla se la lettura fallisce
+  const block = $("featured-participants-block");
+  block.hidden = !!(stats && stats.failed);
+  $("featured-participants-label").textContent = ready ? `Partecipanti (${people.length})` : "Partecipanti";
+  $("featured-participants").innerHTML = !ready
+    ? '<span class="h-8 w-24 rounded-full bg-surface-container-high" aria-hidden="true"></span>'.repeat(3)
+    : people.length
+      ? people
+          .map((p) => {
+            const star = p.uid === ev.createdBy ? ' <span class="text-primary font-bold text-xs" title="Host">★</span>' : "";
+            const you = p.uid === myUid ? ' <span class="text-primary">(tu)</span>' : "";
+            const avatar = p.avatar ? `<span aria-hidden="true">${escapeHtml(p.avatar)}</span>` : '<span class="w-2 h-2 rounded-full bg-primary"></span>';
+            return `<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">${avatar} ${escapeHtml(p.nickname)}${star}${you}</span>`;
+          })
+          .join("")
+      : '<span class="font-body-sm text-body-sm text-on-surface-variant">Nessun partecipante ancora. Sii il primo!</span>';
+  $("featured-host").textContent = host;
+
+  // CTA: un solo bottone primario che sa se ci sei gia'
+  const join = $("featured-cta-join");
+  const joinLabel = join.querySelector("span:last-child");
+  const joinIcon = join.querySelector("span:first-child");
+  let label;
+  let icon;
+  let href;
+  if (live) {
+    label = "Entra & Vota";
+    icon = "how_to_vote";
+    href = baseHref + "#vota";
+  } else if (me) {
+    label = me.filmCount > 0 ? `Hai proposto ${me.filmCount}/${MAX_FILMS}, modifica` : "Ci sei: proponi i tuoi film";
+    icon = "edit";
+    href = baseHref + "#proponi";
+  } else {
+    label = "Partecipa & Proponi Film";
+    icon = "add_to_queue";
+    href = baseHref + "#proponi";
   }
-
-  $("featured-participants-label").textContent = `Partecipanti Confermati (${stats.participants})`;
-  $("featured-participants").innerHTML = stats.nicknames.length
-    ? stats.nicknames
-        .map((p, i) => {
-          const star = p.uid === ev.createdBy ? ' <span class="text-primary font-bold text-xs">★</span>' : "";
-          return `<span class="inline-flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md font-medium">
-<span class="w-2 h-2 rounded-full ${DOT_COLORS[i % DOT_COLORS.length]}"></span> ${escapeHtml(p.nickname)}${star}
-</span>`;
-        })
-        .join("")
-    : '<span class="font-body-sm text-body-sm text-on-surface-variant">Nessun partecipante ancora. Sii il primo!</span>';
-
-  $("featured-cta-join").href = href;
-  $("featured-cta-details").href = href;
-  const joinLabel = $("featured-cta-join").querySelector("span:last-child");
-  if (joinLabel) joinLabel.textContent = live ? "Entra & Vota" : "Partecipa & Proponi Film";
+  join.href = href;
+  if (joinLabel) joinLabel.textContent = label;
+  if (joinIcon) joinIcon.textContent = icon;
+  $("featured-cta-details").href = baseHref;
 }
 
-render();
+$("home-empty").textContent = `Nessuna serata in programma. ${HOST_NAME} la annuncia in chat.`;
+
+$("home-retry")?.addEventListener("click", () => {
+  if (unsubscribe) unsubscribe();
+  subscribeEvents();
+});
+
+// chi sei (senza creare un login anonimo): serve solo a personalizzare il CTA
+waitForUser().then((user) => {
+  myUid = user ? user.uid : null;
+  render();
+});
+
 subscribeEvents();
