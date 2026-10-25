@@ -66,6 +66,18 @@ poi vai su `http://localhost:8000`. (Aprire `index.html` direttamente col doppio
 5. Dopo qualche minuto il sito sarà online su `https://TUO-USERNAME.github.io/cinema-di-casa/`.
 6. Da quell'indirizzo, tu vai su `.../admin.html` per creare eventi; condividi invece il link della home o di un evento specifico con i tuoi amici.
 
+## Copertine delle serate
+
+Nel pannello "Organizza" la copertina si può impostare in due modi: incollando l'URL di un'immagine, oppure scegliendone una tra quelle del sito.
+
+Le immagini del sito stanno nella cartella `background_img/` del repository: aggiungi i file (`.jpg`, `.png`, `.webp`, `.avif`, `.gif`; meglio 1600 px di larghezza e meno di 400 KB), fai commit e push su `main`. Il workflow di deploy genera `background_img/manifest.json` con l'elenco dei file, e il pannello li mostra come miniature selezionabili. Per provarle in locale, rigenera l'elenco a mano:
+
+```bash
+(cd background_img && ls | grep -iE '\.(jpe?g|png|webp|avif|gif)$' | jq -R . | jq -sc .) > background_img/manifest.json
+```
+
+Nel documento della serata si salva solo il percorso (`background_img/nome.jpg`): le regole Firestore non cambiano.
+
 ## Struttura del progetto
 
 ```
