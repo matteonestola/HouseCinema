@@ -16,15 +16,17 @@ import {
   normalizeFilms,
   snackShort,
   coverOf,
-  inviteUrl
+  inviteUrl,
+  avatarKey,
+  avatarHtml
 } from "./app.js";
 import { AVATARS, SPECIAL_AVATARS, SNACKS, MAX_FILMS, HOST_NAME, DEFAULT_COVER } from "./site-config.js";
 
 const $ = (id) => document.getElementById(id);
 
 // Classi dei bottoni avatar (export Stitch): primo = selezionato, altri = non selezionati.
-const AVATAR_ON = "w-9 h-9 rounded-xl bg-surface-container-high border-2 border-primary-container text-on-surface flex items-center justify-center text-[18px] shadow-[0_0_12px_rgba(245,158,11,0.35)] ring-2 ring-primary/40 transition-all";
-const AVATAR_OFF = "w-9 h-9 rounded-xl bg-surface-container-lowest hover:bg-surface-container-high text-on-surface flex items-center justify-center text-[18px] transition-all hover:scale-105";
+const AVATAR_ON = "w-9 h-9 overflow-hidden rounded-xl bg-surface-container-high border-2 border-primary-container text-on-surface flex items-center justify-center text-[18px] shadow-[0_0_12px_rgba(245,158,11,0.35)] ring-2 ring-primary/40 transition-all";
+const AVATAR_OFF = "w-9 h-9 overflow-hidden rounded-xl bg-surface-container-lowest hover:bg-surface-container-high text-on-surface flex items-center justify-center text-[18px] transition-all hover:scale-105";
 const SPECIAL_TONES = [
   "bg-secondary-container/20 border border-secondary-container/40",
   "bg-tertiary-container/20 border border-tertiary-container/40",
@@ -122,17 +124,19 @@ export function initPre(ctx) {
   // ------------------------------------------------------------ join
 
   function avatarButton(a) {
-    const on = a.emoji === selectedAvatar;
-    return `<button class="${on ? AVATAR_ON : AVATAR_OFF}" data-avatar="${escapeHtml(a.emoji)}" title="${escapeHtml(a.title)}" type="button"><span class="transform hover:scale-110 transition-transform">${a.emoji}</span></button>`;
+    const key = avatarKey(a);
+    const on = key === selectedAvatar;
+    return `<button class="${on ? AVATAR_ON : AVATAR_OFF}" data-avatar="${escapeHtml(key)}" title="${escapeHtml(a.title)}" type="button"><span class="w-full h-full flex items-center justify-center transform hover:scale-110 transition-transform">${avatarHtml(key)}</span></button>`;
   }
 
   function renderAvatars() {
     $("avatar-selector").innerHTML = AVATARS.map(avatarButton).join("");
-    $("special-avatars").innerHTML = SPECIAL_AVATARS.map(
-      (a, i) => `<button class="${a.emoji === selectedAvatar ? SPECIAL_ON : SPECIAL_BASE}" data-avatar="${escapeHtml(a.emoji)}" title="${escapeHtml(a.label)}" type="button"><div class="w-6 h-6 rounded-md ${SPECIAL_TONES[i % SPECIAL_TONES.length]} flex items-center justify-center text-[13px]">${a.emoji}</div><span class="font-label-sm text-[11px] text-on-surface group-hover:text-primary transition-colors font-medium">${escapeHtml(a.label)}</span></button>`
-    ).join("");
-    const all = [...AVATARS.map((a) => [a.emoji, a.title]), ...SPECIAL_AVATARS.map((a) => [a.emoji, a.label])];
-    const found = all.find(([e]) => e === selectedAvatar);
+    $("special-avatars").innerHTML = SPECIAL_AVATARS.map((a, i) => {
+      const key = avatarKey(a);
+      return `<button class="${key === selectedAvatar ? SPECIAL_ON : SPECIAL_BASE}" data-avatar="${escapeHtml(key)}" title="${escapeHtml(a.label)}" type="button"><div class="w-8 h-8 overflow-hidden rounded-md ${SPECIAL_TONES[i % SPECIAL_TONES.length]} flex items-center justify-center text-[16px]">${avatarHtml(key)}</div><span class="font-label-sm text-[11px] text-on-surface group-hover:text-primary transition-colors font-medium">${escapeHtml(a.label)}</span></button>`;
+    }).join("");
+    const all = [...AVATARS.map((a) => [avatarKey(a), a.title]), ...SPECIAL_AVATARS.map((a) => [avatarKey(a), a.label])];
+    const found = all.find(([k]) => k === selectedAvatar);
     $("avatar-active-label").textContent = found ? `${found[1]} attivo` : "";
     $("special-avatars-tag").textContent = ctx.ev.genre ? tagOf(ctx.ev.genre) : "";
   }
@@ -485,19 +489,19 @@ ${noteBox(f.note)}
       .map((p) => {
         const isMe = ctx.user && p.uid === ctx.user.uid;
         const isHost = p.uid === ev.createdBy;
-        const avatar = escapeHtml(p.avatar || AVATARS[0].emoji);
+        const avatar = avatarHtml(p.avatar);
         const nick = escapeHtml(p.nickname || "");
         const snack = escapeHtml(snackShort(p.snack) || "Solo presenza");
         const films = Number(p.filmCount) || 0;
         const hostBadge = isHost ? `<span class="font-label-sm text-[10px] bg-primary/20 text-primary px-1.5 rounded font-bold uppercase">Host</span>` : "";
         if (isMe) {
-          return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-high shadow-[0_0_12px_rgba(245,158,11,0.15)] ring-1 ring-primary-container/40"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 rounded-full bg-primary-container/20 border-2 border-primary-container flex items-center justify-center text-[18px] shadow-[0_0_10px_rgba(245,158,11,0.3)]">${avatar}</div><span class="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full ring-2 ring-surface-container-high"></span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-primary font-bold truncate">${nick} (Tu)</span>${hostBadge}<span class="font-label-sm text-[10px] bg-secondary-container/30 text-secondary px-1.5 rounded font-bold">ONLINE</span></div><span class="font-label-sm text-[11px] text-tertiary truncate">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-primary-container text-on-primary-container font-label-sm text-[11px] rounded font-bold shrink-0">${films}/5 film</span></li>`;
+          return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-high shadow-[0_0_12px_rgba(245,158,11,0.15)] ring-1 ring-primary-container/40"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 overflow-hidden rounded-full bg-primary-container/20 border-2 border-primary-container flex items-center justify-center text-[18px] shadow-[0_0_10px_rgba(245,158,11,0.3)]">${avatar}</div><span class="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full ring-2 ring-surface-container-high"></span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-primary font-bold truncate">${nick} (Tu)</span>${hostBadge}<span class="font-label-sm text-[10px] bg-secondary-container/30 text-secondary px-1.5 rounded font-bold">ONLINE</span></div><span class="font-label-sm text-[11px] text-tertiary truncate">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-primary-container text-on-primary-container font-label-sm text-[11px] rounded font-bold shrink-0">${films}/5 film</span></li>`;
         }
         if (isHost) {
-          return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 rounded-full bg-primary-container/20 border-2 border-primary flex items-center justify-center text-[18px] shadow-[0_0_10px_rgba(245,158,11,0.3)]">${avatar}</div><span class="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full ring-2 ring-surface-container"></span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold truncate">${nick}</span>${hostBadge}</div><span class="font-label-sm text-[11px] text-tertiary">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] rounded font-semibold shrink-0">${films}/5 film</span></li>`;
+          return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 overflow-hidden rounded-full bg-primary-container/20 border-2 border-primary flex items-center justify-center text-[18px] shadow-[0_0_10px_rgba(245,158,11,0.3)]">${avatar}</div><span class="absolute -bottom-1 -right-1 w-3 h-3 bg-primary rounded-full ring-2 ring-surface-container"></span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold truncate">${nick}</span>${hostBadge}</div><span class="font-label-sm text-[11px] text-tertiary">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] rounded font-semibold shrink-0">${films}/5 film</span></li>`;
         }
         const border = RING_BORDERS[other++ % RING_BORDERS.length];
-        return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 rounded-full bg-surface-container-high border-2 ${border} flex items-center justify-center text-[18px]">${avatar}</div></div><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md text-on-surface font-bold truncate">${nick}</span><span class="font-label-sm text-[11px] text-on-surface-variant truncate">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] rounded font-semibold shrink-0">${films}/5 film</span></li>`;
+        return `<li class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container"><div class="flex items-center gap-space-sm min-w-0"><div class="relative shrink-0"><div class="w-9 h-9 overflow-hidden rounded-full bg-surface-container-high border-2 ${border} flex items-center justify-center text-[18px]">${avatar}</div></div><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md text-on-surface font-bold truncate">${nick}</span><span class="font-label-sm text-[11px] text-on-surface-variant truncate">${snack}</span></div></div><span class="px-space-xs py-0.5 bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] rounded font-semibold shrink-0">${films}/5 film</span></li>`;
       })
       .join("");
   }

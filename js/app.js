@@ -6,7 +6,7 @@ import {
   signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { ADMIN_UID, DEFAULT_COVER, GENRES, SNACKS } from "./site-config.js";
+import { ADMIN_UID, DEFAULT_COVER, GENRES, SNACKS, AVATARS, SPECIAL_AVATARS } from "./site-config.js";
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -194,6 +194,20 @@ export function eventPhase(ev, now = new Date()) {
   if (now.getTime() > start.getTime() + 12 * 3600 * 1000) return "completed";
   if (now.getTime() >= start.getTime()) return "live";
   return "upcoming";
+}
+
+// Avatar: emoji (testo) oppure immagine del sito. `avatarKey` e' il valore da salvare in Firestore.
+export function avatarKey(a) {
+  return a.id || a.emoji;
+}
+
+// HTML da mettere dentro un contenitore tondo/quadrato con overflow-hidden.
+export function avatarHtml(value, imgClass = "w-full h-full object-cover") {
+  const img = value && [...AVATARS, ...SPECIAL_AVATARS].find((a) => a.image && a.id === value);
+  if (img) return `<img src="${escapeHtml(img.image)}" alt="" loading="lazy" class="${imgClass}">`;
+  // un id di immagine tolto dall'elenco non va mostrato come testo
+  if (!value || /^[a-z0-9-]+$/.test(value)) return escapeHtml(AVATARS[0].emoji);
+  return escapeHtml(value);
 }
 
 export function genreEmoji(id) {

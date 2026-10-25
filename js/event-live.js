@@ -10,13 +10,13 @@ import {
   arrayRemove,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db, escapeHtml, toDate, formatTime, showToast, normalizeFilms } from "./app.js";
-import { AVATARS, HOST_NAME, LIVE_PAGE_SIZE } from "./site-config.js";
+import { db, escapeHtml, toDate, formatTime, showToast, normalizeFilms, avatarKey, avatarHtml } from "./app.js";
+import { AVATARS, SPECIAL_AVATARS, HOST_NAME, LIVE_PAGE_SIZE } from "./site-config.js";
 
 const $ = (id) => document.getElementById(id);
 
-const AVATAR_ON = "w-9 h-9 rounded-xl bg-surface-container-high border-2 border-primary-container text-on-surface flex items-center justify-center text-[18px] shadow-[0_0_12px_rgba(245,158,11,0.35)] ring-2 ring-primary/40 transition-all";
-const AVATAR_OFF = "w-9 h-9 rounded-xl bg-surface-container-lowest hover:bg-surface-container-high text-on-surface flex items-center justify-center text-[18px] transition-all hover:scale-105";
+const AVATAR_ON = "w-9 h-9 overflow-hidden rounded-xl bg-surface-container-high border-2 border-primary-container text-on-surface flex items-center justify-center text-[18px] shadow-[0_0_12px_rgba(245,158,11,0.35)] ring-2 ring-primary/40 transition-all";
+const AVATAR_OFF = "w-9 h-9 overflow-hidden rounded-xl bg-surface-container-lowest hover:bg-surface-container-high text-on-surface flex items-center justify-center text-[18px] transition-all hover:scale-105";
 const VOTER_TONES = [
   "bg-primary-container text-on-primary-container",
   "bg-secondary-container text-white",
@@ -131,7 +131,7 @@ export function initLive(ctx) {
     $("spotlight-voters").innerHTML = shown
       .map((uid, i) => {
         const p = ctx.participants.get(uid) || {};
-        return `<div class="inline-block h-7 w-7 rounded-full ${VOTER_TONES[i % VOTER_TONES.length]} flex items-center justify-center text-[12px] ring-2 ring-surface shadow-sm" title="${escapeHtml(p.nickname || "")}">${escapeHtml(p.avatar || AVATARS[0].emoji)}</div>`;
+        return `<div class="inline-block h-7 w-7 overflow-hidden rounded-full ${VOTER_TONES[i % VOTER_TONES.length]} flex items-center justify-center text-[12px] ring-2 ring-surface shadow-sm" title="${escapeHtml(p.nickname || "")}">${avatarHtml(p.avatar)}</div>`;
       })
       .join("");
     const extra = uids.length - shown.length;
@@ -393,10 +393,14 @@ export function initLive(ctx) {
   // ------------------------------------------------------------ join tardivo
 
   function renderLateAvatars() {
-    $("live-avatar-selector").innerHTML = AVATARS.map((a) => {
-      const on = a.emoji === selectedAvatar;
-      return `<button class="${on ? AVATAR_ON : AVATAR_OFF}" data-avatar="${escapeHtml(a.emoji)}" title="${escapeHtml(a.title)}" type="button"><span class="transform hover:scale-110 transition-transform">${a.emoji}</span></button>`;
-    }).join("");
+    // base + speciali (emoji e immagini): chi entra a serata iniziata sceglie tra tutti
+    $("live-avatar-selector").innerHTML = [...AVATARS, ...SPECIAL_AVATARS]
+      .map((a) => {
+        const key = avatarKey(a);
+        const on = key === selectedAvatar;
+        return `<button class="${on ? AVATAR_ON : AVATAR_OFF}" data-avatar="${escapeHtml(key)}" title="${escapeHtml(a.title || a.label)}" type="button"><span class="w-full h-full flex items-center justify-center transform hover:scale-110 transition-transform">${avatarHtml(key)}</span></button>`;
+      })
+      .join("");
   }
 
   async function submitLateJoin(e) {

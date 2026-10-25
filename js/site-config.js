@@ -23,10 +23,16 @@ export const AVATARS = [
   { emoji: "📼", title: "Cassetta VHS" },
   { emoji: "🧟", title: "Mostro Horror" }
 ];
+// Una voce e' un'emoji ({ emoji, label }) oppure un'immagine ({ id, image, label }).
+// In participants/{uid}.avatar si salva l'emoji, oppure l'`id` per le immagini: max 16 caratteri
+// (vincolo di firestore.rules), solo [a-z0-9-]. File in assets/avatars/ (quadrati, ~192 px).
 export const SPECIAL_AVATARS = [
   { emoji: "🛸", label: "UFO Invaders" },
   { emoji: "💀", label: "Skull Neon" },
-  { emoji: "🪚", label: "Chainsaw '80" }
+  { emoji: "🪚", label: "Chainsaw '80" },
+  { id: "iron-chicken", image: "assets/avatars/iron-chicken.jpg", label: "Iron Chicken" },
+  { id: "tacchino", image: "assets/avatars/tacchino.jpg", label: "Tacchino Mistico" },
+  { id: "gattonauta", image: "assets/avatars/gattonauta.jpg", label: "Gattonauta" }
 ];
 export const SNACKS = [
   { id: "popcorn", label: "🍿 Popcorn caramellati (fatti in casa)", short: "Popcorn caramellati" },
