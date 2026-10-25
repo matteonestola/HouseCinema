@@ -25,9 +25,9 @@ colors:
 typography:
   display-hero:
     fontFamily: "Space Grotesk"
-    fontSize: "56px"
+    fontSize: "clamp(1.75rem, 0.4rem + 4.4vw, 3.5rem)"
     fontWeight: 700
-    lineHeight: "64px"
+    lineHeight: "1.1"
     letterSpacing: "-0.02em"
   display-hero-mobile:
     fontFamily: "Space Grotesk"
@@ -37,30 +37,30 @@ typography:
     letterSpacing: "-0.01em"
   headline-lg:
     fontFamily: "Space Grotesk"
-    fontSize: "32px"
+    fontSize: "clamp(1.375rem, 0.9rem + 1.4vw, 2rem)"
     fontWeight: 600
-    lineHeight: "40px"
+    lineHeight: "1.25"
     letterSpacing: "-0.01em"
   headline-lg-mobile:
     fontFamily: "Space Grotesk"
-    fontSize: "26px"
-    fontWeight: 600
-    lineHeight: "34px"
-  headline-md:
-    fontFamily: "Space Grotesk"
     fontSize: "24px"
     fontWeight: 600
-    lineHeight: "32px"
+    lineHeight: "30px"
+  headline-md:
+    fontFamily: "Space Grotesk"
+    fontSize: "clamp(1.125rem, 0.9rem + 0.8vw, 1.5rem)"
+    fontWeight: 600
+    lineHeight: "1.3"
   headline-sm:
     fontFamily: "Space Grotesk"
-    fontSize: "20px"
+    fontSize: "clamp(1.0625rem, 0.85rem + 0.55vw, 1.25rem)"
     fontWeight: 500
-    lineHeight: "28px"
+    lineHeight: "1.35"
   body-lg:
     fontFamily: "Plus Jakarta Sans"
-    fontSize: "18px"
+    fontSize: "clamp(1rem, 0.95rem + 0.2vw, 1.125rem)"
     fontWeight: 400
-    lineHeight: "28px"
+    lineHeight: "1.55"
   body-md:
     fontFamily: "Plus Jakarta Sans"
     fontSize: "16px"
@@ -204,14 +204,16 @@ Palette scura monocroma-calda: inchiostro blu per le superfici, ambra per la luc
 **Character:** Space Grotesk è geometrico e leggermente tecnico, da insegna di sala; Plus Jakarta Sans è morbida e leggibile, amichevole su schermo piccolo.
 
 ### Hierarchy
-- **Display Hero** (700, 56px / 36px mobile, 64/44): riservato a stati di apertura senza serata; la Bacheca oggi usa Headline LG come saluto di una riga, con enfasi in `primary` e senza gradiente sul testo.
-- **Headline LG** (600, 32px / 26px mobile): titolo serata, titoli di sezione-card.
-- **Headline MD** (600, 24px): wordmark nell'header, titoli modali.
-- **Headline SM** (500, 20px): titoli di blocco, "Caveau Sigillato".
-- **Body LG/MD/SM** (400, 18/16/14px): descrizioni; larghezza massima ~`max-w-xl`/`2xl` (≈65ch).
+- **Display Hero** (700, fluido 28px → 56px, interlinea 1.1; a 390px ≈ 28px): riservato a stati di apertura senza serata; la Bacheca oggi usa Headline LG come saluto di una riga, con enfasi in `primary` e senza gradiente sul testo.
+- **Headline LG** (600, fluido 22px → 32px; `headline-lg-mobile` = 24px): titolo serata, titoli di sezione-card. Su telefono resta sempre sotto ~1,5× il corpo (16px).
+- **Headline MD** (600, fluido 18px → 24px): wordmark nell'header, titoli modali.
+- **Headline SM** (500, fluido 17px → 20px): titoli di blocco, "Caveau Sigillato".
+- **Body LG/MD/SM** (400, fluido 16→18px / 16px / 14px): descrizioni; larghezza massima ~`max-w-xl`/`2xl` (≈65ch).
 - **Label LG** (600, 14px): bottoni, nav. **Label MD** (600, 12px). **Label SM** (700, 11px, +0.05em, spesso maiuscolo): eyebrow, chip, stato.
 
 ### Named Rules
+**The Phone-First Scale Rule.** I token di titolo (`display-hero`, `headline-lg|md|sm`, `body-lg`) sono fluidi (`clamp()` in `js/tailwind-config.js`): il minimo è pensato per iPhone (390px), il massimo per desktop. Non reintrodurre dimensioni fisse da desktop per i titoli.
+
 **The Tabular Clock Rule.** Ogni numero che cambia (countdown, contatori) usa `tabular-nums` per non far ballare il layout.
 
 ## Layout
