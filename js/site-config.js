@@ -32,7 +32,8 @@ export const SPECIAL_AVATARS = [
   { emoji: "🪚", label: "Chainsaw '80" },
   { id: "iron-chicken", image: "assets/avatars/iron-chicken.jpg", label: "Iron Chicken" },
   { id: "tacchino", image: "assets/avatars/tacchino.jpg", label: "Tacchino Mistico" },
-  { id: "gattonauta", image: "assets/avatars/gattonauta.jpg", label: "Gattonauta" }
+  { id: "gattonauta", image: "assets/avatars/gattonauta.jpg", label: "Gattonauta" },
+  { id: "lamawan", image: "assets/avatars/lamawan.jpg", label: "Lamawan" }
 ];
 export const SNACKS = [
   { id: "popcorn", label: "🍿 Popcorn caramellati (fatti in casa)", short: "Popcorn caramellati" },
